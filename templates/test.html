@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Style Demo</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="nav">
+        <a href="/" class="nav-back">← Home</a>
+    </nav>
+
+    <main class="container">
+        <header class="hero">
+            <h1 class="hero-title">Style Guide &<br>Typography Demo</h1>
+            <p class="hero-tagline">
+                It might not be rational<br>
+                <span class="highlight">But</span><br>
+                It might be physically possible
+            </p>
+        </header>
+
+        <section class="intro">
+            <p class="lead">
+                Before we get nerd sniped by the shiny engineering details, ask the only 
+            question that matters. This page demonstrates the available styles.
+            </p>
+            <p class="note">
+                Note: This page is built as a style demonstration. These are sample texts 
+                showing the typography and design elements available.
+            </p>
+        </section>
+
+        <!-- Cost Comparison Cards -->
+        <section class="comparison-section">
+            <div class="comparison-grid">
+                <div class="cost-card orbital">
+                    <h3>Orbital Solar</h3>
+                    <div class="cost-amount">$51.1B</div>
+                    <div class="cost-breakdown">
+                        <div class="cost-item"><span class="label">Satellite</span><span class="value">$23.6B</span></div>
+                        <div class="cost-item"><span class="label">Launch</span><span class="value">$14.7B</span></div>
+                        <div class="cost-item"><span class="label">Ops (1%/yr)</span><span class="value">$1.2B</span></div>
+                        <div class="cost-item"><span class="label">NRE + Repl</span><span class="value">$11.6B</span></div>
+                    </div>
+                    <div class="metrics">
+                        <div class="metric"><span class="metric-label">Cost per Watt</span><span class="metric-value">$51.10/W</span></div>
+                        <div class="metric"><span class="metric-label">LCOE</span><span class="metric-value">$1167/MWh</span></div>
+                        <div class="metric"><span class="metric-label">Mass to LEO</span><span class="metric-value">29.4M kg</span></div>
+                    </div>
+                </div>
+
+                <div class="cost-card terrestrial">
+                    <h3>Terrestrial</h3>
+                    <div class="cost-amount">$15.9B</div>
+                    <div class="cost-breakdown">
+                        <div class="cost-item"><span class="label">Power Gen</span><span class="value">$2.2B</span></div>
+                        <div class="cost-item"><span class="label">Electrical</span><span class="value">$5.3B</span></div>
+                        <div class="cost-item"><span class="label">Mechanical</span><span class="value">$3.0B</span></div>
+                        <div class="cost-item"><span class="label">Civil/Shell</span><span class="value">$2.5B</span></div>
+                    </div>
+                    <div class="metrics">
+                        <div class="metric"><span class="metric-label">Cost per Watt</span><span class="metric-value">$15.85/W</span></div>
+                        <div class="metric"><span class="metric-label">LCOE</span><span class="metric-value">$426/MWh</span></div>
+                        <div class="metric"><span class="metric-label">Capex</span><span class="metric-value">$14.66/W</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Typography Section -->
+        <section class="section">
+            <h2 class="section-title">TYPOGRAPHY</h2>
+            
+            <div class="typography-demo">
+                <h1>Heading 1 - Main Title</h1>
+                <h2>Heading 2 - Section Header</h2>
+                <h3>Heading 3 - Subsection</h3>
+                <h4>HEADING 4 - CATEGORY LABEL</h4>
+                
+                <p class="body-text">
+                    This is regular body text. The target I care about is simple: can you make 
+                    space-based, commodity compute cost-competitive with the cheapest terrestrial 
+                    alternative? That's the whole claim. Not "space is big." Not "the sun is huge." 
+                    Not "launch will be cheap."
+                </p>
+                
+                <p class="body-text">
+                    Can you deliver useful watts and reject the waste heat at a price that beats 
+                    a boring Crusoe-style tilt-wall datacenter tied into a 200–500 MW substation?
+                </p>
+            </div>
+        </section>
+
+        <!-- Model Assumptions Section -->
+        <section class="section">
+            <h2 class="section-title">MODEL ASSUMPTIONS</h2>
+            
+            <div class="assumptions-grid">
+                <div class="assumptions-card">
+                    <h4>GLOBAL</h4>
+                    <ul class="bullet-list">
+                        <li>GPUs not included—this models everything upstream of compute hardware</li>
+                        <li>Target capacity: 1 GW nameplate electrical</li>
+                        <li>Analysis period: 5 years</li>
+                        <li>All figures in 2025 USD; excludes financing, taxes, incentives, and FMV</li>
+                        <li>Full availability assumed (no downtime derates)</li>
+                    </ul>
+                </div>
+                
+                <div class="assumptions-card">
+                    <h4>ORBITAL SOLAR (STARLINK-CLASS)</h4>
+                    <ul class="bullet-list">
+                        <li>Single bus class (Starlink V2 Mini heritage) scaled linearly to target power</li>
+                        <li>Station-keeping propellant mass assumed rolled into specific power (W/kg)</li>
+                        <li>Linear solar cell degradation assumed</li>
+                        <li>Solar margin = extra initial capacity to maintain average power over lifetime</li>
+                        <li>All mass delivered to LEO; no on-orbit servicing/logistics</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Grid -->
+        <section class="section">
+            <h2 class="section-title">ENGINEERING · SYSTEM PARAMETERS</h2>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Target Capacity</div>
+                    <div class="stat-value">1 GW</div>
+                    <div class="stat-range">
+                        <span>1 GW</span>
+                        <span>500 GW</span>
+                        <span>1000 GW</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-label">Analysis Period</div>
+                    <div class="stat-value">5 years</div>
+                    <div class="stat-range">
+                        <span>3y</span>
+                        <span>5y</span>
+                        <span>7y</span>
+                        <span>10y</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-label">Launch Cost to LEO</div>
+                    <div class="stat-value">$500/kg</div>
+                    <div class="stat-range">
+                        <span>$20 (floor)</span>
+                        <span>Starship</span>
+                        <span>Falcon 9</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-label">Satellite Hardware Cost</div>
+                    <div class="stat-value">$22/W</div>
+                    <div class="stat-range">
+                        <span>$5/W</span>
+                        <span>V2 Mini ($22)</span>
+                        <span>V1 ($32)</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technical Data Section -->
+        <section class="section">
+            <h2 class="section-title">THERMAL OUTPUTS</h2>
+            
+            <div class="data-panels">
+                <div class="data-panel">
+                    <h4>GEOMETRY & PROPERTIES</h4>
+                    <div class="data-row"><span class="data-label">ƒA (panel area)</span><span class="data-value">4.61 km²</span></div>
+                    <div class="data-row"><span class="data-label">ƒβ (orbit angle)</span><span class="data-value">90°</span></div>
+                    <div class="data-row"><span class="data-label">ƒVF⊕</span><span class="data-value">0.042</span></div>
+                    <div class="data-row"><span class="data-label">ƒεtot</span><span class="data-value">1.75</span></div>
+                </div>
+                
+                <div class="data-panel">
+                    <h4>HEAT FLUXES</h4>
+                    <div class="data-row"><span class="data-label">ƒQ̇sol (solar waste)</span><span class="data-value">4391 MW</span></div>
+                    <div class="data-row"><span class="data-label">ƒQ̇IR (Earth thermal)</span><span class="data-value">40.5 MW</span></div>
+                    <div class="data-row"><span class="data-label">ƒQ̇alb (reflected)</span><span class="data-value">0.0 MW</span></div>
+                    <div class="data-row"><span class="data-label">ƒQ̇loop (GPU return)</span><span class="data-value">1380 MW</span></div>
+                </div>
+                
+                <div class="data-panel">
+                    <h4>EQUILIBRIUM</h4>
+                    <div class="data-row"><span class="data-label">ƒTeq</span><span class="data-value">62.6 °C</span></div>
+                    <div class="data-row"><span class="data-label">ƒΔT margin</span><span class="data-value success">12.4 °C PASS</span></div>
+                    <div class="data-row"><span class="data-label">ƒAreq</span><span class="data-value">3.99 km²</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Warning Banner -->
+        <section class="warning-banner">
+            <div class="warning-content">
+                <span class="warning-icon">⚠</span>
+                <span class="warning-text">STOP</span>
+                <span class="warning-icon">⚠</span>
+                <span class="warning-text">STOP</span>
+                <span class="warning-icon">⚠</span>
+                <span class="warning-text">STOP</span>
+                <span class="warning-icon">⚠</span>
+            </div>
+            <p class="warning-message">
+                YOU ARE NOW ENTERING THE TECHNICAL ENGINEERING SECTION
+            </p>
+        </section>
+
+        <!-- Prose Section -->
+        <section class="section prose">
+            <h3>MOTIVATION AND FRAMING</h3>
+            <p>
+                I love space. I live and breathe it. I'm lucky enough to brush the heavens with
+                my own metal and code, and I want nothing more than a booming orbital space
+                economy that creates the flywheel that makes space just another location we all work
+                and visit. I love AI and I subscribe to maximum, unbounded scale. I want to make
+                the biggest bets.
+            </p>
+            <p>
+                This is all to say that the current discourse is increasingly bothering me due
+                to the lack of rigor; people are using back-of-the-envelope math, doing a
+                terrible job of it, and only confirming whatever conclusion they already want.
+                <strong>Calculating radiation and the cost of goods is not difficult. Run the numbers.</strong>
+            </p>
+        </section>
+
+        <!-- Links & References -->
+        <section class="section">
+            <h2 class="section-title">REFERENCES</h2>
+            
+            <div class="references-list">
+                <div class="reference">
+                    <span class="ref-number">1.</span>
+                    <span class="ref-title">Datacenter Infrastructure Costs</span>
+                    <span class="ref-year">2025</span>
+                </div>
+                <div class="reference">
+                    <span class="ref-number">2.</span>
+                    <span class="ref-title">Gas Turbine Capex & Gas Pricing</span>
+                    <span class="ref-year">2025</span>
+                </div>
+                <div class="reference">
+                    <span class="ref-number">3.</span>
+                    <span class="ref-title">Starlink BOM & Performance</span>
+                    <span class="ref-year">2024</span>
+                </div>
+                <div class="reference">
+                    <span class="ref-number">4.</span>
+                    <span class="ref-title">Starship Launch Cost Estimate</span>
+                    <span class="ref-year">2025</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bottom Summary -->
+        <section class="bottom-summary">
+            <div class="summary-item orbital">
+                <span class="summary-label">ORBITAL</span>
+                <span class="summary-value">$51.1B</span>
+            </div>
+            <div class="summary-item terrestrial">
+                <span class="summary-label">TERRESTRIAL</span>
+                <span class="summary-value">$15.9B</span>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <p class="footer-text">Style Demo</p>
+        </footer>
+    </main>
+</body>
+</html>
