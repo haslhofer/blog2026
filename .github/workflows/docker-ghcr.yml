@@ -59,5 +59,5 @@ jobs:
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: azure/webapps-deploy@v3
         with:
-          app-name: ${{ vars.AZURE_WEBAPP_NAME2 }}
+          app-name: ${{ vars.AZURE_WEBAPP_NAME }}
           images: ${{ steps.meta.outputs.image }}:${{ steps.meta.outputs.sha }}
