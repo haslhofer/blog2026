@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlowBook: The Reactive Notebook for Personal Productivity</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="nav">
+        <a href="/" class="nav-back">← Home</a>
+    </nav>
+
+    <main class="container">
+        <!-- Header Section -->
+        <header class="hero">
+            <h1 class="hero-title">FlowBook</h1>
+            <p class="hero-tagline">
+                The Reactive Notebook for Personal Productivity
+            </p>
+        </header>
+
+        <!-- Introduction Section -->
+        <section class="intro">
+            <p class="lead drop-cap">
+                What if your productivity tools worked like a Jupyter notebook—but instead of 
+                running Python code, the cells were live connectors to your calendar, email, 
+                tasks, and APIs, all streaming in continuous flow state? FlowBook is an iPython 
+                notebook-style tool where reactive, always-on cells update as your world changes.
+            </p>
+            <p class="note">
+                This is an exploration of a product idea that synthesizes years of thinking about 
+                the future of knowledge work, AI-first interfaces, and the "flattening" of productivity APIs.
+            </p>
+        </section>
+
+        <!-- Main Content Section 1 -->
+        <section class="section">
+            <h2 class="section-title">The Core Idea</h2>
+            
+            <p class="body-text">
+                Today's productivity stack is fragmented—note-taking apps to organize thoughts, 
+                email for communication, task managers to organize work, calendars to organize time. 
+                But when you look closer, these activities aren't that clear-cut. The boundaries between 
+                them are artificial, imposed by the apps themselves rather than the nature of the work.
+            </p>
+            
+            <p class="body-text">
+                FlowBook reimagines this stack as a single, programmable surface. Each cell in the 
+                notebook connects to a data source or action. Cells are reactive—when new email arrives, 
+                it triggers task extraction, which updates your priority queue. When a calendar event 
+                approaches, relevant context surfaces automatically. The notebook becomes the universal 
+                interface, and connectors abstract away whether the backend is Microsoft, Google, or indie.
+            </p>
+        </section>
+
+        <!-- Main Content Section 2 -->
+        <section class="section">
+            <h2 class="section-title">Why Now?</h2>
+            
+            <p class="body-text">
+                The philosophy behind FlowBook is to work back from "continuous AI"—where an LLM 
+                reasons every 100 milliseconds across all modalities—rather than incrementally 
+                improving from 10 to 20 queries a day. Like anti-lock brakes: once sensors and 
+                actuators became continuous, driving became dramatically easier because it removed 
+                the need for a specific skill set. FlowBook applies the same principle to productivity—
+                always-on reasoning removes the "skill" of productivity management itself.
+            </p>
+        </section>
+
+        <!-- Key Points / Assumptions Section -->
+        <section class="section">
+            <h2 class="section-title">Key Design Principles</h2>
+            
+            <div class="assumptions-grid">
+                <div class="assumptions-card">
+                    <h4>AI Intermediation</h4>
+                    <ul class="bullet-list">
+                        <li>AI intermediates everything that enters your world</li>
+                        <li>It's the gatekeeper for all events & data</li>
+                        <li>Routes, morphs objects, retrieves context automatically</li>
+                    </ul>
+                </div>
+                
+                <div class="assumptions-card">
+                    <h4>Guided Actions</h4>
+                    <ul class="bullet-list">
+                        <li>Lower mental effort—choose from options, don't compose</li>
+                        <li>TikTok-style "nudges" to signal intent with one tap</li>
+                        <li>AI guesses semantics: "remember", "explain", "add to-do"</li>
+                    </ul>
+                </div>
+
+                <div class="assumptions-card">
+                    <h4>Sandboxing & Control</h4>
+                    <ul class="bullet-list">
+                        <li>PR model—LLM suggests changes, user commits them</li>
+                        <li>Different "views" for different agents</li>
+                        <li>Family gets full access, work agent gets filtered view</li>
+                    </ul>
+                </div>
+
+                <div class="assumptions-card">
+                    <h4>Real-time & Multiplayer</h4>
+                    <ul class="bullet-list">
+                        <li>Figma/Fortnite-style collab-first model</li>
+                        <li>ECS game-engine architecture for streaming artifacts</li>
+                        <li>Layers: time, people, activities as sliceable dimensions</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Data / Metrics Section -->
+        <section class="section">
+            <h2 class="section-title">Pain Points Addressed</h2>
+            
+            <div class="data-panels">
+                <div class="data-panel">
+                    <h4>Knowledge Worker Problems</h4>
+                    <div class="data-row">
+                        <span class="data-label">Action items get lost</span>
+                        <span class="data-value">→ Auto-extraction</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Inbox overload</span>
+                        <span class="data-value">→ AI triage</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Key reading neglected</span>
+                        <span class="data-value">→ Surfacing queue</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Initiative tracking</span>
+                        <span class="data-value">→ Live dashboards</span>
+                    </div>
+                </div>
+                
+                <div class="data-panel">
+                    <h4>Building Blocks</h4>
+                    <div class="data-row">
+                        <span class="data-label">Snippets</span>
+                        <span class="data-value">Multi-fidelity representations</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Lists</span>
+                        <span class="data-value">AI or property-defined membership</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Processors</span>
+                        <span class="data-value">Run over collections</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Temporal decay</span>
+                        <span class="data-value">Memory management</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Business Models Section -->
+        <section class="section">
+            <h2 class="section-title">Product Directions</h2>
+            
+            <p class="body-text">
+                <strong>FlowBook Pro for Knowledge Workers:</strong> A desktop app targeting developers, 
+                analysts, and researchers who want a programmable "life dashboard" where cells react to 
+                real-time inputs. New email triggers task extraction, which updates the priority queue. 
+                Calendar events surface relevant context. The user stays in flow because the system 
+                handles the meta-work.
+            </p>
+            
+            <p class="body-text">
+                <strong>FlowBook Teams:</strong> An enterprise version where teams share reactive notebooks—
+                live sales dashboards, on-call runbooks with real-time alerts, project trackers that pull 
+                from Jira or Linear automatically. The notebook becomes the team's shared operating surface.
+            </p>
+        </section>
+
+        <!-- Conclusion Section -->
+        <section class="section prose">
+            <h3>The Vision</h3>
+            <p>
+                FlowBook is ultimately about building a true Memex—Vannevar Bush's vision of a device 
+                that stores and organizes all your books, records, and communications, allowing fast 
+                and flexible access. The challenge is breaking the stream of life into meaningful chunks, 
+                removing noise, making memories addressable, and promoting insights between short and 
+                long-term storage.
+            </p>
+            <p>
+                The notebook metaphor works because it's familiar to anyone who has used Jupyter or 
+                Observable. But instead of code cells producing outputs, FlowBook cells are live 
+                windows into your digital life—always updating, always ready, always in flow.
+            </p>
+        </section>
+
+        <!-- References Section -->
+        <section class="section">
+            <h2 class="section-title">Intellectual Lineage</h2>
+            
+            <div class="references-list">
+                <div class="reference">
+                    <span class="ref-number">1.</span>
+                    <span class="ref-title">"Stripe for Productivity" — Commoditizing productivity APIs</span>
+                    <span class="ref-year">2024</span>
+                </div>
+                <div class="reference">
+                    <span class="ref-number">2.</span>
+                    <span class="ref-title">"Bloomberg Terminal for Knowledge Workers" — AI-first desktop vision</span>
+                    <span class="ref-year">2024</span>
+                </div>
+                <div class="reference">
+                    <span class="ref-number">3.</span>
+                    <span class="ref-title">"TikTok of Productivity" — Lightweight nudges over explicit commands</span>
+                    <span class="ref-year">2024</span>
+                </div>
+                <div class="reference">
+                    <span class="ref-number">4.</span>
+                    <span class="ref-title">"Continuous AI" — Working back from always-on reasoning</span>
+                    <span class="ref-year">2024</span>
+                </div>
+                <div class="reference">
+                    <span class="ref-number">5.</span>
+                    <span class="ref-title">"Memory" — Digital Memex for capture, keep, and act</span>
+                    <span class="ref-year">2024</span>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <p class="footer-text">Gerald Haslhofer · December 2025</p>
+        </footer>
+    </main>
+</body>
+</html>

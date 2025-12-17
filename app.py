@@ -13,5 +13,10 @@ def test():
     return render_template('test.html')
 
 
+@app.route('/flowbook')
+def flowbook():
+    return render_template('flowbook.html')
+
+
 if __name__ == '__main__':
     app.run(debug=True)

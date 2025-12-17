@@ -3,161 +3,145 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>[Fill in title here]</title>
+    <title>Gerald Haslhofer</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
+    <style>
+        .home-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 6rem 2rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .home-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        
+        .home-title {
+            font-family: var(--font-serif);
+            font-size: 3rem;
+            font-weight: 600;
+            color: var(--ink);
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+        }
+        
+        .home-subtitle {
+            font-family: var(--font-sans);
+            font-size: 1.1rem;
+            color: var(--ink-muted);
+            font-weight: 400;
+        }
+        
+        .pages-section {
+            margin-bottom: 3rem;
+        }
+        
+        .pages-title {
+            font-family: var(--font-sans);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--ink-light);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--rule);
+        }
+        
+        .pages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .page-card {
+            background: white;
+            border: 1px solid var(--rule);
+            border-radius: var(--radius-md);
+            padding: 1.75rem;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.2s ease;
+            display: block;
+        }
+        
+        .page-card:hover {
+            border-color: var(--orbital-accent);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transform: translateY(-2px);
+        }
+        
+        .page-card-title {
+            font-family: var(--font-serif);
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--ink);
+            margin-bottom: 0.5rem;
+        }
+        
+        .page-card-desc {
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            color: var(--ink-muted);
+            line-height: 1.5;
+        }
+        
+        .page-card-arrow {
+            display: inline-block;
+            margin-top: 1rem;
+            font-family: var(--font-sans);
+            font-size: 0.85rem;
+            color: var(--orbital-accent);
+            font-weight: 500;
+        }
+        
+        .home-footer {
+            margin-top: auto;
+            padding-top: 3rem;
+            text-align: center;
+            border-top: 1px solid var(--rule);
+        }
+        
+        .home-footer p {
+            font-family: var(--font-sans);
+            font-size: 0.85rem;
+            color: var(--ink-light);
+        }
+    </style>
 </head>
 <body>
-    <nav class="nav">
-        <a href="/" class="nav-back">← Home</a>
-    </nav>
-
-    <main class="container">
-        <!-- Header Section -->
-        <header class="hero">
-            <h1 class="hero-title">Gerald Haslhofer 003</h1>
-            <p class="hero-tagline">
-                [Fill in the subtitle or tagline here]
-            </p>
+    <main class="home-container">
+        <header class="home-header">
+            <h1 class="home-title">Gerald Haslhofer</h1>
+            <p class="home-subtitle">Thoughts, experiments, and explorations</p>
         </header>
 
-        <!-- Introduction Section -->
-        <section class="intro">
-            <p class="lead drop-cap">
-                Fill in the introduction paragraph here. This should be a compelling 
-                opening that draws the reader in and sets up the main topic of the article.]
-            </p>
-            <p class="note">
-                [Fill in any notes or disclaimers here]
-            </p>
-        </section>
-
-        <!-- Main Content Section 1 -->
-        <section class="section">
-            <h2 class="section-title">[SECTION 1 TITLE]</h2>
-            
-            <p class="body-text">
-                [Fill in the first section content here. This is where you develop 
-                your main argument or present your first key point.]
-            </p>
-            
-            <p class="body-text">
-                [Continue with additional paragraphs as needed.]
-            </p>
-        </section>
-
-        <!-- Main Content Section 2 -->
-        <section class="section">
-            <h2 class="section-title">[SECTION 2 TITLE]</h2>
-            
-            <p class="body-text">
-                [Fill in the second section content here.]
-            </p>
-        </section>
-
-        <!-- Key Points / Assumptions Section -->
-        <section class="section">
-            <h2 class="section-title">[KEY POINTS]</h2>
-            
-            <div class="assumptions-grid">
-                <div class="assumptions-card">
-                    <h4>[Category 1]</h4>
-                    <ul class="bullet-list">
-                        <li>[Point 1]</li>
-                        <li>[Point 2]</li>
-                        <li>[Point 3]</li>
-                    </ul>
-                </div>
+        <section class="pages-section">
+            <h2 class="pages-title">Pages</h2>
+            <div class="pages-grid">
+                <a href="/flowbook" class="page-card">
+                    <h3 class="page-card-title">Flowbook</h3>
+                    <p class="page-card-desc">Interactive flow-based exploration and visualization tool.</p>
+                    <span class="page-card-arrow">View →</span>
+                </a>
                 
-                <div class="assumptions-card">
-                    <h4>[Category 2]</h4>
-                    <ul class="bullet-list">
-                        <li>[Point 1]</li>
-                        <li>[Point 2]</li>
-                        <li>[Point 3]</li>
-                    </ul>
-                </div>
+                <a href="/test" class="page-card">
+                    <h3 class="page-card-title">Test Page</h3>
+                    <p class="page-card-desc">A sandbox for testing new ideas and components.</p>
+                    <span class="page-card-arrow">View →</span>
+                </a>
             </div>
         </section>
 
-        <!-- Data / Metrics Section -->
-        <section class="section">
-            <h2 class="section-title">[DATA & METRICS]</h2>
-            
-            <div class="data-panels">
-                <div class="data-panel">
-                    <h4>[Data Category 1]</h4>
-                    <div class="data-row">
-                        <span class="data-label">[Metric 1]</span>
-                        <span class="data-value">[Value 1]</span>
-                    </div>
-                    <div class="data-row">
-                        <span class="data-label">[Metric 2]</span>
-                        <span class="data-value">[Value 2]</span>
-                    </div>
-                    <div class="data-row">
-                        <span class="data-label">[Metric 3]</span>
-                        <span class="data-value">[Value 3]</span>
-                    </div>
-                </div>
-                
-                <div class="data-panel">
-                    <h4>[Data Category 2]</h4>
-                    <div class="data-row">
-                        <span class="data-label">[Metric 1]</span>
-                        <span class="data-value">[Value 1]</span>
-                    </div>
-                    <div class="data-row">
-                        <span class="data-label">[Metric 2]</span>
-                        <span class="data-value">[Value 2]</span>
-                    </div>
-                    <div class="data-row">
-                        <span class="data-label">[Metric 3]</span>
-                        <span class="data-value">[Value 3]</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Conclusion Section -->
-        <section class="section prose">
-            <h3>[CONCLUSION]</h3>
-            <p>
-                [Fill in your conclusion here. Summarize the key takeaways and 
-                provide any final thoughts or calls to action.]
-            </p>
-            <p>
-                [Additional closing remarks if needed.]
-            </p>
-        </section>
-
-        <!-- References Section -->
-        <section class="section">
-            <h2 class="section-title">[REFERENCES]</h2>
-            
-            <div class="references-list">
-                <div class="reference">
-                    <span class="ref-number">1.</span>
-                    <span class="ref-title">[Reference Title 1]</span>
-                    <span class="ref-year">[Year]</span>
-                </div>
-                <div class="reference">
-                    <span class="ref-number">2.</span>
-                    <span class="ref-title">[Reference Title 2]</span>
-                    <span class="ref-year">[Year]</span>
-                </div>
-                <div class="reference">
-                    <span class="ref-number">3.</span>
-                    <span class="ref-title">[Reference Title 3]</span>
-                    <span class="ref-year">[Year]</span>
-                </div>
-            </div>
-        </section>
-
-        <footer class="footer">
-            <p class="footer-text">[Footer text here]</p>
+        <footer class="home-footer">
+            <p>© 2025 Gerald Haslhofer</p>
         </footer>
     </main>
 </body>
