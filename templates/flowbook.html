@@ -71,7 +71,92 @@
             </p>
         </section>
 
-        <!-- Key Points / Assumptions Section -->
+        <!-- Key Ideas Section -->
+        <section class="section">
+            <h2 class="section-title">Key Ideas</h2>
+            
+            <div class="assumptions-grid">
+                <div class="assumptions-card">
+                    <h4>iPython Notebook-Style</h4>
+                    <p class="body-text">The familiar notebook metaphor—cells, reactive execution, visible state—applied to life data instead of code.</p>
+                </div>
+                
+                <div class="assumptions-card">
+                    <h4>Streaming Data</h4>
+                    <p class="body-text">All data sources in continuous flow state. Not batch/pull, but always-on push. Your world updates the notebook.</p>
+                </div>
+
+                <div class="assumptions-card">
+                    <h4>Abstraction Layer</h4>
+                    <p class="body-text">Commoditizes productivity APIs (calendar, tasks, email, notes). Backend agnostic—Microsoft, Google, or indie.</p>
+                </div>
+
+                <div class="assumptions-card">
+                    <h4>Agent Views</h4>
+                    <p class="body-text">Different "views" for different agents. Family gets full access, work agent gets filtered view, public gets read-only.</p>
+                </div>
+
+                <div class="assumptions-card">
+                    <h4>Git Semantics</h4>
+                    <p class="body-text">Commits, history, ability to walk back, branch. What if changes branched close to continuously?</p>
+                </div>
+
+                <div class="assumptions-card">
+                    <h4>AI Intermediation</h4>
+                    <p class="body-text">AI intermediates everything—gatekeeper for all events. Routes, morphs, retrieves context automatically.</p>
+                </div>
+
+                <div class="assumptions-card">
+                    <h4>Guided Actions</h4>
+                    <p class="body-text">Lower mental effort—choose from options, don't compose. TikTok-style nudges to signal intent.</p>
+                </div>
+
+                <div class="assumptions-card">
+                    <h4>Real-time Multiplayer</h4>
+                    <p class="body-text">Figma/Fortnite collab-first model. ECS game-engine architecture for streaming artifacts at scale.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Auto-App Section -->
+        <section class="section">
+            <h2 class="section-title">The "Auto-App" Vision</h2>
+            
+            <p class="body-text">
+                What if FlowBook wasn't a fixed app at all—but an <strong>app that generates itself on the fly</strong> 
+                based on your intent? Inspired by experiments like Google Disco, where the UI itself is generated 
+                dynamically by AI based on what you're trying to accomplish.
+            </p>
+
+            <div class="assumptions-grid">
+                <div class="assumptions-card">
+                    <h4>Intent-Driven Surfaces</h4>
+                    <p class="body-text">Say "I need to plan next week" and a custom planning canvas appears—pulling calendar, emails, and tasks into a purpose-built layout.</p>
+                </div>
+                
+                <div class="assumptions-card">
+                    <h4>Ephemeral Apps</h4>
+                    <p class="body-text">The "app" might only exist for this session. Tomorrow's surface could look completely different because your context changed.</p>
+                </div>
+
+                <div class="assumptions-card">
+                    <h4>No Feature Bloat</h4>
+                    <p class="body-text">Traditional apps accumulate features for every use case. A generated app only has what you need <em>right now</em>.</p>
+                </div>
+
+                <div class="assumptions-card">
+                    <h4>Composable Primitives</h4>
+                    <p class="body-text">FlowBook provides building blocks (connectors, views, actions) and AI assembles them. Like LEGO, but AI is the builder.</p>
+                </div>
+            </div>
+
+            <p class="body-text">
+                <strong>The philosophical shift:</strong> Today, you learn the app's interface and adapt your workflow to the app. 
+                With FlowBook, you express your intent and the app adapts to your workflow.
+            </p>
+        </section>
+
+        <!-- Key Design Principles Section -->
         <section class="section">
             <h2 class="section-title">Key Design Principles</h2>
             
@@ -195,6 +280,46 @@
                 Observable. But instead of code cells producing outputs, FlowBook cells are live 
                 windows into your digital life—always updating, always ready, always in flow.
             </p>
+        </section>
+
+        <!-- Open Questions Section -->
+        <section class="section">
+            <h2 class="section-title">Open Questions</h2>
+            
+            <div class="data-panels">
+                <div class="data-panel">
+                    <h4>Draft vs. Pretty</h4>
+                    <p class="body-text" style="font-size: 0.9rem;">
+                        How do you move between "scribbles" and "published"? Is there a render mode? 
+                        One-click AI formatting? Or is draft always the source of truth, with "pretty" 
+                        being an ephemeral view generated on demand?
+                    </p>
+                </div>
+                
+                <div class="data-panel">
+                    <h4>Who Owns the Shape?</h4>
+                    <p class="body-text" style="font-size: 0.9rem;">
+                        If the app generates itself on the fly, how do you build muscle memory? 
+                        Is there value in persistent layouts, or is radical fluidity the point?
+                    </p>
+                </div>
+
+                <div class="data-panel">
+                    <h4>What's the Atomic Unit?</h4>
+                    <p class="body-text" style="font-size: 0.9rem;">
+                        Is it a "cell" (Jupyter)? A "snippet" (notes)? A "card" (Notion)? 
+                        The choice affects referencing, composing, and sharing.
+                    </p>
+                </div>
+
+                <div class="data-panel">
+                    <h4>Infinite Context Paralysis</h4>
+                    <p class="body-text" style="font-size: 0.9rem;">
+                        If everything streams in, how do you focus? 
+                        What's the equivalent of closing browser tabs?
+                    </p>
+                </div>
+            </div>
         </section>
 
         <!-- References Section -->
