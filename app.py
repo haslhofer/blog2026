@@ -18,5 +18,10 @@ def flowbook():
     return render_template('flowbook.html')
 
 
+@app.route('/continuous-ai')
+def continuous_ai():
+    return render_template('continuous-ai.html')
+
+
 if __name__ == '__main__':
     app.run(debug=True)
