@@ -23,5 +23,10 @@ def continuous_ai():
     return render_template('continuous-ai.html')
 
 
+@app.route('/italian-lakes')
+def italian_lakes():
+    return render_template('italian-lakes.html')
+
+
 if __name__ == '__main__':
     app.run(debug=True)
