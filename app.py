@@ -28,5 +28,10 @@ def italian_lakes():
     return render_template('italian-lakes.html')
 
 
+@app.route('/perseverance')
+def perseverance():
+    return render_template('perseverance.html')
+
+
 if __name__ == '__main__':
     app.run(debug=True)

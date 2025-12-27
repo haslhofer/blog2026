@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,7 +9,9 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&display=swap"
+        rel="stylesheet">
     <style>
         .home-container {
             max-width: 800px;
@@ -18,12 +21,12 @@
             display: flex;
             flex-direction: column;
         }
-        
+
         .home-header {
             text-align: center;
             margin-bottom: 4rem;
         }
-        
+
         .home-title {
             font-family: var(--font-serif);
             font-size: 3rem;
@@ -32,18 +35,18 @@
             margin-bottom: 0.5rem;
             letter-spacing: -0.02em;
         }
-        
+
         .home-subtitle {
             font-family: var(--font-sans);
             font-size: 1.1rem;
             color: var(--ink-muted);
             font-weight: 400;
         }
-        
+
         .pages-section {
             margin-bottom: 3rem;
         }
-        
+
         .pages-title {
             font-family: var(--font-sans);
             font-size: 0.75rem;
@@ -55,13 +58,13 @@
             padding-bottom: 0.5rem;
             border-bottom: 1px solid var(--rule);
         }
-        
+
         .pages-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 1.5rem;
         }
-        
+
         .page-card {
             background: white;
             border: 1px solid var(--rule);
@@ -72,13 +75,13 @@
             transition: all 0.2s ease;
             display: block;
         }
-        
+
         .page-card:hover {
             border-color: var(--orbital-accent);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
             transform: translateY(-2px);
         }
-        
+
         .page-card-title {
             font-family: var(--font-serif);
             font-size: 1.25rem;
@@ -86,14 +89,14 @@
             color: var(--ink);
             margin-bottom: 0.5rem;
         }
-        
+
         .page-card-desc {
             font-family: var(--font-sans);
             font-size: 0.9rem;
             color: var(--ink-muted);
             line-height: 1.5;
         }
-        
+
         .page-card-arrow {
             display: inline-block;
             margin-top: 1rem;
@@ -102,20 +105,20 @@
             color: var(--orbital-accent);
             font-weight: 500;
         }
-        
+
         .home-footer {
             margin-top: auto;
             padding-top: 3rem;
             text-align: center;
             border-top: 1px solid var(--rule);
         }
-        
+
         .home-footer p {
             font-family: var(--font-sans);
             font-size: 0.85rem;
             color: var(--ink-light);
         }
-        
+
         .header-image {
             width: 100%;
             max-width: 800px;
@@ -125,10 +128,12 @@
         }
     </style>
 </head>
+
 <body>
     <main class="home-container">
         <header class="home-header">
-            <img src="{{ url_for('static', filename='images/blogheader2.png') }}" alt="Blog Header" class="header-image">
+            <img src="{{ url_for('static', filename='images/blogheader2.png') }}" alt="Blog Header"
+                class="header-image">
             <h1 class="home-title">Gerald Haslhofer</h1>
             <p class="home-subtitle">Thoughts, experiments, and explorations</p>
         </header>
@@ -141,25 +146,25 @@
                     <p class="page-card-desc">Interactive flow-based exploration and visualization tool.</p>
                     <span class="page-card-arrow">View →</span>
                 </a>
-                
+
                 <a href="/continuous-ai" class="page-card">
                     <h3 class="page-card-title">Continuous AI</h3>
                     <p class="page-card-desc">Exploring continuous integration and delivery for AI systems.</p>
                     <span class="page-card-arrow">View →</span>
                 </a>
-                
+
                 <a href="/italian-lakes" class="page-card">
                     <h3 class="page-card-title">Italian Lakes</h3>
                     <p class="page-card-desc">A family itinerary for Lake Maggiore & Lake Como with teenagers.</p>
                     <span class="page-card-arrow">View →</span>
                 </a>
-                
-                <a href="/test" class="page-card">
-                    <h3 class="page-card-title">Test Page</h3>
-                    <p class="page-card-desc">A sandbox for testing new ideas and components.</p>
+
+                <a href="/perseverance" class="page-card">
+                    <h3 class="page-card-title">Perseverance</h3>
+                    <p class="page-card-desc">On core values and the outer perimeter of what's possible.</p>
                     <span class="page-card-arrow">View →</span>
                 </a>
-            </div> 
+            </div>
         </section>
 
         <footer class="home-footer">
@@ -167,4 +172,5 @@
         </footer>
     </main>
 </body>
+
 </html>
