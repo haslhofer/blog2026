@@ -33,5 +33,10 @@ def perseverance():
     return render_template('perseverance.html')
 
 
+@app.route('/steppr-arch')
+def steppr_arch():
+    return render_template('steppr-arch.html')
+
+
 if __name__ == '__main__':
     app.run(debug=True)
