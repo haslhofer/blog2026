@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,8 +8,11 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&display=swap"
+        rel="stylesheet">
 </head>
+
 <body>
     <nav class="nav">
         <a href="/" class="nav-back">← Home</a>
@@ -26,40 +30,53 @@
         <!-- Introduction Section -->
         <section class="intro">
             <p class="lead drop-cap">
-                This document outlines the technical architecture of the Steppr platform, a WhatsApp-based coaching assistant designed to facilitate the achievement of New Year's resolutions. The system employs a microservices-based design, facilitating modularity, scalability, and robust separation of concerns.
+                This document outlines the technical architecture of the Steppr platform, a WhatsApp-based coaching
+                assistant designed to facilitate the achievement of New Year's resolutions. The system employs a
+                microservices-based design, facilitating modularity, scalability, and robust separation of concerns.
             </p>
         </section>
 
         <!-- Architectural Overview -->
         <section class="section">
             <h2 class="section-title">Architectural Overview</h2>
-            
+
             <p class="body-text">
-                Steppr decouples protocol handling from business logic. Communication between services occurs primarily via <strong>WebSockets</strong>, ensuring low-latency, bidirectional data exchange. The architecture comprises four distinct top-level components.
+                Steppr decouples protocol handling from business logic. Communication between services occurs primarily
+                via <strong>WebSockets</strong>, ensuring low-latency, bidirectional data exchange. The architecture
+                comprises four distinct top-level components.
             </p>
+
+            <img src="{{ url_for('static', filename='images/arch.png') }}" alt="Steppr Architecture Diagram"
+                class="header-image" style="margin-top: 2rem;">
         </section>
 
         <!-- Core Components Section -->
         <section class="section">
             <h2 class="section-title">Core Components</h2>
-            
+
             <div class="assumptions-grid">
                 <div class="assumptions-card">
                     <h4>1. whatsapp-bot</h4>
                     <p class="subtitle">(Gateway Layer)</p>
-                    <p class="body-text">Calculated as the ingress point, this service manages the WhatsApp connection protocol.</p>
+                    <p class="body-text">Calculated as the ingress point, this service manages the WhatsApp connection
+                        protocol.</p>
                     <ul class="bullet-list">
-                        <li><strong>Function:</strong> Maintains the WhatsApp session, handles authentication (QR codes), and serves as a WebSocket host for the responder service. It contains no business logic.</li>
+                        <li><strong>Function:</strong> Maintains the WhatsApp session, handles authentication (QR
+                            codes), and serves as a WebSocket host for the responder service. It contains no business
+                            logic.</li>
                         <li><strong>Technologies:</strong> Node.js, @whiskeysockets/baileys, Express, ws.</li>
                     </ul>
                 </div>
-                
+
                 <div class="assumptions-card">
                     <h4>2. whatsapp-responder</h4>
                     <p class="subtitle">(Logic Layer)</p>
-                    <p class="body-text">This service encapsulates the platform's intelligence and decision-making capabilities.</p>
+                    <p class="body-text">This service encapsulates the platform's intelligence and decision-making
+                        capabilities.</p>
                     <ul class="bullet-list">
-                        <li><strong>Function:</strong> Operates as a WebSocket client to <code>whatsapp-bot</code>. Processes messages via LLMs, executes logic, and manages schedules. Dispatches proactive messages daily at 6 AM.</li>
+                        <li><strong>Function:</strong> Operates as a WebSocket client to <code>whatsapp-bot</code>.
+                            Processes messages via LLMs, executes logic, and manages schedules. Dispatches proactive
+                            messages daily at 6 AM.</li>
                         <li><strong>Technologies:</strong> Python, OpenAI API, APScheduler, PyGithub.</li>
                     </ul>
                 </div>
@@ -79,7 +96,8 @@
                     <p class="subtitle">(Validation Environment)</p>
                     <p class="body-text">A localized environment for system verification.</p>
                     <ul class="bullet-list">
-                        <li><strong>Function:</strong> Executes integration tests and validates component interaction without impacting the production state.</li>
+                        <li><strong>Function:</strong> Executes integration tests and validates component interaction
+                            without impacting the production state.</li>
                         <li><strong>Technologies:</strong> Python-based test suites.</li>
                     </ul>
                 </div>
@@ -89,21 +107,23 @@
         <!-- Shared Infrastructure Section -->
         <section class="section">
             <h2 class="section-title">Shared Infrastructure</h2>
-            
+
             <div class="assumptions-grid">
-                 <div class="assumptions-card">
+                <div class="assumptions-card">
                     <h4>Containerization</h4>
                     <p class="body-text">All services are Dockerized, ensuring consistent deployment environments.</p>
                 </div>
 
                 <div class="assumptions-card">
                     <h4>Telemetry</h4>
-                    <p class="body-text"><strong>Azure Application Insights</strong> is integrated across both Node.js and Python services for centralized logging and performance auditing.</p>
+                    <p class="body-text"><strong>Azure Application Insights</strong> is integrated across both Node.js
+                        and Python services for centralized logging and performance auditing.</p>
                 </div>
 
                 <div class="assumptions-card">
                     <h4>Persistence</h4>
-                    <p class="body-text">The system leverages <strong>GitHub</strong> as a version-controlled data store for interaction logs.</p>
+                    <p class="body-text">The system leverages <strong>GitHub</strong> as a version-controlled data store
+                        for interaction logs.</p>
                 </div>
             </div>
         </section>
@@ -112,7 +132,9 @@
         <section class="section prose">
             <h3>Conclusion</h3>
             <p>
-                The Steppr architecture prioritizes stability by isolating the volatile WhatsApp protocol layer from the business logic. This separation allows the <code>whatsapp-responder</code> to evolve independently of connection protocol updates, resulting in a resilient and maintainable system.
+                The Steppr architecture prioritizes stability by isolating the volatile WhatsApp protocol layer from the
+                business logic. This separation allows the <code>whatsapp-responder</code> to evolve independently of
+                connection protocol updates, resulting in a resilient and maintainable system.
             </p>
         </section>
 
@@ -121,4 +143,5 @@
         </footer>
     </main>
 </body>
+
 </html>
