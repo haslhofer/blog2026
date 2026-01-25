@@ -8,6 +8,31 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <style>
+        #map {
+            height: 500px;
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .leaflet-popup-content-wrapper {
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+        }
+        .leaflet-popup-content h3 {
+            font-family: 'Newsreader', serif;
+            margin: 0 0 0.5rem 0;
+            font-size: 1.1rem;
+            color: #2c2721;
+        }
+        .leaflet-popup-content p {
+            margin: 0.25rem 0;
+            font-size: 0.9rem;
+            color: #4a4540;
+        }
+    </style>
 </head>
 <body>
     <nav class="nav">
@@ -41,100 +66,25 @@
         <section class="section" style="margin-top: 3rem;">
             <h2 class="section-title">7 Cities Across Mediterranean Europe</h2>
 
-            <div style="max-width: 900px; margin: 2rem auto; background: #fafaf8; padding: 2rem; border-radius: 8px; border: 1px solid #e5e3dc;">
-                <svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: auto;">
-                    <!-- Background -->
-                    <rect width="800" height="600" fill="#f5f3ed"/>
+            <div style="max-width: 1000px; margin: 2rem auto; background: #fafaf8; padding: 2rem; border-radius: 12px; border: 1px solid #e5e3dc;">
+                <div id="map"></div>
 
-                    <!-- Water (Mediterranean Sea) -->
-                    <path d="M 0 350 Q 200 380 400 360 Q 600 340 800 350 L 800 600 L 0 600 Z" fill="#d4e5f2" opacity="0.6"/>
-
-                    <!-- Simplified country outlines -->
-                    <!-- Spain -->
-                    <path d="M 50 250 L 80 280 L 90 320 L 110 340 L 140 355 L 180 360 L 220 350 L 240 330 L 250 300 L 240 270 L 220 250 L 180 240 L 140 245 L 100 240 L 70 235 Z"
-                          fill="#e8e6df" stroke="#b8b5a8" stroke-width="1.5" opacity="0.8"/>
-
-                    <!-- France -->
-                    <path d="M 220 180 L 260 190 L 300 200 L 340 210 L 380 220 L 400 240 L 410 270 L 400 300 L 380 320 L 350 330 L 320 335 L 280 330 L 250 320 L 230 300 L 220 270 L 220 240 Z"
-                          fill="#e8e6df" stroke="#b8b5a8" stroke-width="1.5" opacity="0.8"/>
-
-                    <!-- Italy -->
-                    <path d="M 420 200 L 450 220 L 470 250 L 480 290 L 475 330 L 465 360 L 455 390 L 450 420 L 440 390 L 435 360 L 430 330 L 425 300 L 420 270 L 415 240 Z"
-                          fill="#e8e6df" stroke="#b8b5a8" stroke-width="1.5" opacity="0.8"/>
-
-                    <!-- Mediterranean coastline accent -->
-                    <path d="M 90 320 Q 150 345 220 350 Q 300 335 380 320 Q 450 310 475 330"
-                          fill="none" stroke="#97b8d4" stroke-width="2" opacity="0.5" stroke-dasharray="3,3"/>
-
-                    <!-- City markers with connecting lines -->
-                    <g id="cities">
-                        <!-- A Coruña (Atlantic coast, northwest Spain) -->
-                        <g class="city-marker">
-                            <circle cx="65" cy="240" r="8" fill="#8B6F47" stroke="#fff" stroke-width="2"/>
-                            <text x="65" y="225" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" font-weight="600" fill="#2c2721">A Coruña</text>
-                        </g>
-
-                        <!-- Málaga (southern Spain) -->
-                        <g class="city-marker">
-                            <circle cx="130" cy="355" r="8" fill="#8B6F47" stroke="#fff" stroke-width="2"/>
-                            <text x="130" y="372" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" font-weight="600" fill="#2c2721">Málaga</text>
-                        </g>
-
-                        <!-- Canet de Mar (Costa Brava, northeast Spain) -->
-                        <g class="city-marker">
-                            <circle cx="245" cy="310" r="8" fill="#8B6F47" stroke="#fff" stroke-width="2"/>
-                            <text x="245" y="295" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" font-weight="600" fill="#2c2721">Canet de Mar</text>
-                        </g>
-
-                        <!-- Platja d'Aro (Costa Brava) -->
-                        <g class="city-marker">
-                            <circle cx="255" cy="325" r="8" fill="#8B6F47" stroke="#fff" stroke-width="2"/>
-                            <text x="260" y="343" text-anchor="start" font-family="Inter, sans-serif" font-size="12" font-weight="600" fill="#2c2721">Platja d'Aro</text>
-                        </g>
-
-                        <!-- Nice (French Riviera) -->
-                        <g class="city-marker">
-                            <circle cx="370" cy="305" r="8" fill="#4A7BA7" stroke="#fff" stroke-width="2"/>
-                            <text x="370" y="290" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" font-weight="600" fill="#2c2721">Nice</text>
-                        </g>
-
-                        <!-- Antibes (French Riviera) -->
-                        <g class="city-marker">
-                            <circle cx="360" cy="315" r="8" fill="#4A7BA7" stroke="#fff" stroke-width="2"/>
-                            <text x="360" y="332" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" font-weight="600" fill="#2c2721">Antibes</text>
-                        </g>
-
-                        <!-- Como (northern Italy, Lake Como) -->
-                        <g class="city-marker">
-                            <circle cx="435" cy="235" r="8" fill="#4A7BA7" stroke="#fff" stroke-width="2"/>
-                            <text x="435" y="220" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" font-weight="600" fill="#2c2721">Como</text>
-                        </g>
-                    </g>
-
-                    <!-- Legend -->
-                    <g transform="translate(620, 480)">
-                        <rect x="0" y="0" width="160" height="75" fill="#fff" stroke="#d4d1c6" stroke-width="1" rx="4"/>
-                        <text x="10" y="20" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="#2c2721">Cities by Country</text>
-
-                        <circle cx="18" cy="35" r="5" fill="#8B6F47"/>
-                        <text x="28" y="39" font-family="Inter, sans-serif" font-size="10" fill="#4a4540">Spain (4 cities)</text>
-
-                        <circle cx="18" cy="53" r="5" fill="#4A7BA7"/>
-                        <text x="28" y="57" font-family="Inter, sans-serif" font-size="10" fill="#4a4540">France & Italy (3)</text>
-                    </g>
-
-                    <!-- Scale indicator -->
-                    <g transform="translate(30, 560)">
-                        <line x1="0" y1="0" x2="100" y2="0" stroke="#4a4540" stroke-width="2"/>
-                        <line x1="0" y1="-5" x2="0" y2="5" stroke="#4a4540" stroke-width="2"/>
-                        <line x1="100" y1="-5" x2="100" y2="5" stroke="#4a4540" stroke-width="2"/>
-                        <text x="50" y="15" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#4a4540">~500 km</text>
-                    </g>
-                </svg>
+                <div style="margin-top: 1.5rem; padding: 1rem; background: #fff; border-radius: 8px; border: 1px solid #e5e3dc;">
+                    <div style="display: flex; gap: 2rem; flex-wrap: wrap; justify-content: center; align-items: center;">
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <span style="display: inline-block; width: 12px; height: 12px; background: #8B6F47; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 0 0 1px #8B6F47;"></span>
+                            <span style="font-family: 'Inter', sans-serif; font-size: 0.9rem; color: #4a4540;">Spain (4 cities)</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <span style="display: inline-block; width: 12px; height: 12px; background: #4A7BA7; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 0 0 1px #4A7BA7;"></span>
+                            <span style="font-family: 'Inter', sans-serif; font-size: 0.9rem; color: #4a4540;">France & Italy (3 cities)</span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <p class="note" style="text-align: center; margin-top: 1.5rem; color: #666;">
-                Map shows approximate locations of the seven finalist cities across Spain, France, and Italy's Mediterranean regions.
+                Interactive map showing the exact locations of the seven finalist cities. Click markers for details.
             </p>
         </section>
 
@@ -1030,5 +980,100 @@
             <p class="footer-text">Gerald Haslhofer · January 2026</p>
         </footer>
     </main>
+
+    <!-- Leaflet JavaScript -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script>
+        // Initialize map centered on Mediterranean
+        var map = L.map('map').setView([42.5, 5.0], 6);
+
+        // Add OpenStreetMap tile layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+            maxZoom: 19
+        }).addTo(map);
+
+        // Define custom icons
+        var spainIcon = L.divIcon({
+            className: 'custom-marker',
+            html: '<div style="background-color: #8B6F47; width: 20px; height: 20px; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.3);"></div>',
+            iconSize: [20, 20],
+            iconAnchor: [10, 10]
+        });
+
+        var franceItalyIcon = L.divIcon({
+            className: 'custom-marker',
+            html: '<div style="background-color: #4A7BA7; width: 20px; height: 20px; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.3);"></div>',
+            iconSize: [20, 20],
+            iconAnchor: [10, 10]
+        });
+
+        // City data with coordinates
+        var cities = [
+            {
+                name: "A Coruña",
+                coords: [43.3623, -8.4115],
+                country: "Spain (Galicia)",
+                icon: spainIcon,
+                info: "Green climate • 1,240mm rain • Most affordable"
+            },
+            {
+                name: "Málaga",
+                coords: [36.7213, -4.4214],
+                country: "Spain (Costa del Sol)",
+                icon: spainIcon,
+                info: "325 days sunshine • Luxury real estate • 481mm rain"
+            },
+            {
+                name: "Canet de Mar",
+                coords: [41.5903, 2.5808],
+                country: "Spain (Costa Brava)",
+                icon: spainIcon,
+                info: "Beach lifestyle • Barcelona proximity • Affordable"
+            },
+            {
+                name: "Platja d'Aro",
+                coords: [41.8167, 3.0667],
+                country: "Spain (Costa Brava)",
+                icon: spainIcon,
+                info: "Mediterranean beach • Lower tuition • 590-700mm rain"
+            },
+            {
+                name: "Nice",
+                coords: [43.7102, 7.2620],
+                country: "France (French Riviera)",
+                icon: franceItalyIcon,
+                info: "90 min to Alps • 6+ schools • World-class city"
+            },
+            {
+                name: "Antibes",
+                coords: [43.5808, 7.1239],
+                country: "France (French Riviera)",
+                icon: franceItalyIcon,
+                info: "Cap d'Antibes luxury • 90 min to Alps • €3,737/month"
+            },
+            {
+                name: "Como",
+                coords: [45.8080, 9.0852],
+                country: "Italy (Lake Como)",
+                icon: franceItalyIcon,
+                info: "Green climate • 1 hour to Alps • Lake Como elegance"
+            }
+        ];
+
+        // Add markers
+        cities.forEach(function(city) {
+            var marker = L.marker(city.coords, {icon: city.icon}).addTo(map);
+            marker.bindPopup(`
+                <h3>${city.name}</h3>
+                <p><strong>${city.country}</strong></p>
+                <p style="margin-top: 0.5rem;">${city.info}</p>
+            `);
+        });
+
+        // Fit map to show all markers
+        var group = new L.featureGroup(cities.map(c => L.marker(c.coords)));
+        map.fitBounds(group.getBounds().pad(0.1));
+    </script>
 </body>
 </html>
