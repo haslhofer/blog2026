@@ -1118,6 +1118,35 @@
             </p>
         </section>
 
+        <!-- Mallorca International Schools Map -->
+        <section class="section">
+            <h2 class="section-title">Mallorca: 19 International Schools</h2>
+
+            <p class="body-text" style="margin-bottom: 2rem;">
+                Mallorca leads all examined cities with 19 international schools, nearly all concentrated in and around
+                Palma. The map below shows the locations of these schools across the island. Click each marker to see
+                the school name and Mallorca's annual rainfall (402-450mm, approximately 300 sunny days per year).
+            </p>
+
+            <div id="mallorcaMap" style="height: 600px; width: 100%; border-radius: 8px; margin-bottom: 2rem;"></div>
+
+            <div style="margin-top: 1.5rem; padding: 1rem; background: #fafaf8; border-left: 3px solid var(--color-ngcc);">
+                <h3 style="font-family: 'Newsreader', serif; font-size: 1.25rem; margin-top: 0;">School Concentration</h3>
+                <p class="body-text" style="margin-bottom: 0.5rem;">
+                    <strong>Southwest Palma Region (11 schools):</strong> Agora Portals, Baleares International College (2 campuses),
+                    Bellver International College, King Richard III, Queen's College, Green Valley, The Academy, British International School,
+                    Lycée Français, Svenska Skolan
+                </p>
+                <p class="body-text" style="margin-bottom: 0.5rem;">
+                    <strong>Palma City (4 schools):</strong> Palma College, Eurocampus Deutsche Schule, Aixa School, and additional city-center schools
+                </p>
+                <p class="body-text" style="margin-bottom: 0;">
+                    <strong>Other Regions (4 schools):</strong> MySchool (Sa Pobla, north), Tudor Rose (Porto Cristo, east),
+                    Rafa Nadal Academy (Manacor, northeast), and schools in outlying areas
+                </p>
+            </div>
+        </section>
+
         <footer class="footer">
             <p class="footer-text">Gerald Haslhofer · January 2026</p>
         </footer>
@@ -1223,6 +1252,74 @@
         // Fit map to show all markers
         var group = new L.featureGroup(cities.map(c => L.marker(c.coords)));
         map.fitBounds(group.getBounds().pad(0.1));
+
+        // Initialize Mallorca schools map
+        var mallorcaMap = L.map('mallorcaMap').setView([39.5696, 2.6502], 10);
+
+        // Add OpenStreetMap tile layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+            maxZoom: 19
+        }).addTo(mallorcaMap);
+
+        // School marker icon (blue for education)
+        var schoolIcon = L.divIcon({
+            className: 'custom-marker',
+            html: '<div style="background-color: #4A7BA7; width: 16px; height: 16px; border-radius: 50%; border: 2px solid white; box-shadow: 0 2px 6px rgba(0,0,0,0.3);"></div>',
+            iconSize: [16, 16],
+            iconAnchor: [8, 8]
+        });
+
+        // International schools data with coordinates
+        var schools = [
+            // Southwest Palma Region
+            { name: "Agora Portals International School", coords: [39.5340, 2.5703], area: "Portals Nous", tuition: "€8,150-€17,000+" },
+            { name: "Baleares International College (Sant Agustí)", coords: [39.5519, 2.5978], area: "Sant Agustí", tuition: "€8,971-€15,465" },
+            { name: "Baleares International College (Sa Porrassa)", coords: [39.5167, 2.4833], area: "Sa Porrassa, Calvià", tuition: "€8,971-€15,465" },
+            { name: "Queen's College", coords: [39.5750, 2.6200], area: "Bonanova, Palma", tuition: "€11,000-€18,000" },
+            { name: "Bellver International College", coords: [39.5630, 2.6050], area: "Cala Major", tuition: "€9,000-€16,000" },
+            { name: "King Richard III College", coords: [39.5350, 2.5750], area: "Portals Nous", tuition: "€8,500-€15,000" },
+            { name: "Green Valley School", coords: [39.5900, 2.6100], area: "La Vileta, Palma", tuition: "€7,000-€13,000" },
+            { name: "The Academy", coords: [39.6200, 2.7000], area: "Marratxí", tuition: "€8,000-€14,000" },
+            { name: "British International School", coords: [39.5500, 2.5950], area: "Sant Agustí", tuition: "€7,500-€13,500" },
+            { name: "Lycée Français de Palma", coords: [39.5700, 2.6450], area: "Palma", tuition: "€7,100-€8,800" },
+            { name: "Svenska Skolan", coords: [39.5500, 2.6300], area: "Palma Bay", tuition: "€6,000-€11,000" },
+
+            // Palma City Center
+            { name: "Palma College", coords: [39.5696, 2.6502], area: "Old Town, Palma", tuition: "€9,000-€15,000" },
+            { name: "Eurocampus Deutsche Schule", coords: [39.6100, 2.6700], area: "Palma", tuition: "€6,500-€12,000" },
+            { name: "Aixa School", coords: [39.6400, 2.6900], area: "Parc Bit, Palma", tuition: "€5,500-€10,000" },
+
+            // North Region
+            { name: "MySchool Mallorca International School", coords: [39.7833, 3.0167], area: "Sa Pobla", tuition: "€6,000-€11,000" },
+
+            // East Region
+            { name: "Tudor Rose International School", coords: [39.5450, 3.3300], area: "Porto Cristo", tuition: "€5,500-€9,500" },
+
+            // Northeast Region
+            { name: "Rafa Nadal Academy", coords: [39.5400, 3.2100], area: "Manacor", tuition: "€15,000-€30,000" },
+
+            // Additional schools
+            { name: "Montessori School Palma", coords: [39.5800, 2.6400], area: "Palma", tuition: "€5,000-€9,000" },
+            { name: "International Montessori School", coords: [39.5600, 2.6350], area: "Palma", tuition: "€5,500-€10,000" }
+        ];
+
+        // Add markers for all schools
+        schools.forEach(function(school) {
+            var marker = L.marker(school.coords, {icon: schoolIcon}).addTo(mallorcaMap);
+            marker.bindPopup(`
+                <h4 style="margin: 0 0 0.5rem 0; font-family: 'Newsreader', serif;">${school.name}</h4>
+                <p style="margin: 0.25rem 0;"><strong>Location:</strong> ${school.area}</p>
+                <p style="margin: 0.25rem 0;"><strong>Tuition:</strong> ${school.tuition}</p>
+                <p style="margin: 0.5rem 0 0 0; padding-top: 0.5rem; border-top: 1px solid #ddd; font-size: 0.9em;">
+                    <strong>Mallorca Climate:</strong> 402-450mm annual rainfall • 300 sunny days/year
+                </p>
+            `);
+        });
+
+        // Fit map to show all school markers
+        var schoolGroup = new L.featureGroup(schools.map(s => L.marker(s.coords)));
+        mallorcaMap.fitBounds(schoolGroup.getBounds().pad(0.1));
     </script>
 </body>
 </html>
