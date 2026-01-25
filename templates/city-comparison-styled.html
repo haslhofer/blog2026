@@ -1147,6 +1147,37 @@
             </div>
         </section>
 
+        <!-- Italian West Mediterranean Coast International Schools Map -->
+        <section class="section">
+            <h2 class="section-title">Italian West Mediterranean Coast: International Schools</h2>
+
+            <p class="body-text" style="margin-bottom: 2rem;">
+                The Italian west Mediterranean coast has significantly fewer international school options compared to Spain
+                or France, with most schools concentrated in major cities. The map below shows cities with international
+                schools along the Ligurian, Tuscan, and Lazio coasts. Click each marker to see available schools and their
+                curriculum types.
+            </p>
+
+            <div id="italyMap" style="height: 650px; width: 100%; border-radius: 8px; margin-bottom: 2rem;"></div>
+
+            <div style="margin-top: 1.5rem; padding: 1rem; background: #fafaf8; border-left: 3px solid var(--color-orbital);">
+                <h3 style="font-family: 'Newsreader', serif; font-size: 1.25rem; margin-top: 0;">Key Findings</h3>
+                <p class="body-text" style="margin-bottom: 0.5rem;">
+                    <strong>Liguria (Western Riviera):</strong> Very limited options. Genova has the International School of Genoa (IB English).
+                    Ventimiglia will open a new British/IB school in September 2026. San Remo has no international schools—Monaco (30-40 min)
+                    or Genova (1h 40m) are the nearest options.
+                </p>
+                <p class="body-text" style="margin-bottom: 0.5rem;">
+                    <strong>Tuscany:</strong> Florence offers the most choice with IB/American, Canadian, and French curricula. Pisa and Siena
+                    each have one IB school. Coastal towns like Livorno lack international schools.
+                </p>
+                <p class="body-text" style="margin-bottom: 0;">
+                    <strong>Lazio (Rome):</strong> Rome (30km inland) offers 4+ international schools with British, American, and IB curricula,
+                    but coastal areas have none.
+                </p>
+            </div>
+        </section>
+
         <footer class="footer">
             <p class="footer-text">Gerald Haslhofer · January 2026</p>
         </footer>
@@ -1320,6 +1351,112 @@
         // Fit map to show all school markers
         var schoolGroup = new L.featureGroup(schools.map(s => L.marker(s.coords)));
         mallorcaMap.fitBounds(schoolGroup.getBounds().pad(0.1));
+
+        // Initialize Italy coast map
+        var italyMap = L.map('italyMap').setView([43.0, 11.0], 6);
+
+        // Add OpenStreetMap tile layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+            maxZoom: 19
+        }).addTo(italyMap);
+
+        // City marker icon (green for Italy)
+        var italyCityIcon = L.divIcon({
+            className: 'custom-marker',
+            html: '<div style="background-color: #6B8E23; width: 18px; height: 18px; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 6px rgba(0,0,0,0.3);"></div>',
+            iconSize: [18, 18],
+            iconAnchor: [9, 9]
+        });
+
+        // Italian cities with international schools
+        var italyCities = [
+            {
+                name: "Ventimiglia",
+                coords: [43.7896, 7.6076],
+                region: "Liguria (Italian Riviera)",
+                schools: [
+                    { name: "Borgo del Forte Campus (Blenheim Schools)", curriculum: "British / IB", ages: "3-18", status: "Opening September 2026", tuition: "TBA" }
+                ]
+            },
+            {
+                name: "Genova (Genoa)",
+                coords: [44.4057, 8.9463],
+                region: "Liguria (Coast)",
+                schools: [
+                    { name: "International School of Genoa", curriculum: "IB (English)", ages: "3-18", status: "Operating", tuition: "€7,782-€19,308" },
+                    { name: "Deledda International School", curriculum: "IB", ages: "11-18", status: "Operating", tuition: "TBA" },
+                    { name: "Deutsche Schule Genua", curriculum: "German", ages: "3-18", status: "Operating", tuition: "TBA" }
+                ]
+            },
+            {
+                name: "Pisa",
+                coords: [43.7085, 10.4036],
+                region: "Tuscany (Near Coast)",
+                schools: [
+                    { name: "Westminster International School", curriculum: "IB (English)", ages: "3-12", status: "Operating", tuition: "TBA" }
+                ]
+            },
+            {
+                name: "Florence",
+                coords: [43.7696, 11.2558],
+                region: "Tuscany (Inland)",
+                schools: [
+                    { name: "International School of Florence", curriculum: "IB / American (English)", ages: "3-18", status: "Operating", tuition: "€15,000-€25,000" },
+                    { name: "Canadian School of Florence", curriculum: "Canadian Ontario (English)", ages: "3-18", status: "Operating", tuition: "€8,000-€16,000" },
+                    { name: "Lycée Victor Hugo", curriculum: "French (Trilingual EN/FR/IT)", ages: "3-18", status: "Operating", tuition: "€5,000-€12,000" }
+                ]
+            },
+            {
+                name: "Siena",
+                coords: [43.3188, 11.3308],
+                region: "Tuscany (Inland)",
+                schools: [
+                    { name: "International School of Siena", curriculum: "IB (English)", ages: "3-18", status: "Operating", tuition: "€12,000-€20,000" }
+                ]
+            },
+            {
+                name: "Rome",
+                coords: [41.9028, 12.4964],
+                region: "Lazio (30km from Coast)",
+                schools: [
+                    { name: "St. George's British International School", curriculum: "British / IB", ages: "3-18", status: "Operating", tuition: "€15,000-€25,000" },
+                    { name: "American Overseas School of Rome", curriculum: "American / IB / AP", ages: "3-18", status: "Operating", tuition: "€20,000-€30,000" },
+                    { name: "Rome International School", curriculum: "IB (English)", ages: "3-18", status: "Operating", tuition: "€14,000-€22,000" },
+                    { name: "Marymount International School", curriculum: "American / IB / AP", ages: "3-18", status: "Operating", tuition: "€16,000-€26,000" }
+                ]
+            }
+        ];
+
+        // Add markers for all cities
+        italyCities.forEach(function(city) {
+            var marker = L.marker(city.coords, {icon: italyCityIcon}).addTo(italyMap);
+
+            // Build schools list for popup
+            var schoolsHTML = city.schools.map(function(school) {
+                return `
+                    <div style="margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid #ddd;">
+                        <strong>${school.name}</strong><br>
+                        <span style="font-size: 0.9em;">
+                            <strong>Curriculum:</strong> ${school.curriculum}<br>
+                            <strong>Ages:</strong> ${school.ages}<br>
+                            <strong>Status:</strong> ${school.status}${school.tuition !== 'TBA' ? '<br><strong>Tuition:</strong> ' + school.tuition : ''}
+                        </span>
+                    </div>
+                `;
+            }).join('');
+
+            marker.bindPopup(`
+                <h3 style="margin: 0 0 0.5rem 0; font-family: 'Newsreader', serif;">${city.name}</h3>
+                <p style="margin: 0.25rem 0; font-weight: 600;">${city.region}</p>
+                <p style="margin: 0.5rem 0; font-size: 0.95em;"><strong>${city.schools.length} International School${city.schools.length > 1 ? 's' : ''}</strong></p>
+                ${schoolsHTML}
+            `);
+        });
+
+        // Fit map to show all city markers with padding
+        var italyGroup = new L.featureGroup(italyCities.map(c => L.marker(c.coords)));
+        italyMap.fitBounds(italyGroup.getBounds().pad(0.15));
     </script>
 </body>
 </html>
