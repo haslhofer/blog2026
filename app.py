@@ -38,5 +38,10 @@ def steppr_arch():
     return render_template('steppr-arch.html')
 
 
+@app.route('/city-comparison-styled')
+def city_comparison_styled():
+    return render_template('city-comparison-styled.html')
+
+
 if __name__ == '__main__':
     app.run(debug=True)
