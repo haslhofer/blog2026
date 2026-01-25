@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protected Content - Enter PIN</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
+    <style>
+        .login-container {
+            max-width: 500px;
+            margin: 8rem auto;
+            padding: 3rem;
+            background: var(--color-paper);
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+        }
+        .login-title {
+            font-family: 'Newsreader', serif;
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--color-ink);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        .login-description {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            color: var(--color-ink-light);
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .pin-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .pin-input {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.5rem;
+            padding: 1rem;
+            border: 2px solid var(--color-border);
+            border-radius: 8px;
+            text-align: center;
+            letter-spacing: 0.5rem;
+            background: #fff;
+            transition: border-color 0.2s;
+        }
+        .pin-input:focus {
+            outline: none;
+            border-color: var(--color-orbital);
+        }
+        .pin-submit {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 1rem;
+            background: var(--color-orbital);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .pin-submit:hover {
+            background: #3a5f8a;
+        }
+        .error-message {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            color: #d32f2f;
+            text-align: center;
+            padding: 0.75rem;
+            background: #ffebee;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+        }
+        .back-link {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+        .back-link a {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            color: var(--color-orbital);
+            text-decoration: none;
+        }
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h1 class="login-title">🔒 Protected Content</h1>
+        <p class="login-description">
+            This page requires a PIN to access. Please enter the 4-digit PIN.
+        </p>
+
+        {% if error %}
+        <div class="error-message">
+            {{ error }}
+        </div>
+        {% endif %}
+
+        <form method="POST" class="pin-form">
+            <input
+                type="password"
+                name="pin"
+                class="pin-input"
+                maxlength="4"
+                pattern="[0-9]{4}"
+                placeholder="••••"
+                required
+                autofocus
+                inputmode="numeric"
+            >
+            <button type="submit" class="pin-submit">
+                Enter
+            </button>
+        </form>
+
+        <div class="back-link">
+            <a href="{{ url_for('index') }}">← Back to Home</a>
+        </div>
+    </div>
+
+    <script>
+        // Auto-submit when 4 digits are entered
+        const pinInput = document.querySelector('.pin-input');
+        pinInput.addEventListener('input', function(e) {
+            if (this.value.length === 4) {
+                this.form.submit();
+            }
+        });
+    </script>
+</body>
+</html>
