@@ -53,6 +53,20 @@ Northern Italian lakes region, Alpine scenery, proximity to Switzerland
 
 Within 15-20 minutes driving from Fino Mornasco (ISC location)
 
+### Winter Sunlight Overview ☀️
+
+**Daylight Hours (Dec-Feb)**: 8.5-9.5 hours per day (astronomical daylight)
+
+**Actual Sunshine Hours**: 1.9-3 hours per day average (due to clouds and mountain shadows)
+
+**Critical Factor - Shore Orientation**:
+
+- **Western Shore** (Cernobbio, Moltrasio, Laglio, Brienno, Argegno): **BEST winter sun** - flatter terrain, fewer mountain shadows blocking light
+- **Eastern Shore** (Torno): **LIMITED winter sun** - high steep mountains on south/west side block significant light
+- **Como City**: Moderate sun exposure at southern tip
+
+⚠️ **Winter sun is a major consideration** - western shore towns get substantially more winter sunlight due to geography.
+
 ### Cernobbio ⭐ TOP CHOICE
 
 - **Distance from ISC**: ~10-15 minutes (8 km)
@@ -67,6 +81,7 @@ Within 15-20 minutes driving from Fino Mornasco (ISC location)
 - **Character**: Serene, elegant atmosphere with Italian charm; more upscale than touristy
 - **Best For**: Lakefront living with dramatic mountain backdrop; good balance of amenities and natural beauty
 - **Real Estate**: Higher-end properties, historic villas, lakefront apartments
+- **Winter Sun**: ☀️ **Excellent** - Western shore location provides best winter sunlight on the lake
 - **Notes**: Close enough for easy school commute; good restaurants and cafés; less crowded than Bellagio
 
 ### Como City
@@ -84,6 +99,7 @@ Within 15-20 minutes driving from Fino Mornasco (ISC location)
 - **Character**: Urban lakeside city with Roman history; blend of historic and modern
 - **Best For**: Those wanting more urban amenities while staying near the lake
 - **Real Estate**: Wide range from city apartments to hillside villas
+- **Winter Sun**: ☀️ **Moderate** - Southern tip location, sun exposure varies by neighborhood and elevation
 - **Notes**: Best connected location; most international; good for daily shopping and services
 
 ### Torno
@@ -101,7 +117,8 @@ Within 15-20 minutes driving from Fino Mornasco (ISC location)
 - **Character**: Tranquil, authentic Italian village; quieter than western shore
 - **Best For**: Peaceful lakeside living with dramatic scenery; away from tourist crowds
 - **Real Estate**: Traditional stone houses, smaller properties, some lakefront
-- **Notes**: More isolated/peaceful; fewer tourists; spectacular mountain-lake views
+- **Winter Sun**: ⚠️ **LIMITED** - Eastern shore with high mountains on south/west blocking significant winter light
+- **Notes**: More isolated/peaceful; fewer tourists; spectacular mountain-lake views; winter sun is a major drawback
 
 ### Moltrasio
 
@@ -117,6 +134,7 @@ Within 15-20 minutes driving from Fino Mornasco (ISC location)
 - **Character**: Serene retreat with elegant villas; less commercial than neighbors
 - **Best For**: Quiet lakeside elegance; villa living
 - **Real Estate**: Historic villas, upscale properties, limited availability
+- **Winter Sun**: ☀️ **Excellent** - Western shore with optimal winter sunlight exposure
 - **Notes**: Very picturesque; good for those seeking exclusivity and peace
 
 ### Laglio ⭐ MOST DRAMATIC
@@ -133,6 +151,7 @@ Within 15-20 minutes driving from Fino Mornasco (ISC location)
 - **Character**: Serene haven; dramatic natural setting; exclusive atmosphere
 - **Best For**: Those seeking dramatic mountain-to-lake scenery and exclusivity
 - **Real Estate**: Limited availability; high-end villas; premium prices
+- **Winter Sun**: ☀️ **Excellent** - Western shore provides good winter sun despite steep mountains behind
 - **Notes**: Stunning scenery; very steep mountain backdrop creates dramatic views
 
 ### Brienno ⭐ MOST AUTHENTIC
@@ -150,6 +169,7 @@ Within 15-20 minutes driving from Fino Mornasco (ISC location)
 - **Character**: Timeless medieval charm; ancient village atmosphere
 - **Best For**: Most authentic historic village experience; perfect for those seeking true Italian village life
 - **Real Estate**: Traditional stone houses; small properties; limited availability
+- **Winter Sun**: ☀️ **Excellent** - Western shore location ensures good winter sunlight
 - **Notes**: Least touristy; incredibly scenic; very small community; limited services
 
 ### Argegno
@@ -167,6 +187,7 @@ Within 15-20 minutes driving from Fino Mornasco (ISC location)
 - **Character**: Charming, unspoiled hamlet; authentic atmosphere
 - **Best For**: Village life with mountain access; less crowded alternative
 - **Real Estate**: Traditional houses; more affordable than Cernobbio/Laglio
+- **Winter Sun**: ☀️ **Excellent** - Western shore provides good winter sun; cable car to Pigra offers even more sunshine at altitude
 - **Notes**: Cable car is unique feature; good access to mountain hiking; quieter than southern lake towns
 
 ## Comparison Summary
@@ -177,6 +198,16 @@ Within 15-20 minutes driving from Fino Mornasco (ISC location)
 2. Cernobbio - Best balance of scenic beauty and convenience
 3. Moltrasio - Peaceful elegance
 4. Torno - Authentic lakeside village
+
+**Best Winter Sunlight** ☀️:
+
+1. Cernobbio - Western shore, excellent exposure
+2. Moltrasio - Western shore, excellent exposure
+3. Laglio - Western shore, excellent exposure
+4. Brienno - Western shore, excellent exposure
+5. Argegno - Western shore, plus high-altitude access
+6. Como City - Moderate (varies by location)
+7. Torno - ⚠️ LIMITED due to mountain shadows (eastern shore)
 
 **Most Dramatic Scenery**:
 
