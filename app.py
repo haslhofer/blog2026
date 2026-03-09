@@ -142,6 +142,8 @@ def city_calella():
 
 @app.route('/us-options')
 def us_options():
+    if not session.get('city_comparison_authenticated'):
+        return redirect(url_for('city_comparison_login'))
     return render_template('us-options.html')
 
 
