@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cernobbio, Lake Como - Lakeside Elegance & Villa d'Este</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="nav">
+        <a href="/cities-hub" class="nav-back">← Cities Hub</a>
+    </nav>
+
+    <main class="container">
+        <!-- Hero Section -->
+        <header class="hero">
+            <div style="width: 100%; max-width: 1200px; margin: 0 auto 2rem;">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/Cernobbio_-_Vista_su_Cernobbio_e_Lago_di_Como.jpg/1280px-Cernobbio_-_Vista_su_Cernobbio_e_Lago_di_Como.jpg"
+                     alt="Cernobbio and Lake Como"
+                     style="width: 100%; height: 400px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                <p style="text-align: center; font-size: 0.85rem; color: #666; margin-top: 0.5rem; font-family: 'Inter', sans-serif;">
+                    Cernobbio and Lake Como - Photo: Wikimedia Commons
+                </p>
+            </div>
+            <h1 class="hero-title">Cernobbio, Lake Como</h1>
+            <p class="hero-tagline">
+                Lakeside Elegance · Villa d'Este Gardens · Excellent Winter Sun · 10-15 Minutes to ISC
+            </p>
+        </header>
+
+        <!-- Overview Section -->
+        <section class="intro">
+            <p class="lead drop-cap">
+                Cernobbio represents Lake Como's finest balance of accessibility, elegance, and everyday
+                livability. Positioned on the lake's western shore just 8 kilometers from Como city, this
+                town of 7,000 delivers the prestige of Villa d'Este's Renaissance gardens alongside genuine
+                year-round community infrastructure. Unlike villages further north that trade convenience
+                for drama, Cernobbio offers both: a elegant lakefront promenade for evening walks, mountain
+                trails beginning steps from the center, and a 10-15 minute commute to International School
+                of Como. The western shore position ensures excellent winter sun—a critical advantage when
+                the eastern shore languishes in shadow from November through February. For families seeking
+                Como's beauty without isolation, Cernobbio stands as the top practical choice.
+            </p>
+        </section>
+
+        <!-- Quick Facts -->
+        <section class="section">
+            <h2 class="section-title">At a Glance</h2>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 2rem;">
+                <div style="background: #fafaf8; padding: 1.5rem; border-radius: 8px; border: 1px solid #e5e3dc;">
+                    <h3 style="font-family: 'Newsreader', serif; font-size: 1.1rem; margin: 0 0 0.75rem 0; color: #2c2721;">Location</h3>
+                    <p style="font-family: 'Inter', sans-serif; font-size: 0.95rem; color: #4a4540; margin: 0; line-height: 1.6;">
+                        Western shore of Lake Como<br>
+                        8km from Como city<br>
+                        Population: ~7,000<br>
+                        Elevation: 201m
+                    </p>
+                </div>
+
+                <div style="background: #fafaf8; padding: 1.5rem; border-radius: 8px; border: 1px solid #e5e3dc;">
+                    <h3 style="font-family: 'Newsreader', serif; font-size: 1.1rem; margin: 0 0 0.75rem 0; color: #2c2721;">Distance to ISC</h3>
+                    <p style="font-family: 'Inter', sans-serif; font-size: 0.95rem; color: #4a4540; margin: 0; line-height: 1.6;">
+                        <strong>10-15 minutes</strong> (8km)<br>
+                        Via SP342 lakeside road<br>
+                        Easy daily commute<br>
+                        Excellent for families
+                    </p>
+                </div>
+
+                <div style="background: #fafaf8; padding: 1.5rem; border-radius: 8px; border: 1px solid #e5e3dc;">
+                    <h3 style="font-family: 'Newsreader', serif; font-size: 1.1rem; margin: 0 0 0.75rem 0; color: #2c2721;">Winter Sun</h3>
+                    <p style="font-family: 'Inter', sans-serif; font-size: 0.95rem; color: #4a4540; margin: 0; line-height: 1.6;">
+                        ☀️ <strong>Excellent</strong><br>
+                        Western shore advantage<br>
+                        Sun until late afternoon<br>
+                        Far superior to eastern shore
+                    </p>
+                </div>
+
+                <div style="background: #fafaf8; padding: 1.5rem; border-radius: 8px; border: 1px solid #e5e3dc;">
+                    <h3 style="font-family: 'Newsreader', serif; font-size: 1.1rem; margin: 0 0 0.75rem 0; color: #2c2721;">Character</h3>
+                    <p style="font-family: 'Inter', sans-serif; font-size: 0.95rem; color: #4a4540; margin: 0; line-height: 1.6;">
+                        Elegant & refined<br>
+                        Year-round community<br>
+                        Villa d'Este prestige<br>
+                        Strong infrastructure
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Villa d'Este -->
+        <section class="section">
+            <h2 class="section-title">Villa d'Este: The Jewel of Cernobbio</h2>
+
+            <p class="body-text">
+                Villa d'Este anchors Cernobbio's identity as Lake Como's most refined village. Originally
+                built in 1568 as the summer residence of Cardinal Tolomeo Gallio, this Renaissance palace
+                transformed into a luxury hotel in 1873 and has maintained its position as one of Europe's
+                finest properties ever since. But Villa d'Este's significance extends beyond its hotel guests:
+                the property's 25-acre lakefront gardens, sculpted grottos, and cascading fountains define
+                the aesthetic standards for the entire village.
+            </p>
+
+            <div style="width: 100%; max-width: 1200px; margin: 2rem auto;">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Villa_d%27Este_Cernobbio_-_entrance.jpg/1280px-Villa_d%27Este_Cernobbio_-_entrance.jpg"
+                     alt="Villa d'Este entrance"
+                     style="width: 100%; height: 350px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                <p style="text-align: center; font-size: 0.85rem; color: #666; margin-top: 0.5rem; font-family: 'Inter', sans-serif;">
+                    Villa d'Este entrance - Photo: Wikimedia Commons
+                </p>
+            </div>
+
+            <p class="body-text">
+                The hotel's floating pool on the lake—installed in 1959—remains an iconic image of mid-century
+                glamour. The gardens feature massive plane trees, Italian-style parterres, and a monumental
+                Nymphaeum mosaic grotto dating to the 16th century. While the hotel itself caters to luxury
+                travelers (rooms from €800/night in season), the Villa d'Este presence elevates the entire
+                village: restaurants maintain higher standards, property maintenance follows stricter codes,
+                and the lakefront promenade benefits from the hotel's commitment to preserving historic character.
+            </p>
+
+            <p class="body-text">
+                Living in Cernobbio means inhabiting Villa d'Este's architectural shadow—in the best possible
+                way. The village adopts the same palette of ochre facades, terracotta roofs, and manicured
+                gardens. Even modest properties maintain standards worthy of their prestigious neighbor. This
+                isn't a place for modernist experimentation or bohemian charm; Cernobbio commits fully to
+                Italian lakeside elegance executed at the highest level.
+            </p>
+        </section>
+
+        <!-- Lifestyle & Infrastructure -->
+        <section class="section">
+            <h2 class="section-title">Life in Cernobbio</h2>
+
+            <p class="body-text">
+                Cernobbio functions as a genuine year-round community rather than a seasonal resort. The
+                population of 7,000 supports proper infrastructure: multiple supermarkets, pharmacies,
+                doctors, restaurants that operate through winter, and schools serving local families. The
+                lakefront promenade stretches nearly two kilometers, offering flat, paved walking from
+                Villa d'Este southward toward Como—ideal for evening strolls with children or morning runs
+                along the water.
+            </p>
+
+            <p class="body-text">
+                The village center clusters around Piazza Risorgimento, where cafes spill onto cobblestones
+                and a weekly market (Saturdays) delivers fresh produce, regional cheeses, and the kind of
+                social mixing that defines Italian small-town life. Via Regina—the historic road that
+                connected Milan to the Alpine passes—runs through the center, lined with shops, restaurants,
+                and services. Unlike more remote Como villages that require driving for every errand,
+                Cernobbio supports walkable daily life.
+            </p>
+
+            <p class="body-text">
+                Mountain access begins immediately: trails climb from the village edge into the slopes of
+                Monte Bisbino, offering everything from gentle forest walks to serious alpine hiking. The
+                <strong>Sentiero della Croce</strong> delivers a 1-hour climb to panoramic views over the
+                entire southwestern arm of Lake Como. In winter, Cernobbio's western shore position ensures
+                sun until mid-afternoon—a dramatic advantage over Bellagio or Varenna, which lose direct
+                light by 2 PM during the shortest days.
+            </p>
+
+            <div style="background: #f0ebe1; padding: 1.5rem; border-radius: 8px; margin-top: 2rem; border-left: 4px solid #8B6F47;">
+                <p style="font-family: 'Newsreader', serif; font-size: 1.05rem; color: #2c2721; margin: 0; line-height: 1.7;">
+                    <strong>Best For:</strong> Families prioritizing easy school commutes, year-round
+                    infrastructure, and elegant lakeside living. Cernobbio delivers Como prestige with
+                    practical daily convenience—the rare combination of beauty and livability that makes
+                    permanent relocation sustainable rather than romantic fantasy.
+                </p>
+            </div>
+        </section>
+
+        <!-- Commute & Connectivity -->
+        <section class="section">
+            <h2 class="section-title">The School Commute Advantage</h2>
+
+            <p class="body-text">
+                Cernobbio's position 8 kilometers from International School of Como creates an ideal commute:
+                10-15 minutes via the lakeside SP342 road, short enough for daily drop-offs without feeling
+                burdensome, long enough to maintain village tranquility rather than school-town bustle. The
+                route follows the western shore through Tavernola, offering lake views and minimal traffic
+                outside peak tourist season.
+            </p>
+
+            <p class="body-text">
+                This commute distance matters more than most families initially realize. Villages 20-30
+                minutes from ISC feel manageable on paper but become exhausting over full academic years—
+                especially when factoring after-school activities, sports practices, and social events.
+                Cernobbio's proximity allows children to participate fully in school life without parents
+                spending hours daily in transit. The village is close enough for spontaneous playdates yet
+                far enough to maintain separation between school community and home life.
+            </p>
+
+            <p class="body-text">
+                Beyond school access, Cernobbio offers strong connectivity: Como city (5 minutes) provides
+                major shopping, healthcare, and cultural amenities. Milan sits 50 minutes south via A9
+                autostrada. Malpensa Airport reaches in 45 minutes. The Swiss border and Lugano lie 20
+                minutes north. This positioning makes Cernobbio functional for families maintaining business
+                ties to Milan or Switzerland while prioritizing lake life.
+            </p>
+        </section>
+
+        <!-- Real Estate -->
+        <section class="section">
+            <h2 class="section-title">Luxury Real Estate: €2M-€5M Range</h2>
+
+            <p class="body-text">
+                Cernobbio's luxury market centers on lakefront villas, historic properties with gardens, and
+                modern renovations that maintain period facades. The €2-5 million range delivers exceptional
+                properties: direct lake access, private docks, period details including frescoed ceilings and
+                original terrazzo floors, and the kind of mature gardens that take decades to establish. Prime
+                locations include the immediate Villa d'Este neighborhood, properties with southern exposure
+                for maximum light, and hillside villas combining lake views with mountain access.
+            </p>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; margin-top: 2rem;">
+                <!-- Property 1 -->
+                <div style="background: #fff; border: 1px solid #e5e3dc; border-radius: 8px; overflow: hidden;">
+                    <div style="background: #4A7BA7; color: white; padding: 1rem;">
+                        <h3 style="margin: 0; font-family: 'Newsreader', serif; font-size: 1.1rem;">Lakefront Villa with Private Dock</h3>
+                    </div>
+                    <div style="padding: 1.5rem;">
+                        <p style="font-family: 'Inter', sans-serif; font-size: 0.95rem; color: #4a4540; margin: 0 0 1rem 0; line-height: 1.6;">
+                            <strong>€4,200,000</strong>
+                        </p>
+                        <p style="font-family: 'Inter', sans-serif; font-size: 0.9rem; color: #4a4540; margin: 0 0 0.5rem 0; line-height: 1.6;">
+                            <strong>420m²</strong> · 5 bedrooms · 4 bathrooms
+                        </p>
+                        <p style="font-family: 'Inter', sans-serif; font-size: 0.9rem; color: #4a4540; margin: 0 0 1rem 0; line-height: 1.6;">
+                            Prestigious period villa on lake shore with 30 meters of frontage, private dock and boat
+                            house. Fully restored maintaining original architectural features including frescoed ceilings
+                            and Venetian terrazzo. Mature Mediterranean garden with centuries-old olive trees. Direct
+                            access to promenade. 12 minutes to ISC.
+                        </p>
+                        <p style="font-family: 'Inter', sans-serif; font-size: 0.85rem; color: #666; margin: 0;">
+                            Source: Engel & Völkers Lake Como
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Property 2 -->
+                <div style="background: #fff; border: 1px solid #e5e3dc; border-radius: 8px; overflow: hidden;">
+                    <div style="background: #4A7BA7; color: white; padding: 1rem;">
+                        <h3 style="margin: 0; font-family: 'Newsreader', serif; font-size: 1.1rem;">Villa d'Este Neighborhood Historic Villa</h3>
+                    </div>
+                    <div style="padding: 1.5rem;">
+                        <p style="font-family: 'Inter', sans-serif; font-size: 0.95rem; color: #4a4540; margin: 0 0 1rem 0; line-height: 1.6;">
+                            <strong>€3,500,000</strong>
+                        </p>
+                        <p style="font-family: 'Inter', sans-serif; font-size: 0.9rem; color: #4a4540; margin: 0 0 0.5rem 0; line-height: 1.6;">
+                            <strong>380m²</strong> · 6 bedrooms · 5 bathrooms
+                        </p>
+                        <p style="font-family: 'Inter', sans-serif; font-size: 0.9rem; color: #4a4540; margin: 0 0 1rem 0; line-height: 1.6;">
+                            Elegant 18th-century villa in exclusive residential area near Villa d'Este. Recently
+                            renovated with contemporary comforts while preserving period architecture. 1,200m² landscaped
+                            garden with lake views, infinity pool, outdoor kitchen. Walking distance to lakefront
+                            promenade. Exceptional family home combining history and modern livability.
+                        </p>
+                        <p style="font-family: 'Inter', sans-serif; font-size: 0.85rem; color: #666; margin: 0;">
+                            Source: Sotheby's International Realty Italy
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Property 3 -->
+                <div style="background: #fff; border: 1px solid #e5e3dc; border-radius: 8px; overflow: hidden;">
+                    <div style="background: #4A7BA7; color: white; padding: 1rem;">
+                        <h3 style="margin: 0; font-family: 'Newsreader', serif; font-size: 1.1rem;">Modern Hillside Villa with Panoramic Views</h3>
+                    </div>
+                    <div style="padding: 1.5rem;">
+                        <p style="font-family: 'Inter', sans-serif; font-size: 0.95rem; color: #4a4540; margin: 0 0 1rem 0; line-height: 1.6;">
+                            <strong>€2,800,000</strong>
+                        </p>
+                        <p style="font-family: 'Inter', sans-serif; font-size: 0.9rem; color: #4a4540; margin: 0 0 0.5rem 0; line-height: 1.6;">
+                            <strong>350m²</strong> · 4 bedrooms · 4 bathrooms
+                        </p>
+                        <p style="font-family: 'Inter', sans-serif; font-size: 0.9rem; color: #4a4540; margin: 0 0 1rem 0; line-height: 1.6;">
+                            Contemporary villa on elevated plot with spectacular 180-degree lake and mountain views.
+                            Floor-to-ceiling windows, open-plan living, terraced gardens on 800m² plot. Heated infinity
+                            pool, wine cellar, home automation. Direct trail access to Monte Bisbino. Perfect western
+                            exposure for winter sun. 10 minutes to ISC.
+                        </p>
+                        <p style="font-family: 'Inter', sans-serif; font-size: 0.85rem; color: #666; margin: 0;">
+                            Source: Knight Frank Lago di Como
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <p class="body-text" style="margin-top: 2rem;">
+                Cernobbio's proximity to Como city and ISC maintains strong demand from international families
+                and Milan-based professionals seeking weekend retreats. Properties within 15 minutes of the
+                international school command premium prices. The combination of Villa d'Este prestige, western
+                shore sun exposure, and practical infrastructure makes Cernobbio one of Lake Como's most
+                competitive luxury markets.
+            </p>
+        </section>
+
+        <!-- The Verdict -->
+        <section class="section">
+            <h2 class="section-title">The Cernobbio Proposition</h2>
+
+            <p class="body-text">
+                Cernobbio succeeds by prioritizing livability alongside beauty. This is not the most dramatic
+                village on Lake Como—Varenna delivers more medieval charm, Bellagio more tourist fame, Laglio
+                more mountain-to-lake intensity. But Cernobbio offers the best combination of practical
+                advantages: the easiest school commute, the strongest year-round infrastructure, excellent
+                winter sun, and genuine community beyond seasonal tourism.
+            </p>
+
+            <p class="body-text">
+                The Villa d'Este presence establishes aesthetic standards that permeate the entire village.
+                Properties maintain higher quality, restaurants operate year-round, and the lakefront promenade
+                delivers the kind of refined elegance that makes evening walks genuinely enjoyable rather than
+                merely picturesque. The 8-kilometer distance from ISC transforms daily school runs from exhausting
+                burden into manageable routine—critical for families planning permanent rather than temporary
+                relocation.
+            </p>
+
+            <p class="body-text">
+                For families seeking Lake Como life with minimal compromise, Cernobbio stands as the top
+                practical choice. It delivers enough beauty to justify the move, enough infrastructure to
+                sustain daily life, and enough proximity to schools and services to make permanent residence
+                genuinely functional rather than romantic fantasy requiring constant logistical struggle.
+            </p>
+        </section>
+
+        <!-- Navigation -->
+        <nav style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #e5e3dc;">
+            <a href="/cities-hub" style="display: inline-block; font-family: 'Inter', sans-serif; font-size: 0.95rem; color: #4A7BA7; text-decoration: none; font-weight: 500;">
+                ← Back to Cities Hub
+            </a>
+        </nav>
+    </main>
+</body>
+</html>

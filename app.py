@@ -70,5 +70,88 @@ def city_comparison_logout():
     return redirect(url_for('index'))
 
 
+@app.route('/cities-hub')
+def cities_hub():
+    return render_template('cities-hub.html')
+
+
+@app.route('/city-javea')
+def city_javea():
+    return render_template('city-javea.html')
+
+
+@app.route('/city-como')
+def city_como():
+    return render_template('city-como.html')
+
+
+@app.route('/city-cernobbio')
+def city_cernobbio():
+    return render_template('city-cernobbio.html')
+
+
+@app.route('/city-laglio')
+def city_laglio():
+    return render_template('city-laglio.html')
+
+
+@app.route('/city-altea')
+def city_altea():
+    return render_template('city-altea.html')
+
+
+@app.route('/city-calpe')
+def city_calpe():
+    return render_template('city-calpe.html')
+
+
+@app.route('/city-torno')
+def city_torno():
+    return render_template('city-torno.html')
+
+
+@app.route('/city-moltrasio')
+def city_moltrasio():
+    return render_template('city-moltrasio.html')
+
+
+@app.route('/city-brienno')
+def city_brienno():
+    return render_template('city-brienno.html')
+
+
+@app.route('/city-argegno')
+def city_argegno():
+    return render_template('city-argegno.html')
+
+
+@app.route('/city-canet-de-mar')
+def city_canet_de_mar():
+    return render_template('city-canet-de-mar.html')
+
+
+@app.route('/city-platja-daro')
+def city_platja_daro():
+    return render_template('city-platja-daro.html')
+
+
+@app.route('/city-calella')
+def city_calella():
+    return render_template('city-calella.html')
+
+
+@app.route('/us-options')
+def us_options():
+    return render_template('us-options.html')
+
+
+@app.route('/cities-comparison-all')
+def cities_comparison_all():
+    # Check if user is authenticated
+    if not session.get('city_comparison_authenticated'):
+        return redirect(url_for('city_comparison_login'))
+    return render_template('cities-comparison-all.html')
+
+
 if __name__ == '__main__':
     app.run(debug=True)

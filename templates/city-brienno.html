@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brienno, Italy - Lake Como Village Guide</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
+    <style>
+        .hero-image {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: var(--radius-md);
+            margin: var(--spacing-xl) 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .city-meta {
+            display: flex;
+            gap: var(--spacing-md);
+            justify-content: center;
+            flex-wrap: wrap;
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            color: var(--ink-muted);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .city-meta span {
+            padding: var(--spacing-xs) var(--spacing-md);
+            background: var(--paper-dark);
+            border-radius: var(--radius-sm);
+        }
+
+        .highlight-box {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-sm);
+            margin: var(--spacing-xl) 0;
+        }
+
+        .highlight-box h3 {
+            font-family: var(--font-sans);
+            font-size: 1rem;
+            font-weight: 600;
+            color: #2e7d32;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .highlight-box p {
+            font-family: var(--font-serif);
+            font-size: 0.95rem;
+            color: #1b5e20;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .special-badge {
+            background: linear-gradient(135deg, #8B6F47 0%, #6d5638 100%);
+            color: white;
+            padding: var(--spacing-lg) var(--spacing-xl);
+            border-radius: var(--radius-sm);
+            margin: var(--spacing-xl) 0;
+            text-align: center;
+        }
+
+        .special-badge h3 {
+            font-family: var(--font-serif);
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin: 0 0 var(--spacing-sm) 0;
+        }
+
+        .special-badge p {
+            font-family: var(--font-sans);
+            font-size: 0.95rem;
+            margin: 0;
+            opacity: 0.95;
+        }
+
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--spacing-lg);
+            margin-bottom: var(--section-gap);
+        }
+
+        .overview-card {
+            background: white;
+            border-radius: var(--radius-sm);
+            padding: var(--spacing-lg);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+        }
+
+        .overview-card h3 {
+            font-family: var(--font-sans);
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--orbital);
+            margin-bottom: var(--spacing-md);
+            padding-bottom: var(--spacing-sm);
+            border-bottom: 1px solid var(--rule-light);
+        }
+
+        .overview-card p {
+            font-family: var(--font-serif);
+            font-size: 0.95rem;
+            color: var(--ink-muted);
+            line-height: 1.7;
+        }
+
+        .features-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .features-list li {
+            position: relative;
+            padding-left: var(--spacing-lg);
+            margin-bottom: var(--spacing-sm);
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            color: var(--ink-muted);
+            line-height: 1.6;
+        }
+
+        .features-list li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--orbital);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .property-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: var(--spacing-xl);
+            margin-top: var(--spacing-lg);
+        }
+
+        .property-card {
+            background: white;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .property-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
+
+        .property-image {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+        }
+
+        .property-content {
+            padding: var(--spacing-lg);
+        }
+
+        .property-price {
+            font-family: var(--font-mono);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--orbital);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .property-location {
+            font-family: var(--font-sans);
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--ink);
+            margin-bottom: var(--spacing-md);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .property-description {
+            font-family: var(--font-serif);
+            font-size: 0.9rem;
+            color: var(--ink-muted);
+            line-height: 1.6;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .property-link {
+            display: inline-block;
+            font-family: var(--font-sans);
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--orbital);
+            text-decoration: none;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border: 1px solid var(--orbital);
+            border-radius: var(--radius-sm);
+            transition: all 0.2s ease;
+        }
+
+        .property-link:hover {
+            background: var(--orbital);
+            color: white;
+        }
+
+        .school-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+        }
+
+        .school-table th {
+            font-family: var(--font-sans);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--ink);
+            background: var(--paper-dark);
+            padding: var(--spacing-md);
+            text-align: left;
+            border-bottom: 2px solid var(--rule);
+        }
+
+        .school-table td {
+            font-family: var(--font-serif);
+            font-size: 0.9rem;
+            color: var(--ink-muted);
+            padding: var(--spacing-md);
+            border-bottom: 1px solid var(--rule-light);
+        }
+
+        .school-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .school-table .school-name {
+            font-weight: 600;
+            color: var(--ink);
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <a href="/cities-hub" class="nav-back">← Back to Cities</a>
+    </nav>
+
+    <main class="container">
+        <!-- Hero Section -->
+        <header class="hero">
+            <h1 class="hero-title">Brienno, Italy</h1>
+            <div class="city-meta">
+                <span>Western Lake Como Shore</span>
+                <span>Population: ~400</span>
+                <span>25-30 min to ISC</span>
+            </div>
+            <p class="hero-tagline">
+                Lake Como's most authentic medieval village with ancient stone architecture
+            </p>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Brienno_Lake_Como.jpg/1280px-Brienno_Lake_Como.jpg"
+                 alt="Medieval village of Brienno on Lake Como"
+                 class="hero-image">
+        </header>
+
+        <!-- Special Character Badge -->
+        <div class="special-badge">
+            <h3>Most Authentic Medieval Village</h3>
+            <p>Brienno is Lake Como's smallest and most authentically preserved medieval community, with just 400 residents and architecture dating to the 11th century</p>
+        </div>
+
+        <!-- Winter Sun Highlight -->
+        <div class="highlight-box">
+            <h3>Excellent Winter Sun</h3>
+            <p>
+                Brienno's western shore position provides <strong>excellent winter sun exposure</strong> throughout the day. The village's hillside setting and south-facing orientation maximize natural light during winter months, ideal for year-round outdoor living.
+            </p>
+        </div>
+
+        <!-- Overview Section -->
+        <section class="section">
+            <h2 class="section-title">Overview</h2>
+            <div class="overview-grid">
+                <div class="overview-card">
+                    <h3>Character</h3>
+                    <p>Brienno is Lake Como's smallest village with approximately 400 residents, preserving the most authentic medieval character on the lake. Ancient stone houses cascade down narrow lanes to the waterfront, creating an atmosphere unchanged for centuries. This is genuine historical living, not a tourist reconstruction.</p>
+                </div>
+                <div class="overview-card">
+                    <h3>Location & Access</h3>
+                    <p>Located 17km north of Como along the western lakeshore road, Brienno sits between Laglio and Argegno. The drive to International School of Como takes 25-30 minutes via the scenic lakeside route. Ferry services connect to Como and other lake destinations.</p>
+                </div>
+                <div class="overview-card">
+                    <h3>Lifestyle</h3>
+                    <p>The most intimate village community on Lake Como. Daily life centers around the small piazza, historic church, and waterfront. Minimal commercial development preserves authentic character—this is for families seeking genuine Italian village integration rather than resort convenience.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- International Schools Section -->
+        <section class="section">
+            <h2 class="section-title">International School Access</h2>
+            <table class="school-table">
+                <thead>
+                    <tr>
+                        <th>School</th>
+                        <th>Distance from Brienno</th>
+                        <th>Drive Time</th>
+                        <th>Annual Tuition</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="school-name">International School of Como (ISC)</td>
+                        <td>17km via lakeshore road</td>
+                        <td>25-30 minutes</td>
+                        <td>€13,410 - €24,050</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p class="note" style="margin-top: var(--spacing-lg);">
+                <strong>Note:</strong> The commute from Brienno to ISC is the longest among western shore villages but remains manageable at 25-30 minutes. The scenic lakeside drive passes through Laglio, Moltrasio, and Cernobbio. Families choosing Brienno prioritize authentic medieval character and village intimacy over proximity convenience.
+            </p>
+        </section>
+
+        <!-- Historic Features Section -->
+        <section class="section">
+            <h2 class="section-title">Medieval Heritage & Attractions</h2>
+            <div class="prose">
+                <h3>11th-Century Church of Saints Nazaro and Celso</h3>
+                <p>
+                    The Romanesque church dominates Brienno's waterfront, with origins dating to the 11th century. The church features ancient frescoes, stone architecture, and a bell tower that has marked village time for nearly a millennium. The piazza surrounding the church serves as the community's heart, hosting traditional celebrations that maintain centuries-old customs.
+                </p>
+
+                <h3>Medieval Stone Architecture</h3>
+                <p>
+                    Brienno's ancient stone houses represent the most authentically preserved medieval architecture on Lake Como. Narrow cobblestone lanes wind between buildings dating to the Middle Ages, with stone arches, covered passages, and exterior staircases unchanged for centuries. Unlike other villages that have modernized, Brienno maintains its historical integrity as a living medieval community.
+                </p>
+
+                <h3>WWI Cadorna Line Tunnels</h3>
+                <p>
+                    Above Brienno, WWI defensive tunnels carved into the mountainside remain accessible for exploration. The Cadorna Line fortifications were built during World War I to defend Italy's northern border. Hiking trails lead through these historic tunnels, offering both military history and spectacular elevated views of Lake Como below.
+                </p>
+
+                <h3>Village Features</h3>
+                <ul class="features-list">
+                    <li><strong>Authentic Medieval Lanes</strong> - Narrow cobblestone streets preserving original architecture</li>
+                    <li><strong>Stone Arch Passages</strong> - Covered walkways typical of medieval Italian villages</li>
+                    <li><strong>Waterfront Piazza</strong> - Small lakeside square centered around historic church</li>
+                    <li><strong>Mountain Hiking</strong> - Trails ascending through WWI tunnels to panoramic viewpoints</li>
+                    <li><strong>Ferry Landing</strong> - Traditional boat access connecting to lake destinations</li>
+                    <li><strong>Local Trattoria</strong> - Single family-run restaurant serving regional cuisine</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Lifestyle Section -->
+        <section class="section">
+            <h2 class="section-title">Living in Brienno</h2>
+            <div class="prose">
+                <p>
+                    Brienno offers the most intimate and authentic village experience on Lake Como. With only 400 residents, this is a genuine community where neighbors know each other and traditional Italian village life continues largely unchanged. The medieval architecture creates an atmosphere of stepping back in time—narrow lanes, stone arches, and ancient buildings form the daily backdrop to life here.
+                </p>
+                <p>
+                    The village provides minimal commercial infrastructure: one small alimentari (grocery), a single family-run trattoria, and the historic church. Families living in Brienno will drive to Argegno, Cernobbio, or Como for comprehensive shopping, healthcare, and services. This limitation is precisely what preserves Brienno's authentic character—this is village living for those who prioritize historical atmosphere over convenience.
+                </p>
+                <p>
+                    Real estate in Brienno emphasizes ancient stone houses with medieval character. Properties here require either careful renovation to preserve historical details or acceptance of traditional Italian construction. The market attracts buyers seeking genuine historical living rather than modern luxury amenities. Prices reflect both the authentic medieval architecture and the longer commute to ISC, positioning Brienno as a unique choice for history-minded families.
+                </p>
+                <p>
+                    The <strong>excellent winter sun exposure</strong> makes Brienno particularly appealing despite its northern position. The western shore location and hillside setting ensure good natural light year-round. Combined with the smallest population and most authentic medieval character, Brienno represents a specific lifestyle choice: families willing to embrace genuine Italian village integration in exchange for Lake Como's most historically preserved community.
+                </p>
+            </div>
+        </section>
+
+        <!-- Real Estate Section -->
+        <section class="section">
+            <h2 class="section-title">Real Estate Listings</h2>
+            <p class="body-text">
+                Brienno's real estate market features medieval stone houses, historic renovation opportunities, and properties emphasizing authentic character over modern luxury. Limited inventory reflects the village's tiny size and preservation of historical architecture.
+            </p>
+            <div class="property-grid">
+                <div class="property-card">
+                    <img src="https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?w=800&q=80"
+                         alt="Medieval stone house on Lake Como"
+                         class="property-image">
+                    <div class="property-content">
+                        <div class="property-price">€2.4M</div>
+                        <div class="property-location">Brienno Historic Center</div>
+                        <p class="property-description">
+                            Authentic medieval stone house of 180 sqm in the heart of the village. Original 14th-century architecture with stone arches, exposed beams, and lake views. 3 bedrooms, 2 bathrooms, terraced courtyard. Rare opportunity for historical living in Lake Como's most preserved village.
+                        </p>
+                        <a href="https://www.luxuryestate.com/italy/lombardy/provincia-di-como"
+                           target="_blank"
+                           class="property-link">View Lake Como Listings →</a>
+                    </div>
+                </div>
+
+                <div class="property-card">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80"
+                         alt="Renovated Italian village house"
+                         class="property-image">
+                    <div class="property-content">
+                        <div class="property-price">€3.2M</div>
+                        <div class="property-location">Brienno Waterfront</div>
+                        <p class="property-description">
+                            Beautifully restored waterfront house of 240 sqm with direct lake access and private dock. Medieval stone architecture with modern systems and luxury finishes. 4 bedrooms, 3 bathrooms, rooftop terrace. Exceptional blend of historical character and contemporary comfort.
+                        </p>
+                        <a href="https://www.italy-sothebysrealty.com/en/destinations/north/lakes/lake-como.html"
+                           target="_blank"
+                           class="property-link">View Sotheby's Listings →</a>
+                    </div>
+                </div>
+
+                <div class="property-card">
+                    <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=80"
+                         alt="Stone cottage with lake view"
+                         class="property-image">
+                    <div class="property-content">
+                        <div class="property-price">€1.8M - €2.6M</div>
+                        <div class="property-location">Brienno Hillside</div>
+                        <p class="property-description">
+                            Traditional stone houses on hillside above village with commanding lake views and excellent sun exposure. 150-220 sqm, 2-3 bedrooms, renovation opportunities to preserve medieval character. Access to Cadorna Line hiking trails and panoramic mountain views.
+                        </p>
+                        <a href="https://www.jamesedition.com/real_estate/lake-como-italy"
+                           target="_blank"
+                           class="property-link">View JamesEdition Listings →</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="note" style="margin-top: var(--spacing-xl);">
+                <strong>Brienno Market Character:</strong> Real estate in Brienno emphasizes authentic medieval architecture and historical preservation. With only 400 residents and limited development, properties here offer unique character unavailable elsewhere on Lake Como. Prices reflect both the genuine historical value and the practical considerations of village living (limited services, longer commute). Buyers choosing Brienno prioritize authenticity and historical atmosphere over modern convenience and proximity, making it Lake Como's most distinctive village real estate market.
+                <br><br>
+                Sources: <a href="https://www.jamesedition.com/real_estate/lake-como-italy" target="_blank">JamesEdition</a>,
+                <a href="https://www.luxuryestate.com/italy/lombardy/provincia-di-como" target="_blank">LuxuryEstate.com</a>,
+                <a href="https://www.italy-sothebysrealty.com/en/destinations/north/lakes/lake-como.html" target="_blank">Italy Sotheby's International Realty</a>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <a href="/cities-hub" class="footer-link">← Back to Cities Hub</a>
+            <p class="footer-text" style="margin-top: var(--spacing-md);">
+                City guide created 2026. Data compiled from Wikimedia Commons, international school websites,
+                luxury real estate portals, and local tourism resources
+            </p>
+        </footer>
+    </main>
+</body>
+</html>

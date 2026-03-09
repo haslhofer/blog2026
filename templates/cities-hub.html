@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>European City Comparison: 13 Mediterranean Towns</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <style>
+        #map {
+            height: 500px;
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .leaflet-popup-content-wrapper {
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+        }
+        .leaflet-popup-content h3 {
+            font-family: 'Newsreader', serif;
+            margin: 0 0 0.5rem 0;
+            font-size: 1.1rem;
+            color: #2c2721;
+        }
+        .leaflet-popup-content p {
+            margin: 0.25rem 0;
+            font-size: 0.9rem;
+            color: #4a4540;
+        }
+
+        /* City cards grid */
+        .city-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .city-card {
+            background: #fff;
+            border: 1px solid #e5e3dc;
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .city-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+
+        .city-card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .city-flag {
+            font-size: 2rem;
+            line-height: 1;
+        }
+
+        .city-card-title {
+            font-family: 'Newsreader', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #2c2721;
+            margin: 0;
+        }
+
+        .city-region {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
+            color: #8a8a8a;
+            margin-bottom: 0.5rem;
+        }
+
+        .city-population {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            color: #4a4540;
+            margin-bottom: 0.75rem;
+        }
+
+        .city-school {
+            background: #fafaf8;
+            border-left: 3px solid #4A7BA7;
+            padding: 0.75rem;
+            margin: 1rem 0;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+        }
+
+        .city-school-name {
+            font-weight: 600;
+            color: #2c2721;
+            margin-bottom: 0.25rem;
+        }
+
+        .city-school-cost {
+            color: #666;
+            font-size: 0.8rem;
+        }
+
+        .city-description {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            color: #4a4540;
+            line-height: 1.6;
+            margin-bottom: 1.25rem;
+        }
+
+        .city-link {
+            font-family: 'Inter', sans-serif;
+            color: #4A7BA7;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            transition: color 0.15s ease;
+        }
+
+        .city-link:hover {
+            color: #2d5a87;
+        }
+
+        .city-link::after {
+            content: '→';
+        }
+
+        .quick-links {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin: 3rem 0;
+            flex-wrap: wrap;
+        }
+
+        .quick-link-btn {
+            font-family: 'Inter', sans-serif;
+            padding: 0.75rem 1.5rem;
+            background: #4A7BA7;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            font-size: 0.95rem;
+        }
+
+        .quick-link-btn:hover {
+            background: #2d5a87;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(74, 123, 167, 0.3);
+        }
+
+        .quick-link-btn.secondary {
+            background: #8B6F47;
+        }
+
+        .quick-link-btn.secondary:hover {
+            background: #6d5535;
+        }
+
+        .region-section {
+            margin-top: 4rem;
+        }
+
+        .region-title {
+            font-family: 'Newsreader', serif;
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: #2c2721;
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e5e3dc;
+        }
+
+        .region-subtitle {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <a href="/" class="nav-back">← Home</a>
+    </nav>
+
+    <main class="container">
+        <!-- Header Section -->
+        <header class="hero">
+            <h1 class="hero-title">European City Comparison</h1>
+            <p class="hero-tagline">
+                13 Towns Across Mediterranean Europe · 2026
+            </p>
+        </header>
+
+        <!-- Introduction Section -->
+        <section class="intro">
+            <p class="lead drop-cap">
+                Exploring the Mediterranean dream means choosing between Italy's elegant lake towns,
+                Spain's sun-soaked costas, and finding the perfect balance of international schools,
+                lifestyle, and affordability. These thirteen carefully selected towns span three distinct
+                regions—Lake Como's alpine elegance, Costa Brava's artistic beaches, and Costa Blanca's
+                year-round sunshine—each offering unique advantages for families seeking European relocation.
+            </p>
+        </section>
+
+        <!-- Quick Links -->
+        <div class="quick-links">
+            <a href="/city-comparison-styled" class="quick-link-btn">Compare All Cities</a>
+            <a href="#real-estate" class="quick-link-btn secondary">Real Estate Listings</a>
+        </div>
+
+        <!-- Map Section -->
+        <section class="section" style="margin-top: 3rem;">
+            <h2 class="section-title">Interactive Map: 13 Mediterranean Towns</h2>
+
+            <div style="max-width: 1000px; margin: 2rem auto; background: #fafaf8; padding: 2rem; border-radius: 12px; border: 1px solid #e5e3dc;">
+                <div id="map"></div>
+
+                <div style="margin-top: 1.5rem; padding: 1rem; background: #fff; border-radius: 8px; border: 1px solid #e5e3dc;">
+                    <div style="display: flex; gap: 2rem; flex-wrap: wrap; justify-content: center; align-items: center;">
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <span style="display: inline-block; width: 12px; height: 12px; background: #4A7BA7; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 0 0 1px #4A7BA7;"></span>
+                            <span style="font-family: 'Inter', sans-serif; font-size: 0.9rem; color: #4a4540;">Lake Como, Italy (7 towns)</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <span style="display: inline-block; width: 12px; height: 12px; background: #8B6F47; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 0 0 1px #8B6F47;"></span>
+                            <span style="font-family: 'Inter', sans-serif; font-size: 0.9rem; color: #4a4540;">Costa Brava, Spain (3 towns)</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <span style="display: inline-block; width: 12px; height: 12px; background: #cd853f; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 0 0 1px #cd853f;"></span>
+                            <span style="font-family: 'Inter', sans-serif; font-size: 0.9rem; color: #4a4540;">Costa Blanca, Spain (3 towns)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Italy - Lake Como Region -->
+        <section class="region-section">
+            <h2 class="region-title">🇮🇹 Lake Como Region, Italy</h2>
+            <p class="region-subtitle">7 towns around Italy's most elegant alpine lake, featuring green landscapes and proximity to skiing</p>
+
+            <div class="city-cards">
+                <!-- Como -->
+                <div class="city-card">
+                    <div class="city-card-header">
+                        <span class="city-flag">🇮🇹</span>
+                        <h3 class="city-card-title">Como</h3>
+                    </div>
+                    <div class="city-region">Lake Como • Lombardy</div>
+                    <div class="city-population">Population: 85,000</div>
+                    <div class="city-school">
+                        <div class="city-school-name">International School of Como</div>
+                        <div class="city-school-cost">€13,410 - €24,050 per year</div>
+                    </div>
+                    <p class="city-description">
+                        The main city on Lake Como, offering urban amenities with alpine elegance, excellent schools,
+                        and easy access to Milan while maintaining lakeside charm.
+                    </p>
+                    <a href="/city/como" class="city-link">View Details</a>
+                </div>
+
+                <!-- Cernobbio -->
+                <div class="city-card">
+                    <div class="city-card-header">
+                        <span class="city-flag">🇮🇹</span>
+                        <h3 class="city-card-title">Cernobbio</h3>
+                    </div>
+                    <div class="city-region">Lake Como • Lombardy</div>
+                    <div class="city-population">Population: 7,000</div>
+                    <div class="city-school">
+                        <div class="city-school-name">10-15 min to International School of Como</div>
+                    </div>
+                    <p class="city-description">
+                        Elegant lakeside town just north of Como, home to Villa d'Este luxury hotel and offering
+                        sophisticated small-town living with easy school access.
+                    </p>
+                    <a href="/city/cernobbio" class="city-link">View Details</a>
+                </div>
+
+                <!-- Torno -->
+                <div class="city-card">
+                    <div class="city-card-header">
+                        <span class="city-flag">🇮🇹</span>
+                        <h3 class="city-card-title">Torno</h3>
+                    </div>
+                    <div class="city-region">Lake Como • Lombardy</div>
+                    <div class="city-population">Population: 1,200</div>
+                    <div class="city-school">
+                        <div class="city-school-name">20-25 min to International School of Como</div>
+                    </div>
+                    <p class="city-description">
+                        Picturesque medieval village with dramatic lakeside setting, offering authentic Italian
+                        village life while remaining connected to Como's amenities.
+                    </p>
+                    <a href="/city/torno" class="city-link">View Details</a>
+                </div>
+
+                <!-- Moltrasio -->
+                <div class="city-card">
+                    <div class="city-card-header">
+                        <span class="city-flag">🇮🇹</span>
+                        <h3 class="city-card-title">Moltrasio</h3>
+                    </div>
+                    <div class="city-region">Lake Como • Lombardy</div>
+                    <div class="city-population">Population: 1,700</div>
+                    <div class="city-school">
+                        <div class="city-school-name">15-20 min to International School of Como</div>
+                    </div>
+                    <p class="city-description">
+                        Tranquil lakeside village known for luxury villas and stunning lake views, offering
+                        peaceful living with reasonable proximity to international schools.
+                    </p>
+                    <a href="/city/moltrasio" class="city-link">View Details</a>
+                </div>
+
+                <!-- Laglio -->
+                <div class="city-card">
+                    <div class="city-card-header">
+                        <span class="city-flag">🇮🇹</span>
+                        <h3 class="city-card-title">Laglio</h3>
+                    </div>
+                    <div class="city-region">Lake Como • Lombardy</div>
+                    <div class="city-population">Population: 900</div>
+                    <div class="city-school">
+                        <div class="city-school-name">25 min to International School of Como</div>
+                    </div>
+                    <p class="city-description">
+                        Tiny lakeside hamlet famous as George Clooney's residence, offering ultimate tranquility
+                        and exclusivity with longer commutes to schools and services.
+                    </p>
+                    <a href="/city/laglio" class="city-link">View Details</a>
+                </div>
+
+                <!-- Brienno -->
+                <div class="city-card">
+                    <div class="city-card-header">
+                        <span class="city-flag">🇮🇹</span>
+                        <h3 class="city-card-title">Brienno</h3>
+                    </div>
+                    <div class="city-region">Lake Como • Lombardy</div>
+                    <div class="city-population">Population: 400</div>
+                    <div class="city-school">
+                        <div class="city-school-name">25-30 min to International School of Como</div>
+                    </div>
+                    <p class="city-description">
+                        One of Lake Como's smallest villages, stacked vertically on steep cliffs with narrow
+                        medieval streets and spectacular lake views.
+                    </p>
+                    <a href="/city/brienno" class="city-link">View Details</a>
+                </div>
+
+                <!-- Argegno -->
+                <div class="city-card">
+                    <div class="city-card-header">
+                        <span class="city-flag">🇮🇹</span>
+                        <h3 class="city-card-title">Argegno</h3>
+                    </div>
+                    <div class="city-region">Lake Como • Lombardy</div>
+                    <div class="city-population">Population: 700</div>
+                    <div class="city-school">
+                        <div class="city-school-name">25-30 min to International School of Como</div>
+                    </div>
+                    <p class="city-description">
+                        Charming village where a mountain stream meets the lake, featuring a cable car to mountain
+                        hiking areas and authentic Italian atmosphere.
+                    </p>
+                    <a href="/city/argegno" class="city-link">View Details</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Spain - Costa Blanca -->
+        <section class="region-section">
+            <h2 class="region-title">🇪🇸 Costa Blanca, Spain</h2>
+            <p class="region-subtitle">3 towns along Spain's "White Coast" offering year-round sunshine, dramatic coastlines, and affordable living</p>
+
+            <div class="city-cards">
+                <!-- Javéa -->
+                <div class="city-card">
+                    <div class="city-card-header">
+                        <span class="city-flag">🇪🇸</span>
+                        <h3 class="city-card-title">Javéa (Xàbia)</h3>
+                    </div>
+                    <div class="city-region">Costa Blanca • Alicante</div>
+                    <div class="city-population">Population: ~27,000</div>
+                    <div class="city-school">
+                        <div class="city-school-name">Xabia International College</div>
+                        <div class="city-school-cost">€7,680 - €16,000 per year</div>
+                        <div class="city-school-name" style="margin-top: 0.5rem;">Laude Lady Elizabeth School</div>
+                    </div>
+                    <p class="city-description">
+                        Dramatic coastal town with Cabo de la Nao promontory, strong expat community, and excellent
+                        international schools at lower costs than northern Europe.
+                    </p>
+                    <a href="/city/javea" class="city-link">View Details</a>
+                </div>
+
+                <!-- Altea -->
+                <div class="city-card">
+                    <div class="city-card-header">
+                        <span class="city-flag">🇪🇸</span>
+                        <h3 class="city-card-title">Altea</h3>
+                    </div>
+                    <div class="city-region">Costa Blanca • Alicante</div>
+                    <div class="city-population">Population: ~22,000</div>
+                    <div class="city-school">
+                        <div class="city-school-name">Victorious International British School</div>
+                        <div class="city-school-name" style="margin-top: 0.5rem;">The A Level College</div>
+                        <div class="city-school-name" style="margin-top: 0.5rem;">AIS International School</div>
+                    </div>
+                    <p class="city-description">
+                        Picturesque hillside town with white-washed buildings, mountain backdrop, and artistic
+                        atmosphere. Upscale yet peaceful with multiple school options.
+                    </p>
+                    <a href="/city/altea" class="city-link">View Details</a>
+                </div>
+
+                <!-- Calpe -->
+                <div class="city-card">
+                    <div class="city-card-header">
+                        <span class="city-flag">🇪🇸</span>
+                        <h3 class="city-card-title">Calpe</h3>
+                    </div>
+                    <div class="city-region">Costa Blanca • Alicante</div>
+                    <div class="city-population">Population: ~23,000</div>
+                    <div class="city-school">
+                        <div class="city-school-name">Access to nearby international schools</div>
+                        <div class="city-school-cost">15-20 min to Altea and Javéa schools</div>
+                    </div>
+                    <p class="city-description">
+                        Iconic Peñón de Ifach rock formation dominates the skyline. Well-developed beach town
+                        with strong infrastructure and easy access to regional schools.
+                    </p>
+                    <a href="/city/calpe" class="city-link">View Details</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Spain - Costa Brava -->
+        <section class="region-section">
+            <h2 class="region-title">🇪🇸 Costa Brava, Spain</h2>
+            <p class="region-subtitle">3 towns along Catalonia's "Wild Coast" combining beach lifestyle with Barcelona proximity and artistic heritage</p>
+
+            <div class="city-cards">
+                <!-- Canet de Mar -->
+                <div class="city-card">
+                    <div class="city-card-header">
+                        <span class="city-flag">🇪🇸</span>
+                        <h3 class="city-card-title">Canet de Mar</h3>
+                    </div>
+                    <div class="city-region">Costa Brava • Barcelona</div>
+                    <div class="city-population">Population: ~14,000</div>
+                    <div class="city-school">
+                        <div class="city-school-name">International School Maresme</div>
+                        <div class="city-school-cost">€9,278 - €20,115 per year</div>
+                    </div>
+                    <p class="city-description">
+                        Authentic Catalan beach town with excellent train connections to Barcelona (45 min),
+                        modernist architecture, and strong local community.
+                    </p>
+                    <a href="/city/canet-de-mar" class="city-link">View Details</a>
+                </div>
+
+                <!-- Platja d'Aro -->
+                <div class="city-card">
+                    <div class="city-card-header">
+                        <span class="city-flag">🇪🇸</span>
+                        <h3 class="city-card-title">Platja d'Aro</h3>
+                    </div>
+                    <div class="city-region">Costa Brava • Girona</div>
+                    <div class="city-population">Population: ~11,000</div>
+                    <div class="city-school">
+                        <div class="city-school-name">International School Costa Brava</div>
+                        <div class="city-school-cost">€9,350 - €14,500 per year</div>
+                    </div>
+                    <p class="city-description">
+                        Vibrant beach resort with long sandy beach, water sports, and Mediterranean lifestyle.
+                        More affordable than Costa Blanca with excellent school access.
+                    </p>
+                    <a href="/city/platja-daro" class="city-link">View Details</a>
+                </div>
+
+                <!-- Calella de Palafrugell -->
+                <div class="city-card">
+                    <div class="city-card-header">
+                        <span class="city-flag">🇪🇸</span>
+                        <h3 class="city-card-title">Calella de Palafrugell</h3>
+                    </div>
+                    <div class="city-region">Costa Brava • Girona</div>
+                    <div class="city-population">Population: ~1,000</div>
+                    <div class="city-school">
+                        <div class="city-school-name">20-25 min to Costa Brava schools</div>
+                    </div>
+                    <p class="city-description">
+                        Postcard-perfect fishing village with white-washed houses and cove beaches. Tranquil and
+                        traditional with reasonable commutes to international schools.
+                    </p>
+                    <a href="/city/calella-palafrugell" class="city-link">View Details</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bottom Quick Links -->
+        <div class="quick-links" style="margin-top: 4rem;">
+            <a href="/city-comparison-styled" class="quick-link-btn">Compare All Cities</a>
+            <a href="#real-estate" class="quick-link-btn secondary">Real Estate Listings</a>
+        </div>
+
+    </main>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+    <script>
+        // Initialize map centered on Mediterranean
+        var map = L.map('map').setView([42.0, 5.0], 6);
+
+        // Add tile layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetmap</a> contributors',
+            maxZoom: 19
+        }).addTo(map);
+
+        // Custom icons for different regions
+        var lakeComoIcon = L.divIcon({
+            className: 'custom-marker',
+            html: '<div style="background-color: #4A7BA7; width: 14px; height: 14px; border-radius: 50%; border: 2px solid white; box-shadow: 0 0 0 1px #4A7BA7;"></div>',
+            iconSize: [14, 14],
+            iconAnchor: [7, 7]
+        });
+
+        var costaBravaIcon = L.divIcon({
+            className: 'custom-marker',
+            html: '<div style="background-color: #8B6F47; width: 14px; height: 14px; border-radius: 50%; border: 2px solid white; box-shadow: 0 0 0 1px #8B6F47;"></div>',
+            iconSize: [14, 14],
+            iconAnchor: [7, 7]
+        });
+
+        var costaBlancaIcon = L.divIcon({
+            className: 'custom-marker',
+            html: '<div style="background-color: #cd853f; width: 14px; height: 14px; border-radius: 50%; border: 2px solid white; box-shadow: 0 0 0 1px #cd853f;"></div>',
+            iconSize: [14, 14],
+            iconAnchor: [7, 7]
+        });
+
+        // City data
+        var cities = [
+            // Lake Como Region
+            {
+                name: "Como",
+                coords: [45.8080, 9.0852],
+                region: "Lake Como, Italy",
+                icon: lakeComoIcon,
+                info: "85,000 pop • International School of Como • €13,410-€24,050"
+            },
+            {
+                name: "Cernobbio",
+                coords: [45.8333, 9.0833],
+                region: "Lake Como, Italy",
+                icon: lakeComoIcon,
+                info: "7,000 pop • 10-15 min to ISC • Villa d'Este luxury"
+            },
+            {
+                name: "Torno",
+                coords: [45.8450, 9.1258],
+                region: "Lake Como, Italy",
+                icon: lakeComoIcon,
+                info: "1,200 pop • 20-25 min to ISC • Medieval village charm"
+            },
+            {
+                name: "Moltrasio",
+                coords: [45.8500, 9.0833],
+                region: "Lake Como, Italy",
+                icon: lakeComoIcon,
+                info: "1,700 pop • 15-20 min to ISC • Luxury villa living"
+            },
+            {
+                name: "Laglio",
+                coords: [45.8667, 9.0833],
+                region: "Lake Como, Italy",
+                icon: lakeComoIcon,
+                info: "900 pop • 25 min to ISC • George Clooney's village"
+            },
+            {
+                name: "Brienno",
+                coords: [45.8833, 9.0833],
+                region: "Lake Como, Italy",
+                icon: lakeComoIcon,
+                info: "400 pop • 25-30 min to ISC • Vertical cliff village"
+            },
+            {
+                name: "Argegno",
+                coords: [45.9167, 9.1333],
+                region: "Lake Como, Italy",
+                icon: lakeComoIcon,
+                info: "700 pop • 25-30 min to ISC • Mountain stream & cable car"
+            },
+            // Costa Blanca
+            {
+                name: "Javéa (Xàbia)",
+                coords: [38.7909, 0.1824],
+                region: "Costa Blanca, Spain",
+                icon: costaBlancaIcon,
+                info: "27,000 pop • Xabia Int'l College • €7,680-€16,000 • Cabo de la Nao"
+            },
+            {
+                name: "Altea",
+                coords: [38.5993, -0.0519],
+                region: "Costa Blanca, Spain",
+                icon: costaBlancaIcon,
+                info: "22,000 pop • 3 international schools • White-washed hillside town"
+            },
+            {
+                name: "Calpe",
+                coords: [38.6476, 0.0425],
+                region: "Costa Blanca, Spain",
+                icon: costaBlancaIcon,
+                info: "23,000 pop • Peñón de Ifach • Access to nearby schools"
+            },
+            // Costa Brava
+            {
+                name: "Canet de Mar",
+                coords: [41.5903, 2.5808],
+                region: "Costa Brava, Spain",
+                icon: costaBravaIcon,
+                info: "14,000 pop • Int'l School Maresme • €9,278-€20,115 • 45 min to Barcelona"
+            },
+            {
+                name: "Platja d'Aro",
+                coords: [41.8167, 3.0667],
+                region: "Costa Brava, Spain",
+                icon: costaBravaIcon,
+                info: "11,000 pop • Int'l School Costa Brava • €9,350-€14,500"
+            },
+            {
+                name: "Calella de Palafrugell",
+                coords: [41.8944, 3.1856],
+                region: "Costa Brava, Spain",
+                icon: costaBravaIcon,
+                info: "1,000 pop • 20-25 min to schools • Traditional fishing village"
+            }
+        ];
+
+        // Add markers to map
+        cities.forEach(function(city) {
+            var marker = L.marker(city.coords, {icon: city.icon}).addTo(map);
+            marker.bindPopup('<h3>' + city.name + '</h3><p style="margin: 0; color: #666; font-size: 0.85rem;">' + city.region + '</p><p style="margin-top: 0.5rem;">' + city.info + '</p>');
+        });
+
+        // Fit bounds to show all cities
+        var group = new L.featureGroup(cities.map(function(city) {
+            return L.marker(city.coords);
+        }));
+        map.fitBounds(group.getBounds().pad(0.1));
+    </script>
+</body>
+</html>

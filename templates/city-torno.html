@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Torno, Italy - Lake Como Village Guide</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
+    <style>
+        .hero-image {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: var(--radius-md);
+            margin: var(--spacing-xl) 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .city-meta {
+            display: flex;
+            gap: var(--spacing-md);
+            justify-content: center;
+            flex-wrap: wrap;
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            color: var(--ink-muted);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .city-meta span {
+            padding: var(--spacing-xs) var(--spacing-md);
+            background: var(--paper-dark);
+            border-radius: var(--radius-sm);
+        }
+
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--spacing-lg);
+            margin-bottom: var(--section-gap);
+        }
+
+        .overview-card {
+            background: white;
+            border-radius: var(--radius-sm);
+            padding: var(--spacing-lg);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+        }
+
+        .overview-card h3 {
+            font-family: var(--font-sans);
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--orbital);
+            margin-bottom: var(--spacing-md);
+            padding-bottom: var(--spacing-sm);
+            border-bottom: 1px solid var(--rule-light);
+        }
+
+        .overview-card p {
+            font-family: var(--font-serif);
+            font-size: 0.95rem;
+            color: var(--ink-muted);
+            line-height: 1.7;
+        }
+
+        .warning-box {
+            background: #fff3cd;
+            border-left: 4px solid #ff9800;
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-sm);
+            margin: var(--spacing-xl) 0;
+        }
+
+        .warning-box h3 {
+            font-family: var(--font-sans);
+            font-size: 1rem;
+            font-weight: 600;
+            color: #cc6600;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .warning-box p {
+            font-family: var(--font-serif);
+            font-size: 0.95rem;
+            color: #856404;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .features-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .features-list li {
+            position: relative;
+            padding-left: var(--spacing-lg);
+            margin-bottom: var(--spacing-sm);
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            color: var(--ink-muted);
+            line-height: 1.6;
+        }
+
+        .features-list li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--orbital);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .property-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: var(--spacing-xl);
+            margin-top: var(--spacing-lg);
+        }
+
+        .property-card {
+            background: white;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .property-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
+
+        .property-image {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+        }
+
+        .property-content {
+            padding: var(--spacing-lg);
+        }
+
+        .property-price {
+            font-family: var(--font-mono);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--orbital);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .property-location {
+            font-family: var(--font-sans);
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--ink);
+            margin-bottom: var(--spacing-md);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .property-description {
+            font-family: var(--font-serif);
+            font-size: 0.9rem;
+            color: var(--ink-muted);
+            line-height: 1.6;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .property-link {
+            display: inline-block;
+            font-family: var(--font-sans);
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--orbital);
+            text-decoration: none;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border: 1px solid var(--orbital);
+            border-radius: var(--radius-sm);
+            transition: all 0.2s ease;
+        }
+
+        .property-link:hover {
+            background: var(--orbital);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <a href="/cities-hub" class="nav-back">← Back to Cities</a>
+    </nav>
+
+    <main class="container">
+        <!-- Hero Section -->
+        <header class="hero">
+            <h1 class="hero-title">Torno, Italy</h1>
+            <div class="city-meta">
+                <span>Eastern Lake Como Shore</span>
+                <span>Population: ~1,200</span>
+                <span>20-25 min to ISC</span>
+            </div>
+            <p class="hero-tagline">
+                Authentic Italian village with historic charm and stunning cross-lake mountain views
+            </p>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Torno_Lake_Como.jpg/1280px-Torno_Lake_Como.jpg"
+                 alt="Panoramic view of Torno on Lake Como"
+                 class="hero-image">
+        </header>
+
+        <!-- Winter Sun Warning -->
+        <div class="warning-box">
+            <h3>Winter Sun Consideration</h3>
+            <p>
+                Torno is located on the eastern shore of Lake Como, which receives <strong>limited winter sun</strong> due to the surrounding mountains blocking afternoon light. While the village offers authentic charm and stunning views, families prioritizing winter sun exposure should consider western shore villages like Moltrasio, Brienno, or Argegno instead.
+            </p>
+        </div>
+
+        <!-- Overview Section -->
+        <section class="section">
+            <h2 class="section-title">Overview</h2>
+            <div class="overview-grid">
+                <div class="overview-card">
+                    <h3>Character</h3>
+                    <p>Torno is a tranquil, authentic Italian village of approximately 1,200 residents perched on Lake Como's eastern shore. Known for its traditional stone houses, historic architecture, and genuine local character, Torno offers an intimate, residential atmosphere away from tourist crowds.</p>
+                </div>
+                <div class="overview-card">
+                    <h3>Location & Access</h3>
+                    <p>Located 15km from Como city center via the scenic lakeside road, Torno sits directly across from Cernobbio on the western shore. The drive to International School of Como takes 20-25 minutes. Ferry services connect to Como and other lake villages.</p>
+                </div>
+                <div class="overview-card">
+                    <h3>Lifestyle</h3>
+                    <p>Village life centered around the waterfront piazza and local church. Small, intimate community with traditional Italian cafes, family-run restaurants, and quiet residential streets. Ideal for families seeking authentic Italian living with spectacular cross-lake views to the western mountains.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- International Schools Section -->
+        <section class="section">
+            <h2 class="section-title">International School Access</h2>
+            <table class="school-table">
+                <thead>
+                    <tr>
+                        <th>School</th>
+                        <th>Distance from Torno</th>
+                        <th>Drive Time</th>
+                        <th>Annual Tuition</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="school-name">International School of Como (ISC)</td>
+                        <td>15km via Como</td>
+                        <td>20-25 minutes</td>
+                        <td>€13,410 - €24,050</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p class="note" style="margin-top: var(--spacing-lg);">
+                <strong>Note:</strong> The commute to ISC from Torno involves following the scenic lakeside road through Como. Morning traffic through the city can add time during peak hours. Carpooling with other Torno families may be beneficial.
+            </p>
+        </section>
+
+        <!-- Historic Attractions Section -->
+        <section class="section">
+            <h2 class="section-title">Historic Attractions</h2>
+            <div class="prose">
+                <h3>Chiesa di Santa Tecla</h3>
+                <p>
+                    The 16th-century Church of Santa Tecla dominates Torno's waterfront with its distinctive bell tower and Renaissance architecture. The church features beautiful frescoes and serves as the heart of village life, hosting traditional celebrations throughout the year.
+                </p>
+
+                <h3>Ponte del Diavolo (Devil's Bridge)</h3>
+                <p>
+                    This historic stone bridge spans a mountain stream just above the village, offering dramatic views down to the lake. According to local legend, the bridge was built in a single night by the devil himself. The surrounding area provides excellent hiking opportunities into the mountains above Torno.
+                </p>
+
+                <h3>Villa Pliniana</h3>
+                <p>
+                    One of Lake Como's most historic villas sits at the edge of Torno, accessible primarily by boat. This 16th-century villa features a unique spring that flows according to natural tidal rhythms. While privately owned, the villa's dramatic lakeside position makes it a defining feature of Torno's landscape.
+                </p>
+
+                <h3>Village Features</h3>
+                <ul class="features-list">
+                    <li><strong>Traditional Stone Architecture</strong> - Authentic Lombard stone houses cascading down to the lake</li>
+                    <li><strong>Lakefront Piazza</strong> - Small waterfront square with cafes and restaurants</li>
+                    <li><strong>Mountain Hiking</strong> - Trails leading up to panoramic viewpoints above the village</li>
+                    <li><strong>Ferry Landing</strong> - Regular boat service connecting to Como and lake villages</li>
+                    <li><strong>Local Markets</strong> - Weekly markets featuring regional produce and products</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Lifestyle Section -->
+        <section class="section">
+            <h2 class="section-title">Village Life</h2>
+            <div class="prose">
+                <p>
+                    Torno represents authentic Italian village living at its most genuine. With only 1,200 residents, the community maintains strong traditions and local character. The village operates at a slower pace than Como or the western shore villages, with daily life centered around the lakefront piazza, local church, and family-run businesses.
+                </p>
+                <p>
+                    The property market in Torno features traditional stone houses, many requiring renovation, alongside smaller apartments and villas. Properties here tend to be more modestly sized than the grand estates found in Cernobbio or Laglio across the lake. The authentic character and limited development preserve Torno's charm while presenting unique opportunities for families seeking genuine Italian village integration.
+                </p>
+                <p>
+                    The major consideration for Torno is the <strong>limited winter sun</strong> due to its eastern shore position. The surrounding mountains block afternoon light during winter months, resulting in shorter daylight hours in the village. However, the stunning cross-lake views to the western mountains, especially at sunset, provide spectacular compensation. Families who prioritize authentic village character and don't mind the winter sun limitation will find Torno enchanting.
+                </p>
+            </div>
+        </section>
+
+        <!-- Real Estate Section -->
+        <section class="section">
+            <h2 class="section-title">Real Estate Listings</h2>
+            <p class="body-text">
+                Torno's real estate market offers traditional stone houses and smaller properties compared to the western shore, with a focus on authentic renovation opportunities and intimate village settings. Properties range from historic apartments to traditional villas with lake views.
+            </p>
+            <div class="property-grid">
+                <div class="property-card">
+                    <img src="https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?w=800&q=80"
+                         alt="Traditional Lake Como stone house"
+                         class="property-image">
+                    <div class="property-content">
+                        <div class="property-price">€2.2M</div>
+                        <div class="property-location">Torno Historic Center</div>
+                        <p class="property-description">
+                            Traditional stone house of 200 sqm in the heart of Torno village. Original architectural details with modern renovation potential. 3 bedrooms, 2 bathrooms, lake views from upper floors. Walking distance to waterfront piazza and ferry landing.
+                        </p>
+                        <a href="https://www.luxuryestate.com/italy/lombardy/provincia-di-como/torno"
+                           target="_blank"
+                           class="property-link">View Torno Listings →</a>
+                    </div>
+                </div>
+
+                <div class="property-card">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80"
+                         alt="Renovated Italian villa with lake view"
+                         class="property-image">
+                    <div class="property-content">
+                        <div class="property-price">€3.5M</div>
+                        <div class="property-location">Torno Hillside</div>
+                        <p class="property-description">
+                            Beautifully renovated villa of 280 sqm on hillside above Torno with spectacular cross-lake mountain views. 4 bedrooms, 3 bathrooms, terraced gardens of 800 sqm, private parking. Perfect blend of historic charm and modern comfort.
+                        </p>
+                        <a href="https://www.italy-sothebysrealty.com/en/destinations/north/lakes/lake-como.html"
+                           target="_blank"
+                           class="property-link">View Sotheby's Listings →</a>
+                    </div>
+                </div>
+
+                <div class="property-card">
+                    <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=80"
+                         alt="Lakefront apartment with terrace"
+                         class="property-image">
+                    <div class="property-content">
+                        <div class="property-price">€1.8M - €2.5M</div>
+                        <div class="property-location">Torno Waterfront</div>
+                        <p class="property-description">
+                            Exclusive waterfront apartments with direct lake access and private terraces. 150-200 sqm, 2-3 bedrooms, modern interiors with period architectural details preserved. Rare opportunity for lakefront living in authentic village setting.
+                        </p>
+                        <a href="https://www.jamesedition.com/real_estate/lake-como-italy"
+                           target="_blank"
+                           class="property-link">View JamesEdition Listings →</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="note" style="margin-top: var(--spacing-xl);">
+                <strong>Torno Market Character:</strong> The real estate market in Torno emphasizes authentic renovation opportunities and traditional Italian architecture. Properties tend to be more intimate in scale than western shore estates, with prices reflecting the village's quieter character and eastern shore position. Limited winter sun impacts valuations compared to western shore equivalents, but the authentic atmosphere and stunning views attract buyers seeking genuine Italian village living.
+                <br><br>
+                Sources: <a href="https://www.jamesedition.com/real_estate/lake-como-italy" target="_blank">JamesEdition</a>,
+                <a href="https://www.luxuryestate.com/italy/lombardy/provincia-di-como/torno" target="_blank">LuxuryEstate.com</a>,
+                <a href="https://www.italy-sothebysrealty.com/en/destinations/north/lakes/lake-como.html" target="_blank">Italy Sotheby's International Realty</a>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <a href="/cities-hub" class="footer-link">← Back to Cities Hub</a>
+            <p class="footer-text" style="margin-top: var(--spacing-md);">
+                City guide created 2026. Data compiled from Wikimedia Commons, international school websites,
+                luxury real estate portals, and local tourism resources
+            </p>
+        </footer>
+    </main>
+</body>
+</html>

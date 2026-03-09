@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Como, Italy - City Guide</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
+    <style>
+        .hero-image {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: var(--radius-md);
+            margin: var(--spacing-xl) 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .city-meta {
+            display: flex;
+            gap: var(--spacing-md);
+            justify-content: center;
+            flex-wrap: wrap;
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            color: var(--ink-muted);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .city-meta span {
+            padding: var(--spacing-xs) var(--spacing-md);
+            background: var(--paper-dark);
+            border-radius: var(--radius-sm);
+        }
+
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--spacing-lg);
+            margin-bottom: var(--section-gap);
+        }
+
+        .overview-card {
+            background: white;
+            border-radius: var(--radius-sm);
+            padding: var(--spacing-lg);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+        }
+
+        .overview-card h3 {
+            font-family: var(--font-sans);
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--orbital);
+            margin-bottom: var(--spacing-md);
+            padding-bottom: var(--spacing-sm);
+            border-bottom: 1px solid var(--rule-light);
+        }
+
+        .overview-card p {
+            font-family: var(--font-serif);
+            font-size: 0.95rem;
+            color: var(--ink-muted);
+            line-height: 1.7;
+        }
+
+        .school-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+        }
+
+        .school-table th {
+            font-family: var(--font-sans);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--ink);
+            background: var(--paper-dark);
+            padding: var(--spacing-md);
+            text-align: left;
+            border-bottom: 2px solid var(--rule);
+        }
+
+        .school-table td {
+            font-family: var(--font-serif);
+            font-size: 0.9rem;
+            color: var(--ink-muted);
+            padding: var(--spacing-md);
+            border-bottom: 1px solid var(--rule-light);
+        }
+
+        .school-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .school-table .school-name {
+            font-weight: 600;
+            color: var(--ink);
+        }
+
+        .villages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-lg);
+        }
+
+        .village-card {
+            background: white;
+            border-radius: var(--radius-sm);
+            padding: var(--spacing-md);
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .village-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .village-card h4 {
+            font-family: var(--font-serif);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--ink);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .village-card p {
+            font-family: var(--font-sans);
+            font-size: 0.8rem;
+            color: var(--ink-muted);
+            line-height: 1.5;
+        }
+
+        .property-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: var(--spacing-xl);
+            margin-top: var(--spacing-lg);
+        }
+
+        .property-card {
+            background: white;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .property-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
+
+        .property-image {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+        }
+
+        .property-content {
+            padding: var(--spacing-lg);
+        }
+
+        .property-price {
+            font-family: var(--font-mono);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--orbital);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .property-location {
+            font-family: var(--font-sans);
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--ink);
+            margin-bottom: var(--spacing-md);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .property-description {
+            font-family: var(--font-serif);
+            font-size: 0.9rem;
+            color: var(--ink-muted);
+            line-height: 1.6;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .property-link {
+            display: inline-block;
+            font-family: var(--font-sans);
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--orbital);
+            text-decoration: none;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border: 1px solid var(--orbital);
+            border-radius: var(--radius-sm);
+            transition: all 0.2s ease;
+        }
+
+        .property-link:hover {
+            background: var(--orbital);
+            color: white;
+        }
+
+        .features-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .features-list li {
+            position: relative;
+            padding-left: var(--spacing-lg);
+            margin-bottom: var(--spacing-sm);
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            color: var(--ink-muted);
+            line-height: 1.6;
+        }
+
+        .features-list li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--orbital);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <a href="/cities-hub" class="nav-back">← Back to Cities</a>
+    </nav>
+
+    <main class="container">
+        <!-- Hero Section -->
+        <header class="hero">
+            <h1 class="hero-title">Como, Italy</h1>
+            <div class="city-meta">
+                <span>Lombardy, Italy</span>
+                <span>Southern Lake Como</span>
+                <span>Population: 85,000</span>
+            </div>
+            <p class="hero-tagline">
+                Urban lakeside city with Roman history at the gateway to the Italian Alps
+            </p>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Como_Lake_View.jpg/1280px-Como_Lake_View.jpg"
+                 alt="Panoramic view of Como and Lake Como"
+                 class="hero-image">
+        </header>
+
+        <!-- Overview Section -->
+        <section class="section">
+            <h2 class="section-title">Overview</h2>
+            <div class="overview-grid">
+                <div class="overview-card">
+                    <h3>Character</h3>
+                    <p>Como is an urban lakeside city of approximately 85,000 residents, positioned at the southern tip of Lake Como. The city combines Roman historical heritage with modern Italian urban life, featuring a historic center with the stunning Duomo di Como and Basilica di San Fedele.</p>
+                </div>
+                <div class="overview-card">
+                    <h3>Location & Access</h3>
+                    <p>Situated on the Swiss-Italian border, Como offers direct train connections to Milan (1 hour). The city serves as the gateway to Lake Como's western shore, with easy access to mountain villages and Alpine ski resorts within an hour's drive.</p>
+                </div>
+                <div class="overview-card">
+                    <h3>Lifestyle</h3>
+                    <p>Urban convenience meets lakeside living. The city offers full city amenities - shopping, dining, cultural activities - while maintaining direct access to the lake via the scenic waterfront promenade. Take the historic funicular to Brunate for panoramic views of the lake and Alps.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- International Schools Section -->
+        <section class="section">
+            <h2 class="section-title">International Schools</h2>
+            <table class="school-table">
+                <thead>
+                    <tr>
+                        <th>School</th>
+                        <th>Annual Tuition</th>
+                        <th>Distance from Como</th>
+                        <th>Curriculum</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="school-name">International School of Como (ISC)</td>
+                        <td>€13,410 - €24,050</td>
+                        <td>10-15 min (10km)</td>
+                        <td>IB Primary Years, Cambridge IGCSE, IB Diploma</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p class="note" style="margin-top: var(--spacing-lg);">
+                <strong>Note:</strong> The International School of Como offers a comprehensive international curriculum from age 3 to 18.
+                The school is easily accessible from Como city center and surrounding lake villages, making it ideal for families
+                living anywhere along the southern shore of Lake Como.
+            </p>
+        </section>
+
+        <!-- Climate & Geography Section -->
+        <section class="section">
+            <h2 class="section-title">Climate & Geography</h2>
+            <div class="overview-grid">
+                <div class="overview-card">
+                    <h3>Climate</h3>
+                    <p><strong>Humid Subtropical</strong> with significant rainfall (1,300-1,834mm annually). This creates the lush, verdant landscapes that Como is famous for. Expect mild winters and warm, humid summers. The high rainfall ensures year-round greenery.</p>
+                </div>
+                <div class="overview-card">
+                    <h3>Winter Sun</h3>
+                    <p><strong>Moderate</strong> - Varies by neighborhood and elevation. The lakeside promenade and south-facing areas receive good winter sun, while some valley neighborhoods may be shadier during winter months. Brunate, accessible by funicular, offers excellent sun exposure year-round.</p>
+                </div>
+                <div class="overview-card">
+                    <h3>Alpine Access</h3>
+                    <p><strong>Skiing:</strong> Approximately 1 hour drive to Alpine ski resorts including Piani di Bobbio and Monte Sighignola. The proximity to the Alps makes Como ideal for families who want both lakeside living and winter sports access.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Lifestyle & Amenities Section -->
+        <section class="section">
+            <h2 class="section-title">Lifestyle & Amenities</h2>
+            <div class="prose">
+                <h3>Urban Conveniences</h3>
+                <p>
+                    As a city of 85,000, Como offers full urban amenities rarely found in smaller lake villages. The historic
+                    center features excellent shopping, from local boutiques to international brands, alongside traditional
+                    markets and modern supermarkets. Dining options range from casual pizzerias to Michelin-quality restaurants.
+                </p>
+
+                <h3>Cultural Attractions</h3>
+                <ul class="features-list">
+                    <li><strong>Duomo di Como</strong> - Magnificent Gothic-Renaissance cathedral in the city center</li>
+                    <li><strong>Basilica di San Fedele</strong> - Romanesque church with beautiful frescoes</li>
+                    <li><strong>Funicular to Brunate</strong> - Historic funicular railway offering panoramic lake and mountain views</li>
+                    <li><strong>Lakefront Promenade</strong> - Scenic waterfront walk with cafes, parks, and boat access</li>
+                    <li><strong>Villa Olmo</strong> - Neoclassical villa with gardens and cultural exhibitions</li>
+                </ul>
+
+                <h3>Transportation</h3>
+                <p>
+                    Como's central location provides excellent connectivity. Direct trains to Milan depart regularly (1 hour journey),
+                    making day trips or commutes feasible. The city is well-connected by road to Switzerland, the Alps, and other
+                    lake towns. Regular ferry services connect Como to lake villages including Bellagio, Varenna, and Menaggio.
+                </p>
+            </div>
+        </section>
+
+        <!-- Nearby Villages Section -->
+        <section class="section">
+            <h2 class="section-title">Nearby Lake Como Villages</h2>
+            <p class="body-text">
+                Como serves as the gateway to six charming villages along Lake Como's western shore, each offering
+                a quieter, more intimate lakeside lifestyle while maintaining easy access to the city's amenities.
+            </p>
+            <div class="villages-grid">
+                <div class="village-card">
+                    <h4>Cernobbio</h4>
+                    <p>5km north of Como. Home to the legendary Villa d'Este, one of Europe's most prestigious hotels. Elegant lakeside village with exceptional restaurants.</p>
+                </div>
+                <div class="village-card">
+                    <h4>Torno</h4>
+                    <p>8km from Como. Small, authentic village famous for Villa Pliniana. Quiet atmosphere with traditional character and stunning lake views.</p>
+                </div>
+                <div class="village-card">
+                    <h4>Moltrasio</h4>
+                    <p>7km from Como. Peaceful residential village popular with wealthy Milanese. Features historic villas, lakeside walking paths, and intimate trattorias.</p>
+                </div>
+                <div class="village-card">
+                    <h4>Laglio</h4>
+                    <p>10km from Como. Tiny, exclusive village famous as George Clooney's Lake Como residence. Ultra-quiet with exceptional privacy and lake access.</p>
+                </div>
+                <div class="village-card">
+                    <h4>Brienno</h4>
+                    <p>12km from Como. Charming medieval village with narrow streets and stone houses cascading down to the lake. Very authentic and unspoiled.</p>
+                </div>
+                <div class="village-card">
+                    <h4>Argegno</h4>
+                    <p>15km from Como. Picturesque village at the mouth of a valley. Features a cable car to Pigra with spectacular views. Good restaurants and hiking access.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Real Estate Section -->
+        <section class="section">
+            <h2 class="section-title">Real Estate Listings</h2>
+            <p class="body-text">
+                Como and surrounding villages offer a wide range of luxury properties, from historic city apartments
+                to contemporary hillside villas with lake views. The market ranges from €1.6M for entry-level luxury
+                properties to over €29M for exceptional lakefront estates.
+            </p>
+            <div class="property-grid">
+                <div class="property-card">
+                    <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80"
+                         alt="Modern lakeside villa"
+                         class="property-image">
+                    <div class="property-content">
+                        <div class="property-price">€3.0M</div>
+                        <div class="property-location">Cernobbio</div>
+                        <p class="property-description">
+                            Modern villa of 350 sqm with private pool and stunning views of Lake Como.
+                            Features 3-4 bedrooms, 3 bathrooms, private garden of 1,100 sqm, and private elevator.
+                            Located in the prestigious Cernobbio area, just minutes from Villa d'Este.
+                        </p>
+                        <a href="https://www.luxuryestate.com/italy/lombardy/provincia-di-como/cernobbio"
+                           target="_blank"
+                           class="property-link">View Cernobbio Listings →</a>
+                    </div>
+                </div>
+
+                <div class="property-card">
+                    <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800&q=80"
+                         alt="Historic lakefront villa"
+                         class="property-image">
+                    <div class="property-content">
+                        <div class="property-price">€4.2M - €5.8M</div>
+                        <div class="property-location">Como to Torno</div>
+                        <p class="property-description">
+                            Historic villas with enchanting views from Como to the tip of Torno.
+                            Properties feature original period details, private lake access, gardens, and panoramic terraces.
+                            Many with renovation potential to create your dream lakeside estate.
+                        </p>
+                        <a href="https://www.italy-sothebysrealty.com/en/destinations/north/lakes/lake-como.html"
+                           target="_blank"
+                           class="property-link">View Sotheby's Listings →</a>
+                    </div>
+                </div>
+
+                <div class="property-card">
+                    <img src="https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?w=800&q=80"
+                         alt="Luxury penthouse with lake view"
+                         class="property-image">
+                    <div class="property-content">
+                        <div class="property-price">€2.5M - €3.8M</div>
+                        <div class="property-location">Como City Center</div>
+                        <p class="property-description">
+                            Luxury penthouses with panoramic lake views in the heart of Como.
+                            Modern interiors with high-end finishes, spacious terraces, and elevator access.
+                            Walking distance to the Duomo, lakefront promenade, and train station to Milan.
+                        </p>
+                        <a href="https://www.jamesedition.com/real_estate/lake-como-italy"
+                           target="_blank"
+                           class="property-link">View JamesEdition Listings →</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="note" style="margin-top: var(--spacing-xl);">
+                <strong>Market Overview:</strong> The average price of homes in Como area is approximately €3.0M,
+                with a range from €550K to over €29M. The most popular property types are villas (422 listings)
+                and apartments (194 listings). Waterfront properties in prestigious areas like Cernobbio command
+                €10,000-€15,000 per square meter. The 2026 market remains strong with 737 luxury homes currently available.
+                <br><br>
+                Sources: <a href="https://www.jamesedition.com/real_estate/lake-como-italy" target="_blank">JamesEdition</a>,
+                <a href="https://www.luxuryestate.com/italy/lombardy/provincia-di-como/cernobbio" target="_blank">LuxuryEstate.com</a>,
+                <a href="https://www.italy-sothebysrealty.com/en/destinations/north/lakes/lake-como.html" target="_blank">Italy Sotheby's International Realty</a>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <a href="/cities-hub" class="footer-link">← Back to Cities Hub</a>
+            <p class="footer-text" style="margin-top: var(--spacing-md);">
+                City guide created 2026 · Data compiled from Wikimedia Commons, international school websites,
+                luxury real estate portals, and local tourism resources
+            </p>
+        </footer>
+    </main>
+</body>
+</html>

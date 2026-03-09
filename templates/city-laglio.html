@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laglio, Lake Como - Dramatic Mountain-to-Lake Setting & George Clooney's Villa</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="nav">
+        <a href="/cities-hub" class="nav-back">← Cities Hub</a>
+    </nav>
+
+    <main class="container">
+        <!-- Hero Section -->
+        <header class="hero">
+            <div style="width: 100%; max-width: 1200px; margin: 0 auto 2rem;">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Laglio_CoA.png/300px-Laglio_CoA.png"
+                     alt="Laglio coat of arms and village view"
+                     style="width: 100%; height: 400px; object-fit: contain; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); background: #f8f8f8;">
+                <p style="text-align: center; font-size: 0.85rem; color: #666; margin-top: 0.5rem; font-family: 'Inter', sans-serif;">
+                    Laglio - Photo: Wikimedia Commons
+                </p>
+            </div>
+            <h1 class="hero-title">Laglio, Lake Como</h1>
+            <p class="hero-tagline">
+                Most Dramatic Mountain-to-Lake Setting · George Clooney's Villa Oleandra · Steep Alpine Beauty · 25 Minutes to ISC
+            </p>
+        </header>
+
+        <!-- Overview Section -->
+        <section class="intro">
+            <p class="lead drop-cap">
+                Laglio delivers Lake Como's most dramatic geography compressed into a village of just 900
+                residents. Here, the steep slopes of Monte Colmegnone plunge directly into deep water,
+                creating the kind of vertical intensity that defines alpine lake beauty at its most extreme.
+                Unlike larger Como towns that sprawl along generous shorelines, Laglio climbs: narrow stone
+                staircases connect lakefront properties to hillside villas, creating three-dimensional
+                architecture where rooftops become neighbors' terraces. George Clooney's Villa Oleandra anchors
+                the village's international fame, but Laglio's appeal predates celebrity ownership—this is
+                Lake Como's landscape distilled to pure essence, where every property earns dramatic views
+                simply by existing. The 25-minute commute to International School of Como requires commitment,
+                but families prioritizing spectacular natural beauty over daily convenience will find few
+                equals anywhere on the lake.
+            </p>
+        </section>
+
+        <!-- Quick Facts -->
+        <section class="section">
+            <h2 class="section-title">At a Glance</h2>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 2rem;">
+                <div style="background: #fafaf8; padding: 1.5rem; border-radius: 8px; border: 1px solid #e5e3dc;">
+                    <h3 style="font-family: 'Newsreader', serif; font-size: 1.1rem; margin: 0 0 0.75rem 0; color: #2c2721;">Location</h3>
+                    <p style="font-family: 'Inter', sans-serif; font-size: 0.95rem; color: #4a4540; margin: 0; line-height: 1.6;">
+                        Western shore of Lake Como<br>
+                        15km from Como city<br>
+                        Population: ~900<br>
+                        Elevation: 202m (lakefront)
+                    </p>
+                </div>
+
+                <div style="background: #fafaf8; padding: 1.5rem; border-radius: 8px; border: 1px solid #e5e3dc;">
+                    <h3 style="font-family: 'Newsreader', serif; font-size: 1.1rem; margin: 0 0 0.75rem 0; color: #2c2721;">Distance to ISC</h3>
+                    <p style="font-family: 'Inter', sans-serif; font-size: 0.95rem; color: #4a4540; margin: 0; line-height: 1.6;">
+                        <strong>25 minutes</strong> (15km)<br>
+                        Via SP340 & SP71<br>
+                        Manageable for beauty tradeoff<br>
+                        Daily commute requires commitment
+                    </p>
+                </div>
+
+                <div style="background: #fafaf8; padding: 1.5rem; border-radius: 8px; border: 1px solid #e5e3dc;">
+                    <h3 style="font-family: 'Newsreader', serif; font-size: 1.1rem; margin: 0 0 0.75rem 0; color: #2c2721;">Winter Sun</h3>
+                    <p style="font-family: 'Inter', sans-serif; font-size: 0.95rem; color: #4a4540; margin: 0; line-height: 1.6;">
+                        ☀️ <strong>Excellent</strong><br>
+                        Western shore advantage<br>
+                        Sun throughout afternoon<br>
+                        Hillside position enhances light
+                    </p>
+                </div>
+
+                <div style="background: #fafaf8; padding: 1.5rem; border-radius: 8px; border: 1px solid #e5e3dc;">
+                    <h3 style="font-family: 'Newsreader', serif; font-size: 1.1rem; margin: 0 0 0.75rem 0; color: #2c2721;">Character</h3>
+                    <p style="font-family: 'Inter', sans-serif; font-size: 0.95rem; color: #4a4540; margin: 0; line-height: 1.6;">
+                        Intimate & exclusive<br>
+                        Vertical architecture<br>
+                        Celebrity glamour<br>
+                        True alpine-lake intensity
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Geography & Setting -->
+        <section class="section">
+            <h2 class="section-title">The Dramatic Geography</h2>
+
+            <p class="body-text">
+                Laglio occupies one of Lake Como's most compressed and dramatic sites. Monte Colmegnone rises
+                directly behind the village, climbing from 200 meters at the lakefront to over 1,300 meters in
+                just 2 kilometers of horizontal distance. This creates slopes averaging 30-40% grade—steep enough
+                that the village organizes vertically rather than horizontally. Stone staircases serve as primary
+                circulation routes, connecting lakefront properties to hillside villas that stack upward like
+                terraced gardens.
+            </p>
+
+            <div style="width: 100%; max-width: 1200px; margin: 2rem auto;">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Como_Lake_%28Italy%29_-_Laglio.jpg/1280px-Como_Lake_%28Italy%29_-_Laglio.jpg"
+                     alt="Laglio village on Lake Como"
+                     style="width: 100%; height: 350px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                <p style="text-align: center; font-size: 0.85rem; color: #666; margin-top: 0.5rem; font-family: 'Inter', sans-serif;">
+                    Laglio village showing the dramatic mountain-to-lake setting - Photo: Wikimedia Commons
+                </p>
+            </div>
+
+            <p class="body-text">
+                This vertical compression creates architecture found nowhere else on the lake. Properties at
+                different elevations relate to each other in three dimensions: a villa's rooftop terrace might
+                sit level with its uphill neighbor's garden. Views layer infinitely—every window frames both
+                lake water and opposite mountains, with foreground rooftops and terraces adding depth and
+                complexity. The effect resembles Italian hill towns like Positano or Vernazza, but with alpine
+                lakes replacing Mediterranean sea.
+            </p>
+
+            <p class="body-text">
+                The western shore position ensures excellent sun exposure throughout the day. Even in winter,
+                when the eastern shore (Bellagio, Varenna) loses direct sunlight by early afternoon, Laglio's
+                hillside properties receive sun until the mountains finally block it in late afternoon. This
+                matters enormously for year-round livability—winter days with full afternoon sun feel
+                fundamentally different than those trapped in shadow from 2 PM onward.
+            </p>
+        </section>
+
+        <!-- George Clooney & Celebrity Culture -->
+        <section class="section">
+            <h2 class="section-title">Villa Oleandra & the Clooney Effect</h2>
+
+            <p class="body-text">
+                George Clooney purchased Villa Oleandra in 2002 for approximately €10 million, transforming
+                Laglio from obscure Como village into internationally recognized destination. The 18th-century
+                villa sits directly on the lake with 25 rooms spread across multiple levels, ornate gardens,
+                and the kind of privacy that steep topography and limited road access naturally provide. Clooney
+                later acquired the neighboring Villa Margherita, creating a compound that occupies significant
+                lakefront real estate.
+            </p>
+
+            <p class="body-text">
+                The celebrity presence delivers both benefits and complications. Laglio gained global visibility—
+                luxury real estate inquiries increased dramatically, restaurants and hotels upgraded standards,
+                and the village entered the consciousness of wealthy international buyers who might otherwise
+                have overlooked such a small location. But summer brings curious tourists hoping for celebrity
+                sightings, and the village's narrow roads struggle with increased traffic. Winter offers
+                tranquility; summer tests patience.
+            </p>
+
+            <p class="body-text">
+                Beyond Clooney himself, Villa Oleandra established Laglio as acceptable to international elite—
+                a form of social validation that matters in luxury real estate markets. Owning property in
+                "Clooney's village" carries cachet among certain buyers. The village itself handles celebrity
+                attention with admirable restraint: no exploitation, no Clooney-themed restaurants, no tours
+                pointing at famous homes. Laglio maintains dignity, allowing natural beauty rather than
+                manufactured glamour to define the experience.
+            </p>
+        </section>
+
+        <!-- Lifestyle & Practicalities -->
+        <section class="section">
+            <h2 class="section-title">Life in Laglio</h2>
+
+            <p class="body-text">
+                With 900 residents, Laglio operates at village rather than town scale. Infrastructure is minimal:
+                a small grocery, a few restaurants, a church, and the essential bar where locals gather for
+                morning espresso. For serious shopping, medical care, or any service beyond basics, residents
+                drive to Cernobbio (7 minutes) or Como (15 minutes). This intimacy appeals to those seeking
+                genuine village life but requires accepting that daily needs involve leaving Laglio regularly.
+            </p>
+
+            <p class="body-text">
+                The 25-minute commute to International School of Como sits at the edge of practical feasibility.
+                Manageable for families absolutely committed to Laglio's beauty, but long enough to feel
+                burdensome during winter mornings or when factoring after-school activities. The route follows
+                narrow lakeside roads through multiple villages—scenic but requiring attention and patience
+                during tourist season. Families should drive the commute during morning rush before committing;
+                what reads as "25 minutes" on maps can stretch to 35-40 minutes with traffic and school zones.
+            </p>
+
+            <p class="body-text">
+                The village's vertical organization means walking involves stairs—constant stairs. Groceries
+                carried uphill, children's strollers negotiating steps, elderly visitors struggling with
+                elevation changes. Fitness enthusiasts will thrive; those with mobility limitations will
+                struggle. Most properties include parking, but even accessing your own garage might involve
+                navigating steep driveways or narrow passages that barely accommodate modern vehicles.
+            </p>
+
+            <div style="background: #f0ebe1; padding: 1.5rem; border-radius: 8px; margin-top: 2rem; border-left: 4px solid #8B6F47;">
+                <p style="font-family: 'Newsreader', serif; font-size: 1.05rem; color: #2c2721; margin: 0; line-height: 1.7;">
+                    <strong>Best For:</strong> Families who prioritize Lake Como's most dramatic mountain-to-lake
+                    setting and can accept a 25-minute school commute. Laglio rewards those willing to trade daily
+                    convenience for spectacular beauty—every window delivers views that justify the compromises.
+                    This is Lake Como for committed romantics, not pragmatists.
+                </p>
+            </div>
+        </section>
+
+        <!-- Real Estate -->
+        <section class="section">
+            <h2 class="section-title">Luxury Real Estate: €2M-€5M Range</h2>
+
+            <p class="body-text">
+                Laglio's luxury market focuses on lakefront villas and hillside properties with commanding views.
+                The €2-5 million range delivers exceptional options: direct lake access, period architecture
+                with modern renovations, terraced gardens that maximize steep topography, and the kind of
+                privacy that small village scale naturally provides. The Clooney effect maintains strong
+                international demand, particularly from buyers seeking intimate village character over larger
+                town infrastructure.
+            </p>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; margin-top: 2rem;">
+                <!-- Property 1 -->
+                <div style="background: #fff; border: 1px solid #e5e3dc; border-radius: 8px; overflow: hidden;">
+                    <div style="background: #4A7BA7; color: white; padding: 1rem;">
+                        <h3 style="margin: 0; font-family: 'Newsreader', serif; font-size: 1.1rem;">Lakefront Historic Villa</h3>
+                    </div>
+                    <div style="padding: 1.5rem;">
+                        <p style="font-family: 'Inter', sans-serif; font-size: 0.95rem; color: #4a4540; margin: 0 0 1rem 0; line-height: 1.6;">
+                            <strong>€4,800,000</strong>
+                        </p>
+                        <p style="font-family: 'Inter', sans-serif; font-size: 0.9rem; color: #4a4540; margin: 0 0 0.5rem 0; line-height: 1.6;">
+                            <strong>450m²</strong> · 6 bedrooms · 5 bathrooms
+                        </p>
+                        <p style="font-family: 'Inter', sans-serif; font-size: 0.9rem; color: #4a4540; margin: 0 0 1rem 0; line-height: 1.6;">
+                            Prestigious 17th-century villa with 25 meters of lake frontage and private dock. Completely
+                            restored maintaining period details including original frescoes, vaulted ceilings, and marble
+                            fireplaces. Terraced gardens descending to water's edge, panoramic terraces at multiple
+                            levels. Absolute privacy. Minutes from Villa Oleandra. Iconic Laglio setting.
+                        </p>
+                        <p style="font-family: 'Inter', sans-serif; font-size: 0.85rem; color: #666; margin: 0;">
+                            Source: Lionard Luxury Real Estate
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Property 2 -->
+                <div style="background: #fff; border: 1px solid #e5e3dc; border-radius: 8px; overflow: hidden;">
+                    <div style="background: #4A7BA7; color: white; padding: 1rem;">
+                        <h3 style="margin: 0; font-family: 'Newsreader', serif; font-size: 1.1rem;">Hillside Villa with Dramatic Views</h3>
+                    </div>
+                    <div style="padding: 1.5rem;">
+                        <p style="font-family: 'Inter', sans-serif; font-size: 0.95rem; color: #4a4540; margin: 0 0 1rem 0; line-height: 1.6;">
+                            <strong>€3,200,000</strong>
+                        </p>
+                        <p style="font-family: 'Inter', sans-serif; font-size: 0.9rem; color: #4a4540; margin: 0 0 0.5rem 0; line-height: 1.6;">
+                            <strong>320m²</strong> · 4 bedrooms · 4 bathrooms
+                        </p>
+                        <p style="font-family: 'Inter', sans-serif; font-size: 0.9rem; color: #4a4540; margin: 0 0 1rem 0; line-height: 1.6;">
+                            Modern villa on elevated hillside position with 270-degree lake and mountain panoramas.
+                            Contemporary design maximizing glass to capture views, open-plan living flowing to multiple
+                            terraces. Infinity pool appearing to merge with lake below. 600m² terraced gardens with
+                            Mediterranean plantings. Direct trail access to Monte Colmegnone. Exceptional winter sun.
+                        </p>
+                        <p style="font-family: 'Inter', sans-serif; font-size: 0.85rem; color: #666; margin: 0;">
+                            Source: Engel & Völkers Lake Como
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Property 3 -->
+                <div style="background: #fff; border: 1px solid #e5e3dc; border-radius: 8px; overflow: hidden;">
+                    <div style="background: #4A7BA7; color: white; padding: 1rem;">
+                        <h3 style="margin: 0; font-family: 'Newsreader', serif; font-size: 1.1rem;">Restored Cascina with Gardens</h3>
+                    </div>
+                    <div style="padding: 1.5rem;">
+                        <p style="font-family: 'Inter', sans-serif; font-size: 0.95rem; color: #4a4540; margin: 0 0 1rem 0; line-height: 1.6;">
+                            <strong>€2,400,000</strong>
+                        </p>
+                        <p style="font-family: 'Inter', sans-serif; font-size: 0.9rem; color: #4a4540; margin: 0 0 0.5rem 0; line-height: 1.6;">
+                            <strong>280m²</strong> · 3 bedrooms · 3 bathrooms
+                        </p>
+                        <p style="font-family: 'Inter', sans-serif; font-size: 0.9rem; color: #4a4540; margin: 0 0 1rem 0; line-height: 1.6;">
+                            Beautifully restored traditional cascina (farmhouse) on mid-hillside location combining
+                            village proximity with mountain tranquility. Original stone walls and wood beams complement
+                            contemporary interiors. Multiple outdoor living spaces including covered loggia. Mature
+                            olive grove and ornamental gardens on 900m² plot. Stunning views across lake to Bellagio.
+                            Authentic Laglio character at accessible pricing.
+                        </p>
+                        <p style="font-family: 'Inter', sans-serif; font-size: 0.85rem; color: #666; margin: 0;">
+                            Source: Italy Sotheby's International Realty
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <p class="body-text" style="margin-top: 2rem;">
+                Laglio's luxury market benefits from limited inventory and strong international recognition.
+                The village's small size means exceptional properties rarely reach market—most transactions
+                occur through private networks before public listings. Buyers prioritizing dramatic natural
+                beauty, intimate village scale, and western shore sun exposure will find Laglio compelling
+                despite the longer school commute. Properties commanding unobstructed lake views consistently
+                achieve premium pricing.
+            </p>
+        </section>
+
+        <!-- The Verdict -->
+        <section class="section">
+            <h2 class="section-title">The Laglio Trade-Off</h2>
+
+            <p class="body-text">
+                Laglio delivers Lake Como at its most dramatically beautiful—steep mountains plunging to deep
+                water, vertical architecture creating three-dimensional complexity, and the kind of alpine-lake
+                intensity that makes every view genuinely spectacular. This is not a practical choice for
+                families prioritizing convenience. The 25-minute school commute, minimal village infrastructure,
+                and constant stairs make daily life more challenging than Cernobbio or Como city.
+            </p>
+
+            <p class="body-text">
+                But for families absolutely committed to beauty—who accept longer commutes and limited local
+                services as acceptable costs for living in Lake Como's most dramatic setting—Laglio delivers
+                extraordinary rewards. Every property commands views that justify the compromises. The intimate
+                village scale creates genuine community among residents. The western shore position ensures
+                excellent winter sun. And the celebrity presence, while complicating summer tourism, validates
+                Laglio's appeal to international elite.
+            </p>
+
+            <p class="body-text">
+                This is Lake Como for romantics willing to prioritize place over pragmatism—who value waking
+                to spectacular mountain-lake panoramas more than walking to comprehensive services. For that
+                specific family profile, Laglio offers perhaps Lake Como's purest expression of natural beauty
+                combined with authentic Italian village character. The compromises are real, but so are the
+                rewards.
+            </p>
+        </section>
+
+        <!-- Navigation -->
+        <nav style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #e5e3dc;">
+            <a href="/cities-hub" style="display: inline-block; font-family: 'Inter', sans-serif; font-size: 0.95rem; color: #4A7BA7; text-decoration: none; font-weight: 500;">
+                ← Back to Cities Hub
+            </a>
+        </nav>
+    </main>
+</body>
+</html>

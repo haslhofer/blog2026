@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moltrasio, Italy - Lake Como Village Guide</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
+    <style>
+        .hero-image {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: var(--radius-md);
+            margin: var(--spacing-xl) 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .city-meta {
+            display: flex;
+            gap: var(--spacing-md);
+            justify-content: center;
+            flex-wrap: wrap;
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            color: var(--ink-muted);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .city-meta span {
+            padding: var(--spacing-xs) var(--spacing-md);
+            background: var(--paper-dark);
+            border-radius: var(--radius-sm);
+        }
+
+        .highlight-box {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-sm);
+            margin: var(--spacing-xl) 0;
+        }
+
+        .highlight-box h3 {
+            font-family: var(--font-sans);
+            font-size: 1rem;
+            font-weight: 600;
+            color: #2e7d32;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .highlight-box p {
+            font-family: var(--font-serif);
+            font-size: 0.95rem;
+            color: #1b5e20;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--spacing-lg);
+            margin-bottom: var(--section-gap);
+        }
+
+        .overview-card {
+            background: white;
+            border-radius: var(--radius-sm);
+            padding: var(--spacing-lg);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+        }
+
+        .overview-card h3 {
+            font-family: var(--font-sans);
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--orbital);
+            margin-bottom: var(--spacing-md);
+            padding-bottom: var(--spacing-sm);
+            border-bottom: 1px solid var(--rule-light);
+        }
+
+        .overview-card p {
+            font-family: var(--font-serif);
+            font-size: 0.95rem;
+            color: var(--ink-muted);
+            line-height: 1.7;
+        }
+
+        .features-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .features-list li {
+            position: relative;
+            padding-left: var(--spacing-lg);
+            margin-bottom: var(--spacing-sm);
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            color: var(--ink-muted);
+            line-height: 1.6;
+        }
+
+        .features-list li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--orbital);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .property-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: var(--spacing-xl);
+            margin-top: var(--spacing-lg);
+        }
+
+        .property-card {
+            background: white;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .property-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
+
+        .property-image {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+        }
+
+        .property-content {
+            padding: var(--spacing-lg);
+        }
+
+        .property-price {
+            font-family: var(--font-mono);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--orbital);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .property-location {
+            font-family: var(--font-sans);
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--ink);
+            margin-bottom: var(--spacing-md);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .property-description {
+            font-family: var(--font-serif);
+            font-size: 0.9rem;
+            color: var(--ink-muted);
+            line-height: 1.6;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .property-link {
+            display: inline-block;
+            font-family: var(--font-sans);
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--orbital);
+            text-decoration: none;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border: 1px solid var(--orbital);
+            border-radius: var(--radius-sm);
+            transition: all 0.2s ease;
+        }
+
+        .property-link:hover {
+            background: var(--orbital);
+            color: white;
+        }
+
+        .school-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+        }
+
+        .school-table th {
+            font-family: var(--font-sans);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--ink);
+            background: var(--paper-dark);
+            padding: var(--spacing-md);
+            text-align: left;
+            border-bottom: 2px solid var(--rule);
+        }
+
+        .school-table td {
+            font-family: var(--font-serif);
+            font-size: 0.9rem;
+            color: var(--ink-muted);
+            padding: var(--spacing-md);
+            border-bottom: 1px solid var(--rule-light);
+        }
+
+        .school-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .school-table .school-name {
+            font-weight: 600;
+            color: var(--ink);
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <a href="/cities-hub" class="nav-back">← Back to Cities</a>
+    </nav>
+
+    <main class="container">
+        <!-- Hero Section -->
+        <header class="hero">
+            <h1 class="hero-title">Moltrasio, Italy</h1>
+            <div class="city-meta">
+                <span>Western Lake Como Shore</span>
+                <span>Population: ~1,700</span>
+                <span>15-20 min to ISC</span>
+            </div>
+            <p class="hero-tagline">
+                Serene retreat with elegant historic villas and excellent winter sun exposure
+            </p>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Moltrasio_-_panoramio.jpg/1280px-Moltrasio_-_panoramio.jpg"
+                 alt="View of Moltrasio on Lake Como"
+                 class="hero-image">
+        </header>
+
+        <!-- Winter Sun Highlight -->
+        <div class="highlight-box">
+            <h3>Excellent Winter Sun</h3>
+            <p>
+                Moltrasio's western shore position provides <strong>excellent winter sun exposure</strong> throughout the day. The village receives direct sunlight well into the afternoon during winter months, making it ideal for families who prioritize year-round natural light and outdoor living.
+            </p>
+        </div>
+
+        <!-- Overview Section -->
+        <section class="section">
+            <h2 class="section-title">Overview</h2>
+            <div class="overview-grid">
+                <div class="overview-card">
+                    <h3>Character</h3>
+                    <p>Moltrasio is a serene, elegant village of approximately 1,700 residents on Lake Como's western shore. Famous for its historic villas including Villa Passalacqua and the former Villa Fontanelle (George Clooney's previous residence), Moltrasio attracts discerning buyers seeking tranquility and sophistication.</p>
+                </div>
+                <div class="overview-card">
+                    <h3>Location & Access</h3>
+                    <p>Located 11km north of Como along the western lakeshore road, Moltrasio offers easy access to the International School of Como (15-20 minutes). The village sits between Cernobbio to the south and Laglio to the north, making it an ideal central location on the prestigious western shore.</p>
+                </div>
+                <div class="overview-card">
+                    <h3>Lifestyle</h3>
+                    <p>Peaceful residential atmosphere with upscale properties, lakeside walking paths, and intimate trattorias. Popular with wealthy Milanese seeking weekend retreats. The village maintains authentic Italian character while offering refined amenities and exceptional privacy.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- International Schools Section -->
+        <section class="section">
+            <h2 class="section-title">International School Access</h2>
+            <table class="school-table">
+                <thead>
+                    <tr>
+                        <th>School</th>
+                        <th>Distance from Moltrasio</th>
+                        <th>Drive Time</th>
+                        <th>Annual Tuition</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="school-name">International School of Como (ISC)</td>
+                        <td>11km via lakeshore road</td>
+                        <td>15-20 minutes</td>
+                        <td>€13,410 - €24,050</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p class="note" style="margin-top: var(--spacing-lg);">
+                <strong>Note:</strong> Moltrasio offers one of the most convenient commutes to ISC among western shore villages. The direct lakeside road provides a scenic, straightforward drive without passing through Como's city center, making morning school runs particularly pleasant.
+            </p>
+        </section>
+
+        <!-- Historic Villas Section -->
+        <section class="section">
+            <h2 class="section-title">Historic Villas & Attractions</h2>
+            <div class="prose">
+                <h3>Villa Passalacqua</h3>
+                <p>
+                    One of Lake Como's most celebrated historic estates, Villa Passalacqua dates to the 18th century and has been transformed into an ultra-luxury boutique hotel. The villa's terraced gardens, neoclassical architecture, and commanding lake views exemplify the grandeur that defines Moltrasio's architectural heritage.
+                </p>
+
+                <h3>Villa Fontanelle</h3>
+                <p>
+                    This iconic villa gained international fame as George Clooney's Lake Como residence before he moved to nearby Laglio. The 18th-century estate features dramatic lakefront positioning and extensive gardens. While privately owned, the villa's presence contributes to Moltrasio's reputation as a destination for discerning international residents.
+                </p>
+
+                <h3>Church of San Martino</h3>
+                <p>
+                    The historic Church of San Martino sits at the heart of Moltrasio's old village, featuring beautiful frescoes and traditional Lombard architecture. The church piazza serves as a gathering point for village celebrations and maintains the community's authentic Italian character.
+                </p>
+
+                <h3>Village Features</h3>
+                <ul class="features-list">
+                    <li><strong>Lakeside Promenade</strong> - Scenic waterfront walking path connecting to neighboring villages</li>
+                    <li><strong>Historic Architecture</strong> - Well-preserved traditional buildings and elegant villas</li>
+                    <li><strong>Local Trattorias</strong> - Intimate family-run restaurants serving regional cuisine</li>
+                    <li><strong>Mountain Trails</strong> - Hiking paths ascending to panoramic viewpoints</li>
+                    <li><strong>Ferry Service</strong> - Regular boat connections to Como and lake destinations</li>
+                    <li><strong>Private Docks</strong> - Many waterfront properties feature private boat access</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Lifestyle Section -->
+        <section class="section">
+            <h2 class="section-title">Living in Moltrasio</h2>
+            <div class="prose">
+                <p>
+                    Moltrasio represents refined lakeside living with a focus on privacy, natural beauty, and architectural heritage. The village maintains a quieter profile than neighboring Cernobbio, attracting families and couples who prioritize tranquility over amenities. Daily life centers around lakeside walks, local cafes, and the intimate village piazza.
+                </p>
+                <p>
+                    The real estate market in Moltrasio emphasizes historic villas and upscale properties with limited new construction. Many estates date to the 18th and 19th centuries, offering original architectural details combined with modern renovations. Properties here command premium prices due to the western shore location, excellent sun exposure, and association with celebrated villas like Passalacqua and Fontanelle.
+                </p>
+                <p>
+                    The village's <strong>excellent winter sun exposure</strong> makes it particularly appealing for year-round residents. Unlike eastern shore villages that lose afternoon light during winter months, Moltrasio receives direct sunlight throughout the day, enhancing outdoor living and natural warmth. Combined with the convenient 15-20 minute commute to ISC, Moltrasio offers an ideal balance of serenity, sunshine, and accessibility for international families.
+                </p>
+                <p>
+                    Limited commercial development preserves Moltrasio's residential character. The village offers essential services—a small market, pharmacy, and several restaurants—but families will visit Como or Cernobbio for comprehensive shopping. This limitation reinforces the tranquil atmosphere while ensuring genuine village living rather than resort convenience.
+                </p>
+            </div>
+        </section>
+
+        <!-- Real Estate Section -->
+        <section class="section">
+            <h2 class="section-title">Real Estate Listings</h2>
+            <p class="body-text">
+                Moltrasio's real estate market features historic villas, elegant lakefront properties, and exclusive hillside estates. Limited availability and western shore positioning drive premium valuations, with properties ranging from renovated apartments to grand historic villas.
+            </p>
+            <div class="property-grid">
+                <div class="property-card">
+                    <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800&q=80"
+                         alt="Historic Italian villa on Lake Como"
+                         class="property-image">
+                    <div class="property-content">
+                        <div class="property-price">€4.5M</div>
+                        <div class="property-location">Moltrasio Waterfront</div>
+                        <p class="property-description">
+                            Historic lakefront villa of 400 sqm with private dock and gardens of 1,200 sqm. 5 bedrooms, 4 bathrooms, original architectural details beautifully restored. Panoramic lake views, direct water access, exceptional privacy. Minutes to ISC and Como.
+                        </p>
+                        <a href="https://www.italy-sothebysrealty.com/en/destinations/north/lakes/lake-como.html"
+                           target="_blank"
+                           class="property-link">View Sotheby's Listings →</a>
+                    </div>
+                </div>
+
+                <div class="property-card">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80"
+                         alt="Elegant villa with lake view"
+                         class="property-image">
+                    <div class="property-content">
+                        <div class="property-price">€3.2M</div>
+                        <div class="property-location">Moltrasio Hillside</div>
+                        <p class="property-description">
+                            Elegant villa of 320 sqm on elevated position with commanding lake views. 4 bedrooms, 3 bathrooms, terraced gardens with infinity pool, excellent winter sun exposure. Modern interiors with period character preserved. Private parking and guest annex.
+                        </p>
+                        <a href="https://www.luxuryestate.com/italy/lombardy/provincia-di-como/moltrasio"
+                           target="_blank"
+                           class="property-link">View Moltrasio Listings →</a>
+                    </div>
+                </div>
+
+                <div class="property-card">
+                    <img src="https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?w=800&q=80"
+                         alt="Lakeside apartment with terrace"
+                         class="property-image">
+                    <div class="property-content">
+                        <div class="property-price">€2.0M - €2.8M</div>
+                        <div class="property-location">Moltrasio Village Center</div>
+                        <p class="property-description">
+                            Luxurious lakefront apartments in restored historic building. 180-250 sqm, 3-4 bedrooms, private terraces with lake views. High-end finishes, elevator access, shared private dock. Walking distance to village amenities and ferry landing.
+                        </p>
+                        <a href="https://www.jamesedition.com/real_estate/lake-como-italy"
+                           target="_blank"
+                           class="property-link">View JamesEdition Listings →</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="note" style="margin-top: var(--spacing-xl);">
+                <strong>Moltrasio Market Character:</strong> Real estate in Moltrasio emphasizes quality over quantity, with limited inventory of historic villas and exclusive properties. Western shore positioning and excellent sun exposure command premium pricing compared to eastern shore equivalents. The village's association with celebrated estates like Villa Passalacqua and Villa Fontanelle reinforces its prestigious reputation. Properties here appeal to buyers prioritizing privacy, architectural heritage, and refined lakeside living.
+                <br><br>
+                Sources: <a href="https://www.jamesedition.com/real_estate/lake-como-italy" target="_blank">JamesEdition</a>,
+                <a href="https://www.luxuryestate.com/italy/lombardy/provincia-di-como/moltrasio" target="_blank">LuxuryEstate.com</a>,
+                <a href="https://www.italy-sothebysrealty.com/en/destinations/north/lakes/lake-como.html" target="_blank">Italy Sotheby's International Realty</a>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <a href="/cities-hub" class="footer-link">← Back to Cities Hub</a>
+            <p class="footer-text" style="margin-top: var(--spacing-md);">
+                City guide created 2026. Data compiled from Wikimedia Commons, international school websites,
+                luxury real estate portals, and local tourism resources
+            </p>
+        </footer>
+    </main>
+</body>
+</html>

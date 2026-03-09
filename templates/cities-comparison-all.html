@@ -1,0 +1,1542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete City Comparison: 13 Mediterranean Towns</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        /* Additional styles for comparison tables */
+        .comparison-controls {
+            background: white;
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-sm);
+            margin-bottom: var(--spacing-xl);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+        }
+
+        .filter-group {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .filter-group label {
+            font-family: var(--font-sans);
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--ink-muted);
+            display: block;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .filter-group select,
+        .filter-group input {
+            width: 100%;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border: 1px solid var(--rule);
+            border-radius: var(--radius-sm);
+            font-family: var(--font-sans);
+            font-size: 0.875rem;
+        }
+
+        .comparison-table-container {
+            overflow-x: auto;
+            background: white;
+            border-radius: var(--radius-sm);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+
+        .comparison-table thead {
+            background: var(--paper-dark);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .comparison-table th {
+            padding: var(--spacing-md);
+            text-align: left;
+            font-family: var(--font-sans);
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--ink);
+            border-bottom: 2px solid var(--rule);
+            white-space: nowrap;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .comparison-table th:hover {
+            background: var(--rule-light);
+        }
+
+        .comparison-table th.sortable::after {
+            content: ' ↕';
+            color: var(--ink-light);
+            font-size: 0.7em;
+        }
+
+        .comparison-table th.sorted-asc::after {
+            content: ' ↑';
+            color: var(--orbital);
+        }
+
+        .comparison-table th.sorted-desc::after {
+            content: ' ↓';
+            color: var(--orbital);
+        }
+
+        .comparison-table td {
+            padding: var(--spacing-md);
+            border-bottom: 1px solid var(--rule-light);
+            font-family: var(--font-sans);
+        }
+
+        .comparison-table tbody tr:hover {
+            background: var(--paper);
+        }
+
+        .comparison-table .city-name {
+            font-family: var(--font-serif);
+            font-weight: 600;
+            color: var(--ink);
+            font-size: 0.95rem;
+        }
+
+        .comparison-table .region-tag {
+            display: inline-block;
+            padding: 0.15rem 0.4rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            margin-top: 0.25rem;
+        }
+
+        .region-tag.italy {
+            background: #e8f4f8;
+            color: var(--orbital);
+        }
+
+        .region-tag.costa-blanca {
+            background: #fef6e8;
+            color: #d97706;
+        }
+
+        .region-tag.costa-brava {
+            background: #f3e8f8;
+            color: #9333ea;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-right: 0.25rem;
+            white-space: nowrap;
+        }
+
+        .badge.excellent {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .badge.good {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .badge.moderate {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .badge.limited {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .chart-container {
+            background: white;
+            padding: var(--spacing-xl);
+            border-radius: var(--radius-sm);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+            margin-bottom: var(--spacing-xl);
+            position: relative;
+            height: 400px;
+        }
+
+        .chart-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: var(--spacing-xl);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .ranking-card {
+            background: white;
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-sm);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+        }
+
+        .ranking-card h4 {
+            font-family: var(--font-sans);
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--orbital);
+            margin-bottom: var(--spacing-md);
+            padding-bottom: var(--spacing-sm);
+            border-bottom: 2px solid var(--rule-light);
+        }
+
+        .ranking-list {
+            list-style: none;
+        }
+
+        .ranking-list li {
+            display: flex;
+            align-items: center;
+            padding: var(--spacing-sm) 0;
+            border-bottom: 1px solid var(--rule-light);
+        }
+
+        .ranking-list li:last-child {
+            border-bottom: none;
+        }
+
+        .rank-number {
+            font-family: var(--font-mono);
+            font-weight: 600;
+            color: var(--orbital);
+            font-size: 1.1rem;
+            min-width: 2rem;
+        }
+
+        .rank-city {
+            font-family: var(--font-serif);
+            font-weight: 500;
+            color: var(--ink);
+            flex: 1;
+        }
+
+        .rank-value {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--ink-muted);
+        }
+
+        .side-by-side-selector {
+            background: white;
+            padding: var(--spacing-xl);
+            border-radius: var(--radius-sm);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .selector-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .comparison-result {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-lg);
+            margin-top: var(--spacing-lg);
+        }
+
+        .city-comparison-card {
+            background: var(--paper);
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-sm);
+            border: 2px solid var(--rule);
+        }
+
+        .city-comparison-card h5 {
+            font-family: var(--font-serif);
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--ink);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .comparison-attribute {
+            display: flex;
+            justify-content: space-between;
+            padding: var(--spacing-sm) 0;
+            border-bottom: 1px solid var(--rule-light);
+            font-size: 0.85rem;
+        }
+
+        .comparison-attribute:last-child {
+            border-bottom: none;
+        }
+
+        .attr-label {
+            font-family: var(--font-sans);
+            color: var(--ink-muted);
+            font-weight: 500;
+        }
+
+        .attr-value {
+            font-family: var(--font-mono);
+            color: var(--ink);
+            text-align: right;
+        }
+
+        .decision-matrix {
+            background: white;
+            padding: var(--spacing-xl);
+            border-radius: var(--radius-sm);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .priority-selector {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .priority-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: var(--spacing-sm);
+            margin-top: var(--spacing-md);
+        }
+
+        .priority-option {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .priority-option input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+        }
+
+        .priority-option label {
+            font-family: var(--font-sans);
+            font-size: 0.85rem;
+            color: var(--ink-muted);
+            cursor: pointer;
+        }
+
+        .recommended-cities {
+            margin-top: var(--spacing-lg);
+            padding: var(--spacing-lg);
+            background: var(--paper);
+            border-radius: var(--radius-sm);
+            border-left: 4px solid var(--orbital);
+        }
+
+        .recommended-cities h5 {
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--orbital);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .recommended-list {
+            list-style: none;
+        }
+
+        .recommended-list li {
+            padding: var(--spacing-sm) 0;
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            color: var(--ink);
+        }
+
+        .summary-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .summary-stat-card {
+            background: white;
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-sm);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+            text-align: center;
+        }
+
+        .summary-stat-card .stat-number {
+            font-family: var(--font-mono);
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--orbital);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .summary-stat-card .stat-label {
+            font-family: var(--font-sans);
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--ink-muted);
+        }
+
+        @media (max-width: 768px) {
+            .chart-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .selector-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison-result {
+                grid-template-columns: 1fr;
+            }
+
+            .chart-container {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <a href="{{ url_for('index') }}" class="nav-back">← Back to Home</a>
+    </nav>
+
+    <div class="container">
+        <!-- Hero Section -->
+        <div class="hero">
+            <h1 class="hero-title">Complete City Comparison: 13 Mediterranean Towns</h1>
+            <p class="hero-tagline">
+                Comprehensive analysis of <span class="highlight">7 Italian Lake Towns</span>,
+                <span class="highlight">3 Costa Blanca Cities</span>, and
+                <span class="highlight">3 Costa Brava Towns</span> across climate, schools, lifestyle, and accessibility
+            </p>
+        </div>
+
+        <!-- Summary Statistics -->
+        <div class="summary-stats">
+            <div class="summary-stat-card">
+                <div class="stat-number">13</div>
+                <div class="stat-label">Cities Analyzed</div>
+            </div>
+            <div class="summary-stat-card">
+                <div class="stat-number">15</div>
+                <div class="stat-label">International Schools</div>
+            </div>
+            <div class="summary-stat-card">
+                <div class="stat-number">3</div>
+                <div class="stat-label">Regions Compared</div>
+            </div>
+            <div class="summary-stat-card">
+                <div class="stat-number">€7.7k-€24k</div>
+                <div class="stat-label">Tuition Range</div>
+            </div>
+        </div>
+
+        <!-- Quick Rankings -->
+        <div class="section">
+            <h2 class="section-title">Quick Rankings</h2>
+            <div class="chart-grid">
+                <div class="ranking-card">
+                    <h4>Best for Winter Sunlight</h4>
+                    <ol class="ranking-list">
+                        <li><span class="rank-number">1</span><span class="rank-city">Javéa (Costa Blanca)</span><span class="rank-value">Excellent</span></li>
+                        <li><span class="rank-number">2</span><span class="rank-city">Altea (Costa Blanca)</span><span class="rank-value">Excellent</span></li>
+                        <li><span class="rank-number">3</span><span class="rank-city">Calpe (Costa Blanca)</span><span class="rank-value">Excellent</span></li>
+                        <li><span class="rank-number">4</span><span class="rank-city">Cernobbio (Italy)</span><span class="rank-value">Good</span></li>
+                        <li><span class="rank-number">5</span><span class="rank-city">Moltrasio (Italy)</span><span class="rank-value">Good</span></li>
+                    </ol>
+                </div>
+
+                <div class="ranking-card">
+                    <h4>Most Affordable Schools</h4>
+                    <ol class="ranking-list">
+                        <li><span class="rank-number">1</span><span class="rank-city">Javéa</span><span class="rank-value">€7,680/yr</span></li>
+                        <li><span class="rank-number">2</span><span class="rank-city">Canet de Mar</span><span class="rank-value">€12,580/yr</span></li>
+                        <li><span class="rank-number">3</span><span class="rank-city">Como</span><span class="rank-value">€13,410/yr</span></li>
+                        <li><span class="rank-number">4</span><span class="rank-city">ICS Milan</span><span class="rank-value">€13,950/yr</span></li>
+                        <li><span class="rank-number">5</span><span class="rank-city">Platja d'Aro</span><span class="rank-value">~€14,000/yr</span></li>
+                    </ol>
+                </div>
+
+                <div class="ranking-card">
+                    <h4>Best for Tranquility</h4>
+                    <ol class="ranking-list">
+                        <li><span class="rank-number">1</span><span class="rank-city">Brienno (Italy)</span><span class="rank-value">Pop. 400</span></li>
+                        <li><span class="rank-number">2</span><span class="rank-city">Argegno (Italy)</span><span class="rank-value">Pop. 700</span></li>
+                        <li><span class="rank-number">3</span><span class="rank-city">Laglio (Italy)</span><span class="rank-value">Pop. 900</span></li>
+                        <li><span class="rank-number">4</span><span class="rank-city">Torno (Italy)</span><span class="rank-value">Pop. 1,200</span></li>
+                        <li><span class="rank-number">5</span><span class="rank-city">Calella (Costa Brava)</span><span class="rank-value">Small village</span></li>
+                    </ol>
+                </div>
+
+                <div class="ranking-card">
+                    <h4>Best Major City Access</h4>
+                    <ol class="ranking-list">
+                        <li><span class="rank-number">1</span><span class="rank-city">Como</span><span class="rank-value">1h to Milan</span></li>
+                        <li><span class="rank-number">2</span><span class="rank-city">Canet de Mar</span><span class="rank-value">50km to Barcelona</span></li>
+                        <li><span class="rank-number">3</span><span class="rank-city">Cernobbio</span><span class="rank-value">~1h to Milan</span></li>
+                        <li><span class="rank-number">4</span><span class="rank-city">Platja d'Aro</span><span class="rank-value">~1.5h to Barcelona</span></li>
+                        <li><span class="rank-number">5</span><span class="rank-city">Javéa</span><span class="rank-value">~1.5h to Valencia</span></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- Master Comparison Table -->
+        <div class="section">
+            <h2 class="section-title">Master Comparison Table</h2>
+
+            <div class="comparison-controls">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--spacing-md);">
+                    <div class="filter-group">
+                        <label for="regionFilter">Filter by Region</label>
+                        <select id="regionFilter" onchange="filterTable()">
+                            <option value="all">All Regions</option>
+                            <option value="italy">Italy (Lake Como)</option>
+                            <option value="costa-blanca">Spain (Costa Blanca)</option>
+                            <option value="costa-brava">Spain (Costa Brava)</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="searchInput">Search Cities</label>
+                        <input type="text" id="searchInput" placeholder="Type city name..." onkeyup="filterTable()">
+                    </div>
+                </div>
+            </div>
+
+            <div class="comparison-table-container">
+                <table class="comparison-table" id="comparisonTable">
+                    <thead>
+                        <tr>
+                            <th class="sortable" onclick="sortTable(0)">City</th>
+                            <th class="sortable" onclick="sortTable(1)">Region</th>
+                            <th class="sortable" onclick="sortTable(2)">Population</th>
+                            <th class="sortable" onclick="sortTable(3)">School Distance</th>
+                            <th class="sortable" onclick="sortTable(4)">Min Tuition (€/yr)</th>
+                            <th class="sortable" onclick="sortTable(5)">Max Tuition (€/yr)</th>
+                            <th class="sortable" onclick="sortTable(6)">Winter Sun</th>
+                            <th class="sortable" onclick="sortTable(7)">Major City</th>
+                            <th class="sortable" onclick="sortTable(8)">Character</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Italy - Lake Como -->
+                        <tr data-region="italy">
+                            <td><div class="city-name">Como</div><div class="region-tag italy">Lake Como</div></td>
+                            <td>Italy</td>
+                            <td data-value="85000">85,000</td>
+                            <td data-value="10">10 km (15 min)</td>
+                            <td data-value="13410">€13,410</td>
+                            <td data-value="24050">€24,050</td>
+                            <td><span class="badge moderate">Moderate</span></td>
+                            <td>Milan (1h train)</td>
+                            <td>Urban lakeside city</td>
+                        </tr>
+                        <tr data-region="italy">
+                            <td><div class="city-name">Cernobbio</div><div class="region-tag italy">Lake Como</div></td>
+                            <td>Italy</td>
+                            <td data-value="7000">7,000</td>
+                            <td data-value="10">10 km (15 min)</td>
+                            <td data-value="13410">€13,410</td>
+                            <td data-value="24050">€24,050</td>
+                            <td><span class="badge excellent">Excellent</span></td>
+                            <td>Milan (~1h)</td>
+                            <td>Elegant lakefront</td>
+                        </tr>
+                        <tr data-region="italy">
+                            <td><div class="city-name">Torno</div><div class="region-tag italy">Lake Como</div></td>
+                            <td>Italy</td>
+                            <td data-value="1200">1,200</td>
+                            <td data-value="15">15 km (25 min)</td>
+                            <td data-value="13410">€13,410</td>
+                            <td data-value="24050">€24,050</td>
+                            <td><span class="badge limited">Limited</span></td>
+                            <td>Milan (~1.5h)</td>
+                            <td>Tranquil village</td>
+                        </tr>
+                        <tr data-region="italy">
+                            <td><div class="city-name">Moltrasio</div><div class="region-tag italy">Lake Como</div></td>
+                            <td>Italy</td>
+                            <td data-value="1700">1,700</td>
+                            <td data-value="11">11 km (20 min)</td>
+                            <td data-value="13410">€13,410</td>
+                            <td data-value="24050">€24,050</td>
+                            <td><span class="badge excellent">Excellent</span></td>
+                            <td>Milan (~1h)</td>
+                            <td>Serene elegance</td>
+                        </tr>
+                        <tr data-region="italy">
+                            <td><div class="city-name">Laglio</div><div class="region-tag italy">Lake Como</div></td>
+                            <td>Italy</td>
+                            <td data-value="900">900</td>
+                            <td data-value="15">15 km (25 min)</td>
+                            <td data-value="13410">€13,410</td>
+                            <td data-value="24050">€24,050</td>
+                            <td><span class="badge excellent">Excellent</span></td>
+                            <td>Milan (~1.5h)</td>
+                            <td>Dramatic & exclusive</td>
+                        </tr>
+                        <tr data-region="italy">
+                            <td><div class="city-name">Brienno</div><div class="region-tag italy">Lake Como</div></td>
+                            <td>Italy</td>
+                            <td data-value="400">400</td>
+                            <td data-value="17">17 km (30 min)</td>
+                            <td data-value="13410">€13,410</td>
+                            <td data-value="24050">€24,050</td>
+                            <td><span class="badge excellent">Excellent</span></td>
+                            <td>Milan (~1.5h)</td>
+                            <td>Medieval authentic</td>
+                        </tr>
+                        <tr data-region="italy">
+                            <td><div class="city-name">Argegno</div><div class="region-tag italy">Lake Como</div></td>
+                            <td>Italy</td>
+                            <td data-value="700">700</td>
+                            <td data-value="19">19 km (30 min)</td>
+                            <td data-value="13410">€13,410</td>
+                            <td data-value="24050">€24,050</td>
+                            <td><span class="badge excellent">Excellent</span></td>
+                            <td>Milan (~1.5h)</td>
+                            <td>Mountain gateway</td>
+                        </tr>
+
+                        <!-- Spain - Costa Blanca -->
+                        <tr data-region="costa-blanca">
+                            <td><div class="city-name">Javéa</div><div class="region-tag costa-blanca">Costa Blanca</div></td>
+                            <td>Spain</td>
+                            <td data-value="28000">~28,000</td>
+                            <td data-value="10">10 km (15 min)</td>
+                            <td data-value="7680">€7,680</td>
+                            <td data-value="16000">€16,000</td>
+                            <td><span class="badge excellent">Excellent</span></td>
+                            <td>Valencia (~1.5h)</td>
+                            <td>Dramatic cliffs</td>
+                        </tr>
+                        <tr data-region="costa-blanca">
+                            <td><div class="city-name">Altea</div><div class="region-tag costa-blanca">Costa Blanca</div></td>
+                            <td>Spain</td>
+                            <td data-value="22000">~22,000</td>
+                            <td data-value="3">3 km (5-10 min)</td>
+                            <td data-value="8000">€8,000</td>
+                            <td data-value="15000">€15,000</td>
+                            <td><span class="badge excellent">Excellent</span></td>
+                            <td>Alicante (~1h)</td>
+                            <td>Hillside whitewashed</td>
+                        </tr>
+                        <tr data-region="costa-blanca">
+                            <td><div class="city-name">Calpe</div><div class="region-tag costa-blanca">Costa Blanca</div></td>
+                            <td>Spain</td>
+                            <td data-value="23000">~23,000</td>
+                            <td data-value="10">10-15 km</td>
+                            <td data-value="7680">€7,680</td>
+                            <td data-value="16000">€16,000</td>
+                            <td><span class="badge excellent">Excellent</span></td>
+                            <td>Alicante (~1h)</td>
+                            <td>Iconic rock landmark</td>
+                        </tr>
+
+                        <!-- Spain - Costa Brava -->
+                        <tr data-region="costa-brava">
+                            <td><div class="city-name">Canet de Mar</div><div class="region-tag costa-brava">Costa Brava</div></td>
+                            <td>Spain</td>
+                            <td data-value="14000">~14,000</td>
+                            <td data-value="1">1 km (in town)</td>
+                            <td data-value="12580">€12,580</td>
+                            <td data-value="20115">€20,115</td>
+                            <td><span class="badge good">Good</span></td>
+                            <td>Barcelona (50km)</td>
+                            <td>Artistic heritage</td>
+                        </tr>
+                        <tr data-region="costa-brava">
+                            <td><div class="city-name">Platja d'Aro</div><div class="region-tag costa-brava">Costa Brava</div></td>
+                            <td>Spain</td>
+                            <td data-value="11000">~11,000</td>
+                            <td data-value="1">500m (5 min walk)</td>
+                            <td data-value="14000">€14,000</td>
+                            <td data-value="18000">€18,000</td>
+                            <td><span class="badge good">Good</span></td>
+                            <td>Barcelona (~1.5h)</td>
+                            <td>Beach resort</td>
+                        </tr>
+                        <tr data-region="costa-brava">
+                            <td><div class="city-name">Calella de Palafrugell</div><div class="region-tag costa-brava">Costa Brava</div></td>
+                            <td>Spain</td>
+                            <td data-value="1000">~1,000</td>
+                            <td data-value="15">~15 km (25 min)</td>
+                            <td data-value="14000">€14,000</td>
+                            <td data-value="18000">€18,000</td>
+                            <td><span class="badge good">Good</span></td>
+                            <td>Barcelona (137km)</td>
+                            <td>Fishing village</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Visual Charts -->
+        <div class="section">
+            <h2 class="section-title">Visual Comparisons</h2>
+
+            <div class="chart-container">
+                <canvas id="tuitionChart"></canvas>
+            </div>
+
+            <div class="chart-container">
+                <canvas id="populationChart"></canvas>
+            </div>
+
+            <div class="chart-container">
+                <canvas id="schoolDistanceChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Side-by-Side Comparison Tool -->
+        <div class="section">
+            <h2 class="section-title">Side-by-Side Comparison Tool</h2>
+
+            <div class="side-by-side-selector">
+                <h4 style="font-family: var(--font-sans); font-size: 0.9rem; font-weight: 600; margin-bottom: var(--spacing-md);">
+                    Select cities to compare (choose 2-3)
+                </h4>
+
+                <div class="selector-grid">
+                    <div class="filter-group">
+                        <label for="city1">City 1</label>
+                        <select id="city1" onchange="updateComparison()">
+                            <option value="">Select city...</option>
+                            <option value="como">Como</option>
+                            <option value="cernobbio">Cernobbio</option>
+                            <option value="torno">Torno</option>
+                            <option value="moltrasio">Moltrasio</option>
+                            <option value="laglio">Laglio</option>
+                            <option value="brienno">Brienno</option>
+                            <option value="argegno">Argegno</option>
+                            <option value="javea">Javéa</option>
+                            <option value="altea">Altea</option>
+                            <option value="calpe">Calpe</option>
+                            <option value="canet">Canet de Mar</option>
+                            <option value="platja">Platja d'Aro</option>
+                            <option value="calella">Calella de Palafrugell</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label for="city2">City 2</label>
+                        <select id="city2" onchange="updateComparison()">
+                            <option value="">Select city...</option>
+                            <option value="como">Como</option>
+                            <option value="cernobbio">Cernobbio</option>
+                            <option value="torno">Torno</option>
+                            <option value="moltrasio">Moltrasio</option>
+                            <option value="laglio">Laglio</option>
+                            <option value="brienno">Brienno</option>
+                            <option value="argegno">Argegno</option>
+                            <option value="javea">Javéa</option>
+                            <option value="altea">Altea</option>
+                            <option value="calpe">Calpe</option>
+                            <option value="canet">Canet de Mar</option>
+                            <option value="platja">Platja d'Aro</option>
+                            <option value="calella">Calella de Palafrugell</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label for="city3">City 3 (Optional)</label>
+                        <select id="city3" onchange="updateComparison()">
+                            <option value="">Select city...</option>
+                            <option value="como">Como</option>
+                            <option value="cernobbio">Cernobbio</option>
+                            <option value="torno">Torno</option>
+                            <option value="moltrasio">Moltrasio</option>
+                            <option value="laglio">Laglio</option>
+                            <option value="brienno">Brienno</option>
+                            <option value="argegno">Argegno</option>
+                            <option value="javea">Javéa</option>
+                            <option value="altea">Altea</option>
+                            <option value="calpe">Calpe</option>
+                            <option value="canet">Canet de Mar</option>
+                            <option value="platja">Platja d'Aro</option>
+                            <option value="calella">Calella de Palafrugell</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="comparisonResult" class="comparison-result"></div>
+            </div>
+        </div>
+
+        <!-- Decision Matrix -->
+        <div class="section">
+            <h2 class="section-title">Decision Matrix: Find Your Best Match</h2>
+
+            <div class="decision-matrix">
+                <p class="lead" style="max-width: 100%;">
+                    Select your priorities below, and we'll recommend the best cities for your family.
+                </p>
+
+                <div class="priority-selector">
+                    <label style="font-family: var(--font-sans); font-size: 0.85rem; font-weight: 600; color: var(--ink); display: block; margin-bottom: var(--spacing-sm);">
+                        What matters most to you?
+                    </label>
+                    <div class="priority-options">
+                        <div class="priority-option">
+                            <input type="checkbox" id="priority-sun" value="sun" onchange="calculateRecommendations()">
+                            <label for="priority-sun">Maximum winter sunlight</label>
+                        </div>
+                        <div class="priority-option">
+                            <input type="checkbox" id="priority-cost" value="cost" onchange="calculateRecommendations()">
+                            <label for="priority-cost">Lower school costs</label>
+                        </div>
+                        <div class="priority-option">
+                            <input type="checkbox" id="priority-quiet" value="quiet" onchange="calculateRecommendations()">
+                            <label for="priority-quiet">Tranquility & small town</label>
+                        </div>
+                        <div class="priority-option">
+                            <input type="checkbox" id="priority-commute" value="commute" onchange="calculateRecommendations()">
+                            <label for="priority-commute">Short school commute</label>
+                        </div>
+                        <div class="priority-option">
+                            <input type="checkbox" id="priority-city" value="city" onchange="calculateRecommendations()">
+                            <label for="priority-city">Major city proximity</label>
+                        </div>
+                        <div class="priority-option">
+                            <input type="checkbox" id="priority-dramatic" value="dramatic" onchange="calculateRecommendations()">
+                            <label for="priority-dramatic">Dramatic scenery</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="recommendedCities" class="recommended-cities" style="display: none;">
+                    <h5>Recommended Cities Based on Your Priorities:</h5>
+                    <ol id="recommendationList" class="recommended-list"></ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- Detailed Schools Breakdown -->
+        <div class="section">
+            <h2 class="section-title">International Schools Overview</h2>
+
+            <div class="data-panels">
+                <div class="data-panel">
+                    <h4>Italy - Lake Como Schools</h4>
+                    <div class="data-row">
+                        <span class="data-label">International School of Como</span>
+                        <span class="data-value">€13.4k-€24k</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">ICS Milan</span>
+                        <span class="data-value">€14k-€24.8k</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Curriculum</span>
+                        <span class="data-value">IB (MYP & DP)</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Location</span>
+                        <span class="data-value">Fino Mornasco</span>
+                    </div>
+                </div>
+
+                <div class="data-panel">
+                    <h4>Costa Blanca Schools</h4>
+                    <div class="data-row">
+                        <span class="data-label">Xabia International College</span>
+                        <span class="data-value">€7.7k-€16k</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Laude Lady Elizabeth</span>
+                        <span class="data-value">~€10k-€15k</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Victorious (Altea)</span>
+                        <span class="data-value">~€9k-€14k</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Curriculum</span>
+                        <span class="data-value">British (IGCSE/A-Level)</span>
+                    </div>
+                </div>
+
+                <div class="data-panel">
+                    <h4>Costa Brava Schools</h4>
+                    <div class="data-row">
+                        <span class="data-label">Int'l School Maresme</span>
+                        <span class="data-value">€12.6k-€20.1k</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Int'l School Costa Brava</span>
+                        <span class="data-value">€14k-€18k</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Curriculum</span>
+                        <span class="data-value">British (IGCSE/A-Level)</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Location</span>
+                        <span class="data-value">Canet / Platja d'Aro</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Climate & Environment -->
+        <div class="section">
+            <h2 class="section-title">Climate & Environment Summary</h2>
+
+            <div class="prose">
+                <h3>Italy - Lake Como</h3>
+                <p>
+                    <strong>Winter Sunlight:</strong> The western shore towns (Cernobbio, Moltrasio, Laglio, Brienno, Argegno)
+                    receive significantly more winter sun due to flatter terrain and fewer mountain shadows. Eastern shore locations
+                    like Torno experience limited winter sunlight due to high mountains blocking light from the south and west.
+                </p>
+                <p>
+                    <strong>Climate:</strong> Mild Mediterranean-influenced climate with warm summers and cool winters. More rainfall
+                    than Spanish coastal regions, creating lush green landscapes. Average winter sunshine: 1.9-3 hours/day.
+                </p>
+
+                <h3>Costa Blanca</h3>
+                <p>
+                    <strong>Sunshine:</strong> Excellent year-round sunshine with over 300 sunny days annually. Superior winter sun
+                    compared to Italian lakes. Warm, dry Mediterranean climate ideal for outdoor living.
+                </p>
+                <p>
+                    <strong>Landscape:</strong> More arid than Lake Como, with dramatic coastal cliffs, white sandy beaches, and
+                    mountain backdrops. Less lush vegetation but spectacular sea views.
+                </p>
+
+                <h3>Costa Brava</h3>
+                <p>
+                    <strong>Climate:</strong> Mediterranean with good sunshine but cooler winters than Costa Blanca. More rainfall
+                    than Costa Blanca, resulting in greener landscapes with pine forests along the coast.
+                </p>
+                <p>
+                    <strong>Character:</strong> Rocky coves, artistic heritage, and traditional fishing villages. Barcelona proximity
+                    adds cultural dimension. More seasonal than Costa Blanca.
+                </p>
+            </div>
+        </div>
+
+        <!-- Bottom Summary -->
+        <div class="bottom-summary">
+            <div class="summary-item">
+                <span class="summary-label">Regions Compared</span>
+                <span class="summary-value">3</span>
+            </div>
+            <div class="summary-item">
+                <span class="summary-label">Total Cities</span>
+                <span class="summary-value">13</span>
+            </div>
+            <div class="summary-item">
+                <span class="summary-label">School Options</span>
+                <span class="summary-value">15+</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // City data for comparisons
+        const cityData = {
+            como: {
+                name: 'Como',
+                region: 'Lake Como, Italy',
+                population: '85,000',
+                school: 'International School of Como',
+                distance: '10 km (15 min)',
+                tuition: '€13,410 - €24,050',
+                winterSun: 'Moderate',
+                majorCity: 'Milan (1h train)',
+                character: 'Urban lakeside city with historic center',
+                amenities: 'Excellent - full urban services'
+            },
+            cernobbio: {
+                name: 'Cernobbio',
+                region: 'Lake Como, Italy',
+                population: '7,000',
+                school: 'International School of Como',
+                distance: '10 km (15 min)',
+                tuition: '€13,410 - €24,050',
+                winterSun: 'Excellent (western shore)',
+                majorCity: 'Milan (~1h)',
+                character: 'Elegant lakefront with Villa d\'Este',
+                amenities: 'Good - restaurants, shops, services'
+            },
+            torno: {
+                name: 'Torno',
+                region: 'Lake Como, Italy',
+                population: '1,200',
+                school: 'International School of Como',
+                distance: '15 km (25 min)',
+                tuition: '€13,410 - €24,050',
+                winterSun: 'Limited (eastern shore)',
+                majorCity: 'Milan (~1.5h)',
+                character: 'Tranquil authentic village',
+                amenities: 'Limited - small village services'
+            },
+            moltrasio: {
+                name: 'Moltrasio',
+                region: 'Lake Como, Italy',
+                population: '1,700',
+                school: 'International School of Como',
+                distance: '11 km (20 min)',
+                tuition: '€13,410 - €24,050',
+                winterSun: 'Excellent (western shore)',
+                majorCity: 'Milan (~1h)',
+                character: 'Serene elegance with historic villas',
+                amenities: 'Moderate - basic services'
+            },
+            laglio: {
+                name: 'Laglio',
+                region: 'Lake Como, Italy',
+                population: '900',
+                school: 'International School of Como',
+                distance: '15 km (25 min)',
+                tuition: '€13,410 - €24,050',
+                winterSun: 'Excellent (western shore)',
+                majorCity: 'Milan (~1.5h)',
+                character: 'Dramatic & exclusive mountain-lake setting',
+                amenities: 'Limited - small village'
+            },
+            brienno: {
+                name: 'Brienno',
+                region: 'Lake Como, Italy',
+                population: '400',
+                school: 'International School of Como',
+                distance: '17 km (30 min)',
+                tuition: '€13,410 - €24,050',
+                winterSun: 'Excellent (western shore)',
+                majorCity: 'Milan (~1.5h)',
+                character: 'Medieval authentic stone village',
+                amenities: 'Minimal - very small village'
+            },
+            argegno: {
+                name: 'Argegno',
+                region: 'Lake Como, Italy',
+                population: '700',
+                school: 'International School of Como',
+                distance: '19 km (30 min)',
+                tuition: '€13,410 - €24,050',
+                winterSun: 'Excellent (western shore + cable car)',
+                majorCity: 'Milan (~1.5h)',
+                character: 'Mountain gateway with cable car',
+                amenities: 'Limited - small village'
+            },
+            javea: {
+                name: 'Javéa',
+                region: 'Costa Blanca, Spain',
+                population: '~28,000',
+                school: 'Xabia International College',
+                distance: '10 km (15 min)',
+                tuition: '€7,680 - €16,000',
+                winterSun: 'Excellent',
+                majorCity: 'Valencia (~1.5h)',
+                character: 'Dramatic cliffs & tranquil expat haven',
+                amenities: 'Excellent - full town services'
+            },
+            altea: {
+                name: 'Altea',
+                region: 'Costa Blanca, Spain',
+                population: '~22,000',
+                school: 'Victorious Int\'l British School',
+                distance: '3 km (5-10 min)',
+                tuition: '€8,000 - €15,000',
+                winterSun: 'Excellent',
+                majorCity: 'Alicante (~1h)',
+                character: 'Hillside whitewashed old town',
+                amenities: 'Excellent - upscale services'
+            },
+            calpe: {
+                name: 'Calpe',
+                region: 'Costa Blanca, Spain',
+                population: '~23,000',
+                school: 'Access to Javéa/Altea schools',
+                distance: '10-15 km',
+                tuition: '€7,680 - €16,000',
+                winterSun: 'Excellent',
+                majorCity: 'Alicante (~1h)',
+                character: 'Iconic Peñón rock landmark',
+                amenities: 'Excellent - tourist & resident services'
+            },
+            canet: {
+                name: 'Canet de Mar',
+                region: 'Costa Brava, Spain',
+                population: '~14,000',
+                school: 'Int\'l School Maresme (in town)',
+                distance: '1 km (walking)',
+                tuition: '€12,580 - €20,115',
+                winterSun: 'Good',
+                majorCity: 'Barcelona (50km)',
+                character: 'Artistic heritage beach town',
+                amenities: 'Excellent - full town services'
+            },
+            platja: {
+                name: 'Platja d\'Aro',
+                region: 'Costa Brava, Spain',
+                population: '~11,000',
+                school: 'Int\'l School Costa Brava (5 min walk)',
+                distance: '500m (walking)',
+                tuition: '€14,000 - €18,000',
+                winterSun: 'Good',
+                majorCity: 'Barcelona (~1.5h)',
+                character: 'Beach resort with year-round life',
+                amenities: 'Excellent - resort town services'
+            },
+            calella: {
+                name: 'Calella de Palafrugell',
+                region: 'Costa Brava, Spain',
+                population: '~1,000',
+                school: 'Int\'l School Costa Brava',
+                distance: '15 km (25 min)',
+                tuition: '€14,000 - €18,000',
+                winterSun: 'Good',
+                majorCity: 'Barcelona (137km)',
+                character: 'Picturesque fishing village',
+                amenities: 'Moderate - small village + Palafrugell nearby'
+            }
+        };
+
+        // Table filtering
+        function filterTable() {
+            const regionFilter = document.getElementById('regionFilter').value;
+            const searchInput = document.getElementById('searchInput').value.toLowerCase();
+            const table = document.getElementById('comparisonTable');
+            const rows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+
+            for (let row of rows) {
+                const region = row.getAttribute('data-region');
+                const cityName = row.cells[0].textContent.toLowerCase();
+
+                let showRegion = (regionFilter === 'all') || (region === regionFilter);
+                let showSearch = (searchInput === '') || (cityName.includes(searchInput));
+
+                row.style.display = (showRegion && showSearch) ? '' : 'none';
+            }
+        }
+
+        // Table sorting
+        let sortDirection = {};
+        function sortTable(columnIndex) {
+            const table = document.getElementById('comparisonTable');
+            const tbody = table.getElementsByTagName('tbody')[0];
+            const rows = Array.from(tbody.getElementsByTagName('tr'));
+
+            // Initialize sort direction
+            if (sortDirection[columnIndex] === undefined) {
+                sortDirection[columnIndex] = 'asc';
+            } else {
+                sortDirection[columnIndex] = (sortDirection[columnIndex] === 'asc') ? 'desc' : 'asc';
+            }
+
+            rows.sort((a, b) => {
+                let aValue = a.cells[columnIndex].getAttribute('data-value') || a.cells[columnIndex].textContent;
+                let bValue = b.cells[columnIndex].getAttribute('data-value') || b.cells[columnIndex].textContent;
+
+                // Try to parse as numbers
+                const aNum = parseFloat(aValue.replace(/[^0-9.-]/g, ''));
+                const bNum = parseFloat(bValue.replace(/[^0-9.-]/g, ''));
+
+                if (!isNaN(aNum) && !isNaN(bNum)) {
+                    return sortDirection[columnIndex] === 'asc' ? aNum - bNum : bNum - aNum;
+                }
+
+                // String comparison
+                return sortDirection[columnIndex] === 'asc'
+                    ? aValue.localeCompare(bValue)
+                    : bValue.localeCompare(aValue);
+            });
+
+            // Clear existing rows and append sorted rows
+            while (tbody.firstChild) {
+                tbody.removeChild(tbody.firstChild);
+            }
+            rows.forEach(row => tbody.appendChild(row));
+
+            // Update header styling
+            const headers = table.getElementsByTagName('th');
+            for (let i = 0; i < headers.length; i++) {
+                headers[i].classList.remove('sorted-asc', 'sorted-desc');
+                if (i === columnIndex) {
+                    headers[i].classList.add(sortDirection[columnIndex] === 'asc' ? 'sorted-asc' : 'sorted-desc');
+                }
+            }
+        }
+
+        // Side-by-side comparison
+        function updateComparison() {
+            const city1 = document.getElementById('city1').value;
+            const city2 = document.getElementById('city2').value;
+            const city3 = document.getElementById('city3').value;
+            const resultDiv = document.getElementById('comparisonResult');
+
+            if (!city1 && !city2 && !city3) {
+                resultDiv.innerHTML = '';
+                return;
+            }
+
+            const cities = [city1, city2, city3].filter(c => c);
+            let html = '';
+
+            cities.forEach(cityKey => {
+                const city = cityData[cityKey];
+                if (city) {
+                    html += `
+                        <div class="city-comparison-card">
+                            <h5>${city.name}</h5>
+                            <div class="comparison-attribute">
+                                <span class="attr-label">Region</span>
+                                <span class="attr-value">${city.region}</span>
+                            </div>
+                            <div class="comparison-attribute">
+                                <span class="attr-label">Population</span>
+                                <span class="attr-value">${city.population}</span>
+                            </div>
+                            <div class="comparison-attribute">
+                                <span class="attr-label">School</span>
+                                <span class="attr-value">${city.school}</span>
+                            </div>
+                            <div class="comparison-attribute">
+                                <span class="attr-label">School Distance</span>
+                                <span class="attr-value">${city.distance}</span>
+                            </div>
+                            <div class="comparison-attribute">
+                                <span class="attr-label">Tuition</span>
+                                <span class="attr-value">${city.tuition}</span>
+                            </div>
+                            <div class="comparison-attribute">
+                                <span class="attr-label">Winter Sun</span>
+                                <span class="attr-value">${city.winterSun}</span>
+                            </div>
+                            <div class="comparison-attribute">
+                                <span class="attr-label">Major City</span>
+                                <span class="attr-value">${city.majorCity}</span>
+                            </div>
+                            <div class="comparison-attribute">
+                                <span class="attr-label">Character</span>
+                                <span class="attr-value">${city.character}</span>
+                            </div>
+                            <div class="comparison-attribute">
+                                <span class="attr-label">Amenities</span>
+                                <span class="attr-value">${city.amenities}</span>
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+
+            resultDiv.innerHTML = html;
+        }
+
+        // Decision matrix
+        function calculateRecommendations() {
+            const priorities = {
+                sun: document.getElementById('priority-sun').checked,
+                cost: document.getElementById('priority-cost').checked,
+                quiet: document.getElementById('priority-quiet').checked,
+                commute: document.getElementById('priority-commute').checked,
+                city: document.getElementById('priority-city').checked,
+                dramatic: document.getElementById('priority-dramatic').checked
+            };
+
+            // Check if any priority is selected
+            const anySelected = Object.values(priorities).some(p => p);
+            const resultDiv = document.getElementById('recommendedCities');
+            const listDiv = document.getElementById('recommendationList');
+
+            if (!anySelected) {
+                resultDiv.style.display = 'none';
+                return;
+            }
+
+            // Scoring system
+            const scores = {};
+            const reasons = {};
+
+            // Initialize scores
+            Object.keys(cityData).forEach(key => {
+                scores[key] = 0;
+                reasons[key] = [];
+            });
+
+            // Apply scoring based on priorities
+            if (priorities.sun) {
+                ['javea', 'altea', 'calpe'].forEach(city => {
+                    scores[city] += 3;
+                    reasons[city].push('Excellent winter sun');
+                });
+                ['cernobbio', 'moltrasio', 'laglio', 'brienno', 'argegno'].forEach(city => {
+                    scores[city] += 2;
+                    reasons[city].push('Good winter sun (western shore)');
+                });
+            }
+
+            if (priorities.cost) {
+                ['javea', 'altea', 'calpe'].forEach(city => {
+                    scores[city] += 3;
+                    reasons[city].push('Lowest school costs');
+                });
+                ['como', 'cernobbio', 'torno', 'moltrasio', 'laglio', 'brienno', 'argegno', 'canet'].forEach(city => {
+                    scores[city] += 2;
+                    reasons[city].push('Moderate school costs');
+                });
+            }
+
+            if (priorities.quiet) {
+                ['brienno', 'argegno', 'laglio', 'torno', 'calella'].forEach(city => {
+                    scores[city] += 3;
+                    reasons[city].push('Very small & tranquil');
+                });
+                ['moltrasio', 'cernobbio'].forEach(city => {
+                    scores[city] += 2;
+                    reasons[city].push('Peaceful atmosphere');
+                });
+            }
+
+            if (priorities.commute) {
+                ['canet', 'platja'].forEach(city => {
+                    scores[city] += 3;
+                    reasons[city].push('School in town (walking)');
+                });
+                ['altea', 'como', 'cernobbio', 'javea'].forEach(city => {
+                    scores[city] += 2;
+                    reasons[city].push('Short school commute (<15 min)');
+                });
+            }
+
+            if (priorities.city) {
+                ['como', 'canet'].forEach(city => {
+                    scores[city] += 3;
+                    reasons[city].push('Close to major city');
+                });
+                ['cernobbio', 'moltrasio', 'platja', 'altea'].forEach(city => {
+                    scores[city] += 2;
+                    reasons[city].push('Good city access');
+                });
+            }
+
+            if (priorities.dramatic) {
+                ['laglio', 'javea', 'calpe'].forEach(city => {
+                    scores[city] += 3;
+                    reasons[city].push('Most dramatic scenery');
+                });
+                ['torno', 'brienno', 'argegno', 'calella'].forEach(city => {
+                    scores[city] += 2;
+                    reasons[city].push('Beautiful dramatic setting');
+                });
+            }
+
+            // Sort by score
+            const sorted = Object.entries(scores)
+                .sort((a, b) => b[1] - a[1])
+                .filter(([_, score]) => score > 0)
+                .slice(0, 5);
+
+            // Generate recommendations
+            let html = '';
+            sorted.forEach(([cityKey, score]) => {
+                const city = cityData[cityKey];
+                html += `<li><strong>${city.name}</strong> (${city.region}) - ${reasons[cityKey].join(', ')}</li>`;
+            });
+
+            listDiv.innerHTML = html;
+            resultDiv.style.display = 'block';
+        }
+
+        // Initialize Charts
+        const chartColors = {
+            italy: 'rgba(30, 58, 95, 0.8)',
+            costaBlanca: 'rgba(217, 119, 6, 0.8)',
+            costaBrava: 'rgba(147, 51, 234, 0.8)'
+        };
+
+        // Tuition Chart
+        const tuitionCtx = document.getElementById('tuitionChart').getContext('2d');
+        new Chart(tuitionCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Javéa', 'Altea', 'Calpe', 'Como', 'Canet de Mar', 'Platja d\'Aro', 'All Italy'],
+                datasets: [{
+                    label: 'Minimum Tuition (€/year)',
+                    data: [7680, 8000, 7680, 13410, 12580, 14000, 13410],
+                    backgroundColor: [
+                        chartColors.costaBlanca,
+                        chartColors.costaBlanca,
+                        chartColors.costaBlanca,
+                        chartColors.italy,
+                        chartColors.costaBrava,
+                        chartColors.costaBrava,
+                        chartColors.italy
+                    ]
+                }, {
+                    label: 'Maximum Tuition (€/year)',
+                    data: [16000, 15000, 16000, 24050, 20115, 18000, 24050],
+                    backgroundColor: [
+                        'rgba(217, 119, 6, 0.4)',
+                        'rgba(217, 119, 6, 0.4)',
+                        'rgba(217, 119, 6, 0.4)',
+                        'rgba(30, 58, 95, 0.4)',
+                        'rgba(147, 51, 234, 0.4)',
+                        'rgba(147, 51, 234, 0.4)',
+                        'rgba(30, 58, 95, 0.4)'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'School Tuition Comparison',
+                        font: { size: 16, family: 'Inter' }
+                    },
+                    legend: {
+                        display: true,
+                        position: 'top'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return '€' + value.toLocaleString();
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Population Chart
+        const populationCtx = document.getElementById('populationChart').getContext('2d');
+        new Chart(populationCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Como', 'Javéa', 'Calpe', 'Altea', 'Canet', 'Platja d\'Aro', 'Cernobbio', 'Moltrasio', 'Torno', 'Laglio', 'Calella', 'Argegno', 'Brienno'],
+                datasets: [{
+                    label: 'Population',
+                    data: [85000, 28000, 23000, 22000, 14000, 11000, 7000, 1700, 1200, 900, 1000, 700, 400],
+                    backgroundColor: [
+                        chartColors.italy,
+                        chartColors.costaBlanca,
+                        chartColors.costaBlanca,
+                        chartColors.costaBlanca,
+                        chartColors.costaBrava,
+                        chartColors.costaBrava,
+                        chartColors.italy,
+                        chartColors.italy,
+                        chartColors.italy,
+                        chartColors.italy,
+                        chartColors.costaBrava,
+                        chartColors.italy,
+                        chartColors.italy
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Population Comparison',
+                        font: { size: 16, family: 'Inter' }
+                    },
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return value.toLocaleString();
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // School Distance Chart
+        const distanceCtx = document.getElementById('schoolDistanceChart').getContext('2d');
+        new Chart(distanceCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Platja d\'Aro', 'Canet', 'Altea', 'Como', 'Cernobbio', 'Javéa', 'Moltrasio', 'Calpe', 'Torno', 'Laglio', 'Calella', 'Brienno', 'Argegno'],
+                datasets: [{
+                    label: 'Distance to School (km)',
+                    data: [0.5, 1, 3, 10, 10, 10, 11, 12, 15, 15, 15, 17, 19],
+                    backgroundColor: [
+                        chartColors.costaBrava,
+                        chartColors.costaBrava,
+                        chartColors.costaBlanca,
+                        chartColors.italy,
+                        chartColors.italy,
+                        chartColors.costaBlanca,
+                        chartColors.italy,
+                        chartColors.costaBlanca,
+                        chartColors.italy,
+                        chartColors.italy,
+                        chartColors.costaBrava,
+                        chartColors.italy,
+                        chartColors.italy
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                indexAxis: 'y',
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'School Commute Distance',
+                        font: { size: 16, family: 'Inter' }
+                    },
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return value + ' km';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

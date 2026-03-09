@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Argegno, Italy - Lake Como Village Guide</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
+    <style>
+        .hero-image {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: var(--radius-md);
+            margin: var(--spacing-xl) 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .city-meta {
+            display: flex;
+            gap: var(--spacing-md);
+            justify-content: center;
+            flex-wrap: wrap;
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            color: var(--ink-muted);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .city-meta span {
+            padding: var(--spacing-xs) var(--spacing-md);
+            background: var(--paper-dark);
+            border-radius: var(--radius-sm);
+        }
+
+        .highlight-box {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-sm);
+            margin: var(--spacing-xl) 0;
+        }
+
+        .highlight-box h3 {
+            font-family: var(--font-sans);
+            font-size: 1rem;
+            font-weight: 600;
+            color: #2e7d32;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .highlight-box p {
+            font-family: var(--font-serif);
+            font-size: 0.95rem;
+            color: #1b5e20;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .feature-badge {
+            background: linear-gradient(135deg, #4A7BA7 0%, #3a6287 100%);
+            color: white;
+            padding: var(--spacing-lg) var(--spacing-xl);
+            border-radius: var(--radius-sm);
+            margin: var(--spacing-xl) 0;
+            text-align: center;
+        }
+
+        .feature-badge h3 {
+            font-family: var(--font-serif);
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin: 0 0 var(--spacing-sm) 0;
+        }
+
+        .feature-badge p {
+            font-family: var(--font-sans);
+            font-size: 0.95rem;
+            margin: 0;
+            opacity: 0.95;
+        }
+
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--spacing-lg);
+            margin-bottom: var(--section-gap);
+        }
+
+        .overview-card {
+            background: white;
+            border-radius: var(--radius-sm);
+            padding: var(--spacing-lg);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+        }
+
+        .overview-card h3 {
+            font-family: var(--font-sans);
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--orbital);
+            margin-bottom: var(--spacing-md);
+            padding-bottom: var(--spacing-sm);
+            border-bottom: 1px solid var(--rule-light);
+        }
+
+        .overview-card p {
+            font-family: var(--font-serif);
+            font-size: 0.95rem;
+            color: var(--ink-muted);
+            line-height: 1.7;
+        }
+
+        .features-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .features-list li {
+            position: relative;
+            padding-left: var(--spacing-lg);
+            margin-bottom: var(--spacing-sm);
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            color: var(--ink-muted);
+            line-height: 1.6;
+        }
+
+        .features-list li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--orbital);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .property-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: var(--spacing-xl);
+            margin-top: var(--spacing-lg);
+        }
+
+        .property-card {
+            background: white;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .property-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
+
+        .property-image {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+        }
+
+        .property-content {
+            padding: var(--spacing-lg);
+        }
+
+        .property-price {
+            font-family: var(--font-mono);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--orbital);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .property-location {
+            font-family: var(--font-sans);
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--ink);
+            margin-bottom: var(--spacing-md);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .property-description {
+            font-family: var(--font-serif);
+            font-size: 0.9rem;
+            color: var(--ink-muted);
+            line-height: 1.6;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .property-link {
+            display: inline-block;
+            font-family: var(--font-sans);
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--orbital);
+            text-decoration: none;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border: 1px solid var(--orbital);
+            border-radius: var(--radius-sm);
+            transition: all 0.2s ease;
+        }
+
+        .property-link:hover {
+            background: var(--orbital);
+            color: white;
+        }
+
+        .school-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+        }
+
+        .school-table th {
+            font-family: var(--font-sans);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--ink);
+            background: var(--paper-dark);
+            padding: var(--spacing-md);
+            text-align: left;
+            border-bottom: 2px solid var(--rule);
+        }
+
+        .school-table td {
+            font-family: var(--font-serif);
+            font-size: 0.9rem;
+            color: var(--ink-muted);
+            padding: var(--spacing-md);
+            border-bottom: 1px solid var(--rule-light);
+        }
+
+        .school-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .school-table .school-name {
+            font-weight: 600;
+            color: var(--ink);
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <a href="/cities-hub" class="nav-back">← Back to Cities</a>
+    </nav>
+
+    <main class="container">
+        <!-- Hero Section -->
+        <header class="hero">
+            <h1 class="hero-title">Argegno, Italy</h1>
+            <div class="city-meta">
+                <span>Western Lake Como Shore</span>
+                <span>Population: ~700</span>
+                <span>25-30 min to ISC</span>
+            </div>
+            <p class="hero-tagline">
+                Gateway to Valle d'Intelvi with unique cable car access and more affordable western shore living
+            </p>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Argegno_Lake_Como.jpg/1280px-Argegno_Lake_Como.jpg"
+                 alt="Argegno village on Lake Como"
+                 class="hero-image">
+        </header>
+
+        <!-- Cable Car Feature Badge -->
+        <div class="feature-badge">
+            <h3>Unique Cable Car to Pigra</h3>
+            <p>Argegno is the only Lake Como village with a cable car, providing dramatic mountain access and spectacular panoramic views at 881 meters elevation</p>
+        </div>
+
+        <!-- Winter Sun Highlight -->
+        <div class="highlight-box">
+            <h3>Excellent Winter Sun</h3>
+            <p>
+                Argegno's western shore position provides <strong>excellent winter sun exposure</strong> throughout the day. The village's location at the mouth of Valle d'Intelvi ensures good natural light year-round while offering easy mountain access.
+            </p>
+        </div>
+
+        <!-- Overview Section -->
+        <section class="section">
+            <h2 class="section-title">Overview</h2>
+            <div class="overview-grid">
+                <div class="overview-card">
+                    <h3>Character</h3>
+                    <p>Argegno is a picturesque village of approximately 700 residents positioned at the mouth of Valle d'Intelvi where the Telo River meets Lake Como. More accessible and affordable than Cernobbio or Laglio, Argegno offers authentic Italian village life with excellent amenities and unique mountain access via cable car.</p>
+                </div>
+                <div class="overview-card">
+                    <h3>Location & Access</h3>
+                    <p>Located 19km north of Como along the western lakeshore road, Argegno sits just beyond Brienno. The drive to International School of Como takes 25-30 minutes via the scenic lakeside route. The village serves as the gateway to Valle d'Intelvi's mountain communities.</p>
+                </div>
+                <div class="overview-card">
+                    <h3>Lifestyle</h3>
+                    <p>Lively village atmosphere with good local amenities including restaurants, cafes, shops, and weekly markets. The picturesque stone bridge over the Telo River creates a distinctive village center. More affordable than southern shore villages while maintaining western shore advantages of excellent sun exposure.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- International Schools Section -->
+        <section class="section">
+            <h2 class="section-title">International School Access</h2>
+            <table class="school-table">
+                <thead>
+                    <tr>
+                        <th>School</th>
+                        <th>Distance from Argegno</th>
+                        <th>Drive Time</th>
+                        <th>Annual Tuition</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="school-name">International School of Como (ISC)</td>
+                        <td>19km via lakeshore road</td>
+                        <td>25-30 minutes</td>
+                        <td>€13,410 - €24,050</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p class="note" style="margin-top: var(--spacing-lg);">
+                <strong>Note:</strong> While Argegno shares the same commute time as Brienno (25-30 minutes), the village offers superior local amenities and services. Families choosing Argegno gain mountain access via cable car and better shopping/dining options while accepting the longer school commute.
+            </p>
+        </section>
+
+        <!-- Attractions Section -->
+        <section class="section">
+            <h2 class="section-title">Unique Features & Attractions</h2>
+            <div class="prose">
+                <h3>Cable Car to Pigra</h3>
+                <p>
+                    Argegno's defining feature is its cable car (funivia) ascending 650 meters to the mountain village of Pigra at 881 meters elevation. The 5-minute ride delivers spectacular panoramic views of Lake Como, the Alps, and on clear days, the distant Matterhorn. Pigra offers excellent hiking trails, mountain restaurants, and a dramatically different perspective from lakeside living. This unique vertical access makes Argegno exceptional among Lake Como villages.
+                </p>
+
+                <h3>Gateway to Valle d'Intelvi</h3>
+                <p>
+                    Argegno sits at the entrance to Valle d'Intelvi, a scenic mountain valley extending toward Switzerland. The valley offers additional hiking, cycling, ski touring in winter, and mountain villages including Lanzo d'Intelvi and San Fedele. This mountain access provides recreational opportunities beyond the lake itself, ideal for active families.
+                </p>
+
+                <h3>Stone Bridge over Telo River</h3>
+                <p>
+                    The picturesque medieval bridge spanning the Telo River creates Argegno's most distinctive scene. Stone houses line the river as it cascades down from Valle d'Intelvi to meet Lake Como. The bridge area features cafes and restaurants with terrace seating overlooking the water, making it the heart of village social life.
+                </p>
+
+                <h3>Village Features</h3>
+                <ul class="features-list">
+                    <li><strong>Cable Car Access</strong> - Unique funicular to Pigra mountain village and hiking trails</li>
+                    <li><strong>Telo River Bridge</strong> - Iconic stone bridge and waterside dining area</li>
+                    <li><strong>Local Amenities</strong> - Multiple restaurants, cafes, shops, and weekly market</li>
+                    <li><strong>Mountain Hiking</strong> - Direct access to Valle d'Intelvi trails and peaks</li>
+                    <li><strong>Waterfront Promenade</strong> - Lakeside walking path and beach area</li>
+                    <li><strong>Ferry Service</strong> - Regular boat connections to Como and lake villages</li>
+                    <li><strong>Traditional Architecture</strong> - Stone houses and historic village center</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Lifestyle Section -->
+        <section class="section">
+            <h2 class="section-title">Living in Argegno</h2>
+            <div class="prose">
+                <p>
+                    Argegno offers the best balance of affordability, amenities, and western shore advantages among Lake Como villages. With 700 residents, the village maintains genuine community character while providing superior services compared to smaller villages like Brienno or Torno. Multiple restaurants, cafes, a small supermarket, and weekly market ensure daily convenience without driving to Como.
+                </p>
+                <p>
+                    The cable car to Pigra distinguishes Argegno from every other Lake Como village. Families living here gain immediate access to mountain hiking, panoramic viewpoints, and alpine restaurants—a vertical dimension unavailable elsewhere on the lake. The Valle d'Intelvi gateway position extends recreational opportunities into the mountains, making Argegno ideal for active families who want both lake and mountain access.
+                </p>
+                <p>
+                    Real estate in Argegno is <strong>more affordable than Cernobbio or Laglio</strong> while maintaining western shore benefits including excellent winter sun exposure. Properties range from village apartments to hillside villas with lake views, generally priced 20-30% below southern shore equivalents. This affordability combined with good amenities makes Argegno compelling for families prioritizing value and recreational access over proximity to Como.
+                </p>
+                <p>
+                    The 25-30 minute commute to ISC is the trade-off for Argegno's advantages. Families must weigh this against the village's unique cable car access, superior amenities compared to Brienno, and more affordable pricing than southern shore villages. For families comfortable with the longer school drive and eager for mountain access, Argegno delivers exceptional value.
+                </p>
+            </div>
+        </section>
+
+        <!-- Real Estate Section -->
+        <section class="section">
+            <h2 class="section-title">Real Estate Listings</h2>
+            <p class="body-text">
+                Argegno's real estate market offers excellent value compared to southern shore villages, with properties ranging from village apartments to hillside villas. The combination of affordability, western shore positioning, and unique cable car access attracts families seeking Lake Como living at accessible price points.
+            </p>
+            <div class="property-grid">
+                <div class="property-card">
+                    <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80"
+                         alt="Modern villa with lake view"
+                         class="property-image">
+                    <div class="property-content">
+                        <div class="property-price">€2.6M</div>
+                        <div class="property-location">Argegno Hillside</div>
+                        <p class="property-description">
+                            Contemporary villa of 280 sqm on elevated position with panoramic lake and mountain views. 4 bedrooms, 3 bathrooms, infinity pool, terraced gardens of 900 sqm. Modern architecture with floor-to-ceiling windows maximizing views. Minutes to cable car and village amenities.
+                        </p>
+                        <a href="https://www.luxuryestate.com/italy/lombardy/provincia-di-como/argegno"
+                           target="_blank"
+                           class="property-link">View Argegno Listings →</a>
+                    </div>
+                </div>
+
+                <div class="property-card">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80"
+                         alt="Traditional Italian villa renovation"
+                         class="property-image">
+                    <div class="property-content">
+                        <div class="property-price">€3.4M</div>
+                        <div class="property-location">Argegno Waterfront</div>
+                        <p class="property-description">
+                            Beautifully restored lakefront villa of 320 sqm with private dock and boat house. 4 bedrooms, 4 bathrooms, original stone architecture with modern luxury. Waterfront gardens, outdoor entertaining areas, direct lake access. Exceptional combination of location and value.
+                        </p>
+                        <a href="https://www.italy-sothebysrealty.com/en/destinations/north/lakes/lake-como.html"
+                           target="_blank"
+                           class="property-link">View Sotheby's Listings →</a>
+                    </div>
+                </div>
+
+                <div class="property-card">
+                    <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=80"
+                         alt="Village apartment with lake view"
+                         class="property-image">
+                    <div class="property-content">
+                        <div class="property-price">€1.6M - €2.2M</div>
+                        <div class="property-location">Argegno Village Center</div>
+                        <p class="property-description">
+                            Renovated apartments in traditional buildings near the Telo River bridge. 140-200 sqm, 2-3 bedrooms, balconies with lake views. Walking distance to restaurants, shops, ferry landing, and cable car. Excellent entry point for Lake Como living at accessible pricing.
+                        </p>
+                        <a href="https://www.jamesedition.com/real_estate/lake-como-italy"
+                           target="_blank"
+                           class="property-link">View JamesEdition Listings →</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="note" style="margin-top: var(--spacing-xl);">
+                <strong>Argegno Value Proposition:</strong> Real estate in Argegno offers 20-30% lower pricing compared to Cernobbio or Laglio while maintaining western shore advantages including excellent sun exposure. The unique cable car access to Pigra and Valle d'Intelvi gateway position add recreational value unavailable in other villages. Properties here attract buyers prioritizing mountain access, village amenities, and affordability over proximity to Como. The market emphasizes value-conscious families seeking authentic Lake Como living without premium pricing.
+                <br><br>
+                Sources: <a href="https://www.jamesedition.com/real_estate/lake-como-italy" target="_blank">JamesEdition</a>,
+                <a href="https://www.luxuryestate.com/italy/lombardy/provincia-di-como/argegno" target="_blank">LuxuryEstate.com</a>,
+                <a href="https://www.italy-sothebysrealty.com/en/destinations/north/lakes/lake-como.html" target="_blank">Italy Sotheby's International Realty</a>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <a href="/cities-hub" class="footer-link">← Back to Cities Hub</a>
+            <p class="footer-text" style="margin-top: var(--spacing-md);">
+                City guide created 2026. Data compiled from Wikimedia Commons, international school websites,
+                luxury real estate portals, and local tourism resources
+            </p>
+        </footer>
+    </main>
+</body>
+</html>
