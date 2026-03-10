@@ -151,6 +151,33 @@
             border-top: 1px solid var(--rule);
             margin: 2.5rem 0;
         }
+        .agent-status {
+            display: inline-block;
+            font-family: var(--font-sans);
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            margin-top: 0.5rem;
+        }
+        .status-in-conversation {
+            background: #d4edda;
+            color: #155724;
+        }
+        .status-they-replied {
+            background: #cce5ff;
+            color: #004085;
+        }
+        .status-emailed {
+            background: #fff3cd;
+            color: #856404;
+        }
+        .status-no-contact {
+            background: #f0efec;
+            color: #6c757d;
+        }
     </style>
 </head>
 <body>
@@ -220,6 +247,7 @@
                     <div class="agent-detail"><a href="mailto:amy@amygreenrealtor.com">amy@amygreenrealtor.com</a></div>
                     <div class="agent-detail">(858) 342-3068</div>
                     <div class="agent-note">$975M+ career sales, 200+ five-star reviews. Covers Del Mar, Encinitas, Carlsbad, La Jolla.</div>
+                    <div class="agent-status status-no-contact">No contact</div>
                 </div>
                 <div class="agent-card">
                     <div class="agent-name">Chris Heller</div>
@@ -227,6 +255,7 @@
                     <div class="agent-detail"><a href="mailto:chris.heller@hellerthehomeseller.com">chris.heller@hellerthehomeseller.com</a></div>
                     <div class="agent-detail">(760) 642-6931</div>
                     <div class="agent-note">35+ years, 4,500+ homes sold. Former CEO of Keller Williams. Inman Power Player.</div>
+                    <div class="agent-status status-in-conversation">In conversation</div>
                 </div>
                 <div class="agent-card">
                     <div class="agent-name">Neda Nourani</div>
@@ -234,6 +263,7 @@
                     <div class="agent-detail"><a href="mailto:neda@homesbyneda.com">neda@homesbyneda.com</a></div>
                     <div class="agent-detail">(760) 822-7154</div>
                     <div class="agent-note">#1 Realtor in North County at Compass. 5-Star Award every year since 2010. 20+ years experience.</div>
+                    <div class="agent-status status-they-replied">They replied</div>
                 </div>
                 <div class="agent-card">
                     <div class="agent-name">Linda Moore</div>
@@ -241,6 +271,7 @@
                     <div class="agent-detail"><a href="mailto:linda@lindasellsmoore.com">linda@lindasellsmoore.com</a></div>
                     <div class="agent-detail">(760) 310-0234</div>
                     <div class="agent-note">30+ year career in San Diego County. Deep local knowledge, based in Encinitas.</div>
+                    <div class="agent-status status-in-conversation">In conversation</div>
                 </div>
                 <div class="agent-card">
                     <div class="agent-name">Darin Daly</div>
@@ -248,6 +279,7 @@
                     <div class="agent-detail"><a href="mailto:darin.daly@camoves.com">darin.daly@camoves.com</a></div>
                     <div class="agent-detail">(760) 214-6738</div>
                     <div class="agent-note">Based at the Encinitas/La Costa Coldwell Banker office, 1472 Encinitas Blvd.</div>
+                    <div class="agent-status status-emailed">Emailed</div>
                 </div>
                 <div class="agent-card">
                     <div class="agent-name">Sonny Nevarez</div>
@@ -255,6 +287,7 @@
                     <div class="agent-detail"><a href="mailto:sonny@beaconreal.com">sonny@beaconreal.com</a></div>
                     <div class="agent-detail">(760) 846-6568</div>
                     <div class="agent-note">Locally owned brokerage specializing in coastal lifestyle properties, Oceanside/Encinitas area.</div>
+                    <div class="agent-status status-in-conversation">In conversation</div>
                 </div>
             </div>
         </section>
@@ -287,6 +320,7 @@
                     <div class="agent-detail"><a href="mailto:brian@theguiltinangroup.com">brian@theguiltinangroup.com</a></div>
                     <div class="agent-detail">(858) 756-8770</div>
                     <div class="agent-note">30+ years luxury real estate. Sold the most expensive home in San Diego County ($43M oceanfront in Del Mar).</div>
+                    <div class="agent-status status-emailed">Emailed</div>
                 </div>
                 <div class="agent-card">
                     <div class="agent-name">Seth O'Byrne</div>
@@ -294,6 +328,7 @@
                     <div class="agent-detail"><a href="mailto:seth@obyrneteam.com">seth@obyrneteam.com</a></div>
                     <div class="agent-detail">(858) 869-3940</div>
                     <div class="agent-note">$1B+ in career sales. REALTOR of the Year 2023 (San Diego Association of Realtors).</div>
+                    <div class="agent-status status-in-conversation">In conversation</div>
                 </div>
                 <div class="agent-card">
                     <div class="agent-name">Eric Iantorno</div>
@@ -301,6 +336,7 @@
                     <div class="agent-detail"><a href="mailto:eric@ericiantorno.com">eric@ericiantorno.com</a></div>
                     <div class="agent-detail">(858) 334-3577</div>
                     <div class="agent-note">San Diego's #1 Individual Agent. $1.5B+ lifetime sales. Office on Camino Del Mar.</div>
+                    <div class="agent-status status-emailed">Emailed</div>
                 </div>
                 <div class="agent-card">
                     <div class="agent-name">Beth Davidson</div>
@@ -308,6 +344,7 @@
                     <div class="agent-detail"><a href="mailto:beth@barryestates-lcg.com">beth@barryestates-lcg.com</a></div>
                     <div class="agent-detail">(619) 886-4907</div>
                     <div class="agent-note">22-year Del Mar resident. Team ranked #1 in San Diego County (6-10 agents), $209M+ in 2024.</div>
+                    <div class="agent-status status-in-conversation">In conversation</div>
                 </div>
                 <div class="agent-card">
                     <div class="agent-name">Sean Barry</div>
@@ -315,6 +352,7 @@
                     <div class="agent-detail"><a href="mailto:sean@barryestates.com">sean@barryestates.com</a></div>
                     <div class="agent-detail">(858) 945-4314</div>
                     <div class="agent-note">Broker/owner, licensed attorney, MBA from UCLA Anderson. Founded Luxury Coast Group.</div>
+                    <div class="agent-status status-in-conversation">In conversation</div>
                 </div>
                 <div class="agent-card">
                     <div class="agent-name">Robert &amp; Joy Aumann</div>
@@ -322,6 +360,7 @@
                     <div class="agent-detail"><a href="mailto:rob@luxurysocalrealty.com">rob@luxurysocalrealty.com</a></div>
                     <div class="agent-detail">(858) 752-8730</div>
                     <div class="agent-note">$750M+ career sales. WSJ/RealTrends Top 1,000 small team 2020&ndash;2025.</div>
+                    <div class="agent-status status-in-conversation">In conversation</div>
                 </div>
                 <div class="agent-card">
                     <div class="agent-name">Ashley Lane Chavez</div>
@@ -329,6 +368,7 @@
                     <div class="agent-detail"><a href="mailto:ashley@ashleylanerealestate.com">ashley@ashleylanerealestate.com</a></div>
                     <div class="agent-detail">(619) 540-9663</div>
                     <div class="agent-note">Certified Trust and Probate Specialist. 20+ years in San Diego coastal communities.</div>
+                    <div class="agent-status status-emailed">Emailed</div>
                 </div>
             </div>
         </section>
@@ -361,6 +401,7 @@
                     <div class="agent-detail"><a href="mailto:lindsey@lindseyharngroup.com">lindsey@lindseyharngroup.com</a></div>
                     <div class="agent-detail">(805) 441-7744</div>
                     <div class="agent-note">#1 agent in SLO County since 2019. 1,200+ transactions, $1.1B in closed sales. Christie's Masters Circle.</div>
+                    <div class="agent-status status-in-conversation">In conversation</div>
                 </div>
                 <div class="agent-card">
                     <div class="agent-name">Hal Sweasey</div>
@@ -368,6 +409,7 @@
                     <div class="agent-detail"><a href="mailto:hal@teamsweasey.com">hal@teamsweasey.com</a></div>
                     <div class="agent-detail">(805) 329-3247</div>
                     <div class="agent-note">33+ years on Central Coast, 3,100+ properties sold. #11 nationwide out of 54,000+ KW agents.</div>
+                    <div class="agent-status status-in-conversation">In conversation</div>
                 </div>
                 <div class="agent-card">
                     <div class="agent-name">Sarah Weber</div>
@@ -375,6 +417,7 @@
                     <div class="agent-detail"><a href="mailto:sarah@weberteam.com">sarah@weberteam.com</a></div>
                     <div class="agent-detail">(805) 550-6405</div>
                     <div class="agent-note">20+ years experience. Family-run brokerage on Monterey Street in downtown SLO.</div>
+                    <div class="agent-status status-no-contact">No contact</div>
                 </div>
                 <div class="agent-card">
                     <div class="agent-name">Amy Daane</div>
@@ -382,6 +425,7 @@
                     <div class="agent-detail"><a href="mailto:amy@theavenueslo.com">amy@theavenueslo.com</a></div>
                     <div class="agent-detail">(805) 234-0621</div>
                     <div class="agent-note">$1B+ career sales. Cal Poly alumna. Board member of SLO Coastal Association of Realtors.</div>
+                    <div class="agent-status status-in-conversation">In conversation</div>
                 </div>
                 <div class="agent-card">
                     <div class="agent-name">Monique Carlton</div>
@@ -389,6 +433,7 @@
                     <div class="agent-detail"><a href="mailto:moniquecarlton@gmail.com">moniquecarlton@gmail.com</a></div>
                     <div class="agent-detail">(805) 471-6921</div>
                     <div class="agent-note">29 years experience. Platinum Award 2022 &amp; 2024. Best of San Luis Obispo 2019.</div>
+                    <div class="agent-status status-no-contact">No contact</div>
                 </div>
                 <div class="agent-card">
                     <div class="agent-name">Kyle Rice</div>
@@ -396,6 +441,7 @@
                     <div class="agent-detail"><a href="mailto:kyle@kylericere.com">kyle@kylericere.com</a></div>
                     <div class="agent-detail">(805) 235-0382</div>
                     <div class="agent-note">Specializes in residential, luxury estates, probate, and oceanfront properties.</div>
+                    <div class="agent-status status-no-contact">No contact</div>
                 </div>
             </div>
         </section>
