@@ -1,7 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "WebFetch(domain:www.marbella-ev.com)"
+      "WebFetch(domain:www.marbella-ev.com)",
+      "Bash(timeout 3 bash -c \"sleep 3 && curl -s -o nul -w ''%{http_code}'' http://localhost:5000/city-cernobbio\")",
+      "Bash(dir:*)",
+      "Bash(curl:*)",
+      "WebSearch"
     ]
   }
 }

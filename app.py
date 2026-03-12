@@ -155,5 +155,10 @@ def cities_comparison_all():
     return render_template('cities-comparison-all.html')
 
 
+@app.route('/challenges-slide')
+def challenges_slide():
+    return render_template('challenges-slide.html')
+
+
 if __name__ == '__main__':
     app.run(debug=True)
