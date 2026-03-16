@@ -160,6 +160,11 @@ def italy_itinerary():
     return render_template('italy-itinerary.html')
 
 
+@app.route('/apps-contact')
+def apps_contact():
+    return render_template('apps-contact.html')
+
+
 @app.route('/challenges-slide')
 def challenges_slide():
     return render_template('challenges-slide.html')

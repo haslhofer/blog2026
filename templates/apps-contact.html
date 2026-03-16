@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerald Haslhofer's Apps</title>
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
+    <style>
+        .contact-card {
+            background: white;
+            border: 1px solid var(--rule);
+            border-radius: var(--radius-md);
+            padding: 2.5rem;
+            max-width: 480px;
+            margin: 2rem auto;
+        }
+
+        .contact-item {
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .contact-label {
+            font-family: var(--font-sans);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--ink-light);
+            margin-bottom: 0.25rem;
+        }
+
+        .contact-value {
+            font-family: var(--font-serif);
+            font-size: 1.15rem;
+            color: var(--ink);
+        }
+
+        .contact-value a {
+            color: var(--orbital-accent);
+            text-decoration: none;
+        }
+
+        .contact-value a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <a href="/" class="nav-back">&larr; Home</a>
+    </nav>
+
+    <main class="container">
+        <header class="hero">
+            <h1 class="hero-title">Gerald Haslhofer's Apps</h1>
+            <p class="hero-tagline">Contact Information</p>
+        </header>
+
+        <div class="contact-card">
+            <div class="contact-item">
+                <div class="contact-label">Name</div>
+                <div class="contact-value">Gerald Haslhofer</div>
+            </div>
+            <div class="contact-item">
+                <div class="contact-label">Email</div>
+                <div class="contact-value"><a href="mailto:haslhofer2@outlook.com">haslhofer2@outlook.com</a></div>
+            </div>
+            <div class="contact-item">
+                <div class="contact-label">Location</div>
+                <div class="contact-value">Bellevue, WA, USA</div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
