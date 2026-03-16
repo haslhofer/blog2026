@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Italy Family Itinerary: Como to Milan via Cinque Terre</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <style>
+        #map {
+            height: 500px;
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .leaflet-popup-content-wrapper {
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+        }
+        .leaflet-popup-content h3 {
+            font-family: 'Newsreader', serif;
+            margin: 0 0 0.5rem 0;
+            font-size: 1.1rem;
+            color: #2c2721;
+        }
+        .leaflet-popup-content p {
+            margin: 0.25rem 0;
+            font-size: 0.9rem;
+            color: #4a4540;
+        }
+        .day-card {
+            background: white;
+            border: 1px solid var(--rule);
+            border-radius: var(--radius-md);
+            padding: 1.75rem;
+            margin-bottom: 1.5rem;
+        }
+        .day-card h3 {
+            font-family: var(--font-serif);
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--ink);
+            margin-bottom: 0.75rem;
+        }
+        .day-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .day-card ul li {
+            font-family: var(--font-sans);
+            font-size: 0.95rem;
+            color: var(--ink-muted);
+            line-height: 1.6;
+            padding-left: 1.25rem;
+            position: relative;
+            margin-bottom: 0.25rem;
+        }
+        .day-card ul li::before {
+            content: '·';
+            position: absolute;
+            left: 0;
+            color: var(--orbital-accent);
+            font-weight: 700;
+        }
+        .day-card .day-tag {
+            font-family: var(--font-sans);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--orbital-accent);
+            margin-bottom: 0.25rem;
+            display: block;
+        }
+        .day-card .hiking-badge {
+            display: inline-block;
+            font-family: var(--font-sans);
+            font-size: 0.75rem;
+            font-weight: 500;
+            background: #f0ebe3;
+            color: var(--ink-muted);
+            padding: 0.2rem 0.6rem;
+            border-radius: 999px;
+            margin-top: 0.75rem;
+        }
+        .option-block {
+            background: #fafaf8;
+            border: 1px solid var(--rule);
+            border-radius: var(--radius-md);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        .option-block h3 {
+            font-family: var(--font-serif);
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--ink);
+            margin-bottom: 0.5rem;
+        }
+        .option-block .option-subtitle {
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            font-style: italic;
+            color: var(--ink-light);
+            margin-bottom: 1rem;
+        }
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            margin-top: 1.5rem;
+        }
+        .comparison-table th {
+            text-align: left;
+            padding: 0.75rem;
+            border-bottom: 2px solid var(--rule);
+            font-weight: 600;
+            color: var(--ink);
+            font-size: 0.85rem;
+        }
+        .comparison-table td {
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--rule);
+            color: var(--ink-muted);
+            vertical-align: top;
+        }
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+        .budget-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+        }
+        .budget-table th {
+            text-align: left;
+            padding: 0.5rem 0.75rem;
+            border-bottom: 2px solid var(--rule);
+            font-weight: 600;
+            color: var(--ink);
+        }
+        .budget-table td {
+            padding: 0.5rem 0.75rem;
+            border-bottom: 1px solid var(--rule);
+            color: var(--ink-muted);
+        }
+        .budget-table tr:last-child td {
+            font-weight: 600;
+            color: var(--ink);
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <a href="/" class="nav-back">← Home</a>
+    </nav>
+
+    <main class="container">
+        <header class="hero">
+            <h1 class="hero-title">Italy: Como to Milan via Cinque Terre</h1>
+            <p class="hero-tagline">
+                A family hiking itinerary through Liguria · April 7–12, 2026
+            </p>
+        </header>
+
+        <section class="intro">
+            <p class="lead drop-cap">
+                Six days from Lake Como to Milan, threading through the Ligurian coast with
+                boots on the ground every day. Three kids, a car parked in La Spezia, and the full
+                Cinque Terre trail split across two days — ending each hike at a beach or a bowl of pasta.
+                Three route options depending on whether you want aquariums, cheese factories, or the Leaning Tower.
+            </p>
+            <p class="note">
+                April 7–12, 2026 · 2 adults + 3 children · Car from Como, fly out of Milan
+            </p>
+        </section>
+
+        <!-- Interactive Map -->
+        <section class="section">
+            <h2 class="section-title">The Map</h2>
+            <div style="max-width: 1000px; margin: 0 auto 2rem; background: #fafaf8; padding: 2rem; border-radius: 12px; border: 1px solid #e5e3dc;">
+                <div id="map"></div>
+                <div style="margin-top: 1.5rem; padding: 1rem; background: #fff; border-radius: 8px; border: 1px solid #e5e3dc;">
+                    <div style="display: flex; gap: 2rem; flex-wrap: wrap; justify-content: center; align-items: center;">
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <span style="display: inline-block; width: 12px; height: 12px; background: #4A7BA7; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 0 0 1px #4A7BA7;"></span>
+                            <span style="font-family: 'Inter', sans-serif; font-size: 0.9rem; color: #4a4540;">Recommended Route</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <span style="display: inline-block; width: 12px; height: 12px; background: #8B6F47; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 0 0 1px #8B6F47;"></span>
+                            <span style="font-family: 'Inter', sans-serif; font-size: 0.9rem; color: #4a4540;">Cinque Terre Villages</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <span style="display: inline-block; width: 12px; height: 12px; background: #cd853f; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 0 0 1px #cd853f;"></span>
+                            <span style="font-family: 'Inter', sans-serif; font-size: 0.9rem; color: #4a4540;">Option Stops</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recommended Itinerary -->
+        <section class="section">
+            <h2 class="section-title">The Recommended Itinerary</h2>
+            <p class="body-text">
+                A hybrid of the best elements: Genoa's old town on the way down, Cinque Terre hiked south-to-north
+                ending at Monterosso's beach, Portovenere for a flex day, and the Portofino coastal trail on the way
+                back to Milan. Every day has hiking, the driving never exceeds 3 hours, and the south-to-north
+                direction means you finish at the only village with a real sandy beach.
+            </p>
+
+            <div class="day-card">
+                <span class="day-tag">April 7</span>
+                <h3>Como → La Spezia via Genoa</h3>
+                <ul>
+                    <li>Morning departure from Como. Drive A7 south to Genoa (~2 hrs)</li>
+                    <li>Walk through Genoa's atmospheric old town alleyways (caruggi), grab focaccia al formaggio at Porto Antico</li>
+                    <li>Continue on the A12 coast road to La Spezia (1.5 hrs). Park the car at Parcheggio Centro (~€15–18/day)</li>
+                    <li>Evening walk along the La Spezia waterfront promenade. Get to bed early — big hiking days ahead</li>
+                </ul>
+            </div>
+
+            <div class="day-card">
+                <span class="day-tag">April 8</span>
+                <h3>Cinque Terre Day 1: Riomaggiore → Corniglia</h3>
+                <ul>
+                    <li>Train to Riomaggiore (8 min from La Spezia)</li>
+                    <li>Hike Via dell'Amore to Manarola (~30 min, flat and scenic warm-up)</li>
+                    <li>Gelato and photo break in Manarola's colorful harbor</li>
+                    <li>Hike Manarola → Corniglia (~1.5 hrs, moderate with some stairs)</li>
+                    <li>Explore Corniglia — the quiet hilltop village with stunning terrace views</li>
+                    <li>Train back to La Spezia</li>
+                </ul>
+                <span class="hiking-badge">~2–3 hrs hiking</span>
+            </div>
+
+            <div class="day-card">
+                <span class="day-tag">April 9</span>
+                <h3>Cinque Terre Day 2: Corniglia → Monterosso</h3>
+                <ul>
+                    <li>Train to Corniglia</li>
+                    <li>Hike Corniglia → Vernazza (~1.5–2 hrs — toughest and most rewarding section, steep switchbacks, cliff views)</li>
+                    <li>Lunch in Vernazza — let the kids play on the small harbor beach</li>
+                    <li>Hike Vernazza → Monterosso (~2 hrs, gorgeous descent into Monterosso)</li>
+                    <li>Sandy beach finish — swim and celebrate completing all five villages!</li>
+                    <li>Train back to La Spezia</li>
+                </ul>
+                <span class="hiking-badge">~3.5–4 hrs hiking · All 5 villages done!</span>
+            </div>
+
+            <div class="day-card">
+                <span class="day-tag">April 10</span>
+                <h3>Portovenere & Palmaria Island</h3>
+                <ul>
+                    <li>Short drive or bus to Portovenere (15 min) — stunning fortified village at the tip of the peninsula</li>
+                    <li>Hike the Sentiero dell'Infinito (Trail of Infinity) — a ridge trail with panoramic views (~1.5 hrs)</li>
+                    <li>Or: Ferry to Palmaria Island (5 min) and hike the island loop trail (~2–3 hrs). Rocky coves, far fewer tourists</li>
+                    <li>Afternoon swim at Palmaria's beaches or back in Portovenere</li>
+                    <li>Built-in flex: this can become a lazy beach day if anyone needs rest</li>
+                </ul>
+                <span class="hiking-badge">~2–3 hrs hiking</span>
+            </div>
+
+            <div class="day-card">
+                <span class="day-tag">April 11</span>
+                <h3>Portofino Coastal Hike → Milan</h3>
+                <ul>
+                    <li>Pick up the car, drive to Santa Margherita Ligure (~1.5 hrs up the coast)</li>
+                    <li>Hike the Santa Margherita → Portofino coastal trail (~1.5 hrs, easy-moderate through Mediterranean pine forest)</li>
+                    <li>Explore Portofino — the piazzetta, Castello Brown, maybe a swim at Paraggi beach</li>
+                    <li>Ferry back to Santa Margherita (10 min — kids love the boat ride)</li>
+                    <li>Drive to Milan area (~2.5 hrs). Optional: Duomo rooftop at sunset or dinner in Navigli</li>
+                </ul>
+                <span class="hiking-badge">~1.5–3 hrs hiking</span>
+            </div>
+
+            <div class="day-card">
+                <span class="day-tag">April 12</span>
+                <h3>Fly Home</h3>
+                <ul>
+                    <li>Morning departure from Milan (MXP or LIN)</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Budget -->
+        <section class="section">
+            <h2 class="section-title">Budget Snapshot</h2>
+            <div style="background: white; border: 1px solid var(--rule); border-radius: var(--radius-md); padding: 1.75rem; max-width: 600px;">
+                <table class="budget-table">
+                    <thead>
+                        <tr><th>Item</th><th>Cost (family of 5)</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Parking in La Spezia (3 nights)</td><td>~€50</td></tr>
+                        <tr><td>Cinque Terre Card (2-day family)</td><td>~€65–80</td></tr>
+                        <tr><td>Palmaria Island ferry (round trip)</td><td>~€25–30</td></tr>
+                        <tr><td>Portofino ferry to Santa Margherita</td><td>~€20–25</td></tr>
+                        <tr><td>Castello Brown, Portofino</td><td>~€15–20</td></tr>
+                        <tr><td>Duomo rooftop, Milan</td><td>~€40–50</td></tr>
+                        <tr><td>Tolls (full route)</td><td>~€50–60</td></tr>
+                        <tr><td><strong>Activity total</strong></td><td><strong>~€265–315</strong></td></tr>
+                    </tbody>
+                </table>
+                <p style="font-family: var(--font-sans); font-size: 0.8rem; color: var(--ink-light); margin-top: 1rem; margin-bottom: 0;">
+                    Excludes accommodation, food, and fuel. Hiking trails and Portovenere are free.
+                </p>
+            </div>
+        </section>
+
+        <!-- Option A -->
+        <section class="section">
+            <h2 class="section-title">The Three Options</h2>
+
+            <div class="option-block">
+                <h3>Option A: Coastal Glamour</h3>
+                <p class="option-subtitle">Genoa aquarium, south→north hike, Portofino, Milan</p>
+                <p class="body-text">
+                    Start with Europe's largest aquarium in Genoa — a huge hit with kids. Two days hiking the Cinque Terre
+                    south-to-north, ending at Monterosso beach. Day 4 takes you to Portofino via ferry or coastal trail.
+                    Full day in Milan to close out — Duomo rooftop, Science Museum, or Parco Sempione.
+                </p>
+            </div>
+
+            <div class="option-block">
+                <h3>Option B: Food Valley</h3>
+                <p class="option-subtitle">Parma food tours, north→south hike, Portovenere, Pavia</p>
+                <p class="body-text">
+                    Detour through Parma's "Food Valley" — visit a Parmigiano-Reggiano dairy, eat real Parma ham.
+                    Hike Cinque Terre north-to-south ending at Riomaggiore's dramatic harbor. Portovenere and Palmaria
+                    Island for a flex day, then the ornate Certosa di Pavia monastery on the way back to Milan.
+                </p>
+            </div>
+
+            <div class="option-block">
+                <h3>Option C: Tuscan Detour</h3>
+                <p class="option-subtitle">Lucca by bike, south→north hike, Pisa, Milan</p>
+                <p class="body-text">
+                    Longer first day through Lucca — rent bikes and ride on top of the Renaissance city walls (4 km loop),
+                    climb the Torre Guinigi with oak trees on top. South-to-north Cinque Terre, then Pisa for the Leaning
+                    Tower and obligatory silly photos. Full day in Milan to finish.
+                </p>
+            </div>
+        </section>
+
+        <!-- Comparison -->
+        <section class="section">
+            <h2 class="section-title">Comparison at a Glance</h2>
+            <div style="overflow-x: auto;">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>A: Coastal Glamour</th>
+                            <th>B: Food Valley</th>
+                            <th>C: Tuscan Detour</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Route out</strong></td>
+                            <td>Como → Genoa → coast</td>
+                            <td>Como → Parma → mountains</td>
+                            <td>Como → Lucca → coast</td>
+                        </tr>
+                        <tr>
+                            <td><strong>City highlights</strong></td>
+                            <td>Genoa aquarium, Portofino</td>
+                            <td>Parma food tours, Portovenere</td>
+                            <td>Lucca walls by bike, Pisa</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Hike direction</strong></td>
+                            <td>South → North</td>
+                            <td>North → South</td>
+                            <td>South → North</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Kid appeal</strong></td>
+                            <td>Aquarium, Portofino boat</td>
+                            <td>Cheese factory, island boat</td>
+                            <td>Biking walls, Leaning Tower</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Driving intensity</strong></td>
+                            <td>Moderate</td>
+                            <td>Moderate</td>
+                            <td>Higher</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Best if you...</strong></td>
+                            <td>Love coastal scenery</td>
+                            <td>Love food & hidden gems</td>
+                            <td>Want a taste of Tuscany</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Practical Notes -->
+        <section class="section">
+            <h2 class="section-title">Practical Notes</h2>
+
+            <p class="body-text">
+                <strong>Cinque Terre Card</strong> required for trail access — includes unlimited trains between villages.
+                Buy at any station or online. Family pricing available. With children, split the trail across 2 days.
+                Hardest section: Vernazza ↔ Corniglia. Easiest: Via dell'Amore.
+            </p>
+
+            <p class="body-text">
+                <strong>Parking:</strong> Don't drive into the Cinque Terre villages — ZTL zones, limited spots, €30–40/day.
+                Park in La Spezia (Parcheggio Centro or Via Crispi, ~€15–18/day) and train in.
+                Riomaggiore is 8 minutes, Monterosso 20 minutes.
+            </p>
+
+            <p class="body-text">
+                <strong>Gear:</strong> Sturdy hiking shoes required — they check at trail entrances. No sandals or flip-flops.
+                Pack water and snacks; limited shops between villages on the trail.
+            </p>
+        </section>
+    </main>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script>
+        var map = L.map('map').setView([44.2, 9.5], 8);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+            maxZoom: 19
+        }).addTo(map);
+
+        // Recommended route stops (blue)
+        var routeIcon = L.divIcon({
+            className: 'custom-marker',
+            html: '<div style="background-color: #4A7BA7; width: 14px; height: 14px; border-radius: 50%; border: 2px solid white; box-shadow: 0 0 0 1px #4A7BA7;"></div>',
+            iconSize: [14, 14],
+            iconAnchor: [7, 7]
+        });
+
+        // Cinque Terre villages (brown)
+        var cinqueIcon = L.divIcon({
+            className: 'custom-marker',
+            html: '<div style="background-color: #8B6F47; width: 14px; height: 14px; border-radius: 50%; border: 2px solid white; box-shadow: 0 0 0 1px #8B6F47;"></div>',
+            iconSize: [14, 14],
+            iconAnchor: [7, 7]
+        });
+
+        // Option-specific stops (tan)
+        var optionIcon = L.divIcon({
+            className: 'custom-marker',
+            html: '<div style="background-color: #cd853f; width: 14px; height: 14px; border-radius: 50%; border: 2px solid white; box-shadow: 0 0 0 1px #cd853f;"></div>',
+            iconSize: [14, 14],
+            iconAnchor: [7, 7]
+        });
+
+        var places = [
+            // Recommended route
+            { name: "Como", coords: [45.8080, 9.0852], icon: routeIcon, info: "Starting point · Depart April 7" },
+            { name: "Genoa", coords: [44.4056, 8.9463], icon: routeIcon, info: "Stop on the way down · Old town caruggi, focaccia al formaggio" },
+            { name: "La Spezia", coords: [44.1024, 9.8240], icon: routeIcon, info: "Base camp for Cinque Terre · Park here 3 nights (~€15–18/day)" },
+            { name: "Portovenere", coords: [44.0533, 9.8369], icon: routeIcon, info: "April 10 · Fortified village, Sentiero dell'Infinito, Palmaria Island ferry" },
+            { name: "Santa Margherita Ligure", coords: [44.3346, 9.2115], icon: routeIcon, info: "April 11 · Start of Portofino coastal trail" },
+            { name: "Portofino", coords: [44.3033, 9.2097], icon: routeIcon, info: "April 11 · Famous harbor, Castello Brown, Paraggi beach. Ferry back" },
+            { name: "Milan", coords: [45.4642, 9.1900], icon: routeIcon, info: "April 11–12 · Duomo rooftop, Navigli. Fly home April 12" },
+
+            // Cinque Terre villages
+            { name: "Riomaggiore", coords: [44.0991, 9.7379], icon: cinqueIcon, info: "Village 1 · Start of Day 1 hike. Train from La Spezia (8 min)" },
+            { name: "Manarola", coords: [44.1068, 9.7267], icon: cinqueIcon, info: "Village 2 · Colorful harbor, gelato break. Via dell'Amore from Riomaggiore" },
+            { name: "Corniglia", coords: [44.1190, 9.7117], icon: cinqueIcon, info: "Village 3 · Quiet hilltop, terrace views. End of Day 1, start of Day 2" },
+            { name: "Vernazza", coords: [44.1350, 9.6843], icon: cinqueIcon, info: "Village 4 · Prettiest village, small harbor beach. Lunch stop on Day 2" },
+            { name: "Monterosso al Mare", coords: [44.1455, 9.6547], icon: cinqueIcon, info: "Village 5 · Grand finale! Only village with a real sandy beach" },
+
+            // Option stops
+            { name: "Acquario di Genova", coords: [44.4098, 8.9268], icon: optionIcon, info: "Option A · Europe's largest aquarium — huge hit with kids" },
+            { name: "Parma", coords: [44.8015, 10.3279], icon: optionIcon, info: "Option B · Food Valley: Parmigiano-Reggiano dairy, Parma ham, Battistero" },
+            { name: "Lucca", coords: [43.8429, 10.5027], icon: optionIcon, info: "Option C · Bike the Renaissance city walls (4 km loop), Torre Guinigi" },
+            { name: "Pisa", coords: [43.7228, 10.4017], icon: optionIcon, info: "Option C · Leaning Tower, Piazza dei Miracoli (book timed tickets!)" },
+            { name: "Pavia", coords: [45.1847, 9.1582], icon: optionIcon, info: "Option B · Certosa di Pavia — ornate monastery, halfway to Milan" },
+            { name: "Palmaria Island", coords: [44.0453, 9.8508], icon: optionIcon, info: "Flex day · Island loop hike (~2–3 hrs), rocky coves, fewer tourists" }
+        ];
+
+        places.forEach(function(place) {
+            var marker = L.marker(place.coords, { icon: place.icon }).addTo(map);
+            marker.bindPopup(
+                '<h3>' + place.name + '</h3>' +
+                '<p style="margin-top: 0.5rem;">' + place.info + '</p>'
+            );
+        });
+
+        var group = new L.featureGroup(places.map(function(place) {
+            return L.marker(place.coords);
+        }));
+        map.fitBounds(group.getBounds().pad(0.15));
+    </script>
+</body>
+</html>

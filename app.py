@@ -155,6 +155,11 @@ def cities_comparison_all():
     return render_template('cities-comparison-all.html')
 
 
+@app.route('/italy-itinerary')
+def italy_itinerary():
+    return render_template('italy-itinerary.html')
+
+
 @app.route('/challenges-slide')
 def challenges_slide():
     return render_template('challenges-slide.html')
