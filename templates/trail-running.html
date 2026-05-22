@@ -197,6 +197,22 @@
             font-size: 0.9rem;
             color: #4a4540;
         }
+        .legend-dot span.line {
+            display: inline-block;
+            width: 28px;
+            height: 4px;
+            border-radius: 2px;
+        }
+        .trail-tooltip {
+            background: rgba(255,255,255,0.96);
+            border: 1px solid #d4cfc4;
+            border-radius: 4px;
+            padding: 4px 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.82rem;
+            color: #2c2721;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+        }
     </style>
 </head>
 <body>
@@ -238,17 +254,20 @@
                             <span class="label">Home base</span>
                         </div>
                         <div class="legend-dot">
-                            <span class="dot" style="background:#5a8054; box-shadow: 0 0 0 1px #5a8054;"></span>
+                            <span class="line" style="background:#5a8054;"></span>
                             <span class="label">Right out the door (≤ 2 mi)</span>
                         </div>
                         <div class="legend-dot">
-                            <span class="dot" style="background:#4a8b9d; box-shadow: 0 0 0 1px #4a8b9d;"></span>
+                            <span class="line" style="background:#4a8b9d;"></span>
                             <span class="label">Short drive (5–15 min)</span>
                         </div>
                         <div class="legend-dot">
-                            <span class="dot" style="background:#b07744; box-shadow: 0 0 0 1px #b07744;"></span>
+                            <span class="line" style="background:#b07744;"></span>
                             <span class="label">Worth-the-drive (15–25 min)</span>
                         </div>
+                    </div>
+                    <div style="text-align: center; margin-top: 0.75rem; font-family: 'Inter', sans-serif; font-size: 0.78rem; color: #8a8a8a;">
+                        Lines are actual trail geometry from OpenStreetMap · Hover for trail name · Click for details
                     </div>
                 </div>
             </div>
@@ -587,6 +606,74 @@
             return L.marker(place.coords);
         }));
         map.fitBounds(group.getBounds().pad(0.15));
+
+        // Load and render GPS tracks from OpenStreetMap
+        var groupStyle = {
+            local:       { color: '#5a8054', weight: 4, opacity: 0.85, lineCap: 'round', lineJoin: 'round' },
+            short:       { color: '#4a8b9d', weight: 4, opacity: 0.85, lineCap: 'round', lineJoin: 'round' },
+            destination: { color: '#b07744', weight: 4, opacity: 0.85, lineCap: 'round', lineJoin: 'round' }
+        };
+        var trailIndex = {};
+        places.forEach(function(p) { trailIndex[p.name] = p; });
+        // Map trail_id (from geojson) to the marker name
+        var idToMarkerName = {
+            'olivenhain-loop':   'Olivenhain Loop',
+            'lone-hill':         'Lone Hill Horse Trail (141)',
+            'wildflower':        'Wildflower Valley & Summit',
+            'manchester':        'Manchester Preserve',
+            'indian-head':       'Indian Head Canyon',
+            'san-elijo-lagoon':  'San Elijo Lagoon',
+            'elfin-forest':      'Elfin Forest Reserve',
+            'double-peak':       'Double Peak',
+            'san-elijo-hills':   'San Elijo Hills Loop',
+            'piedras-pintadas':  'Piedras Pintadas / Lake Hodges'
+        };
+
+        fetch('{{ url_for("static", filename="data/trails.geojson") }}')
+            .then(function(r) { return r.json(); })
+            .then(function(gj) {
+                var trailLayer = L.geoJSON(gj, {
+                    style: function(feat) {
+                        return groupStyle[feat.properties.group] || groupStyle.destination;
+                    },
+                    onEachFeature: function(feat, layer) {
+                        var p = feat.properties;
+                        var label = p.osm_name || p.trail_name;
+                        var tip = '<strong>' + label + '</strong>';
+                        if (p.osm_name && p.osm_name !== p.trail_name) {
+                            tip += '<br><span style="color:#777; font-size:0.8em;">' + p.trail_name + '</span>';
+                        }
+                        layer.bindTooltip(tip, { sticky: true, direction: 'top', className: 'trail-tooltip' });
+                        layer.on('mouseover', function() {
+                            this.setStyle({ weight: 7, opacity: 1 });
+                        });
+                        layer.on('mouseout', function() {
+                            trailLayer.resetStyle(this);
+                        });
+                        layer.on('click', function() {
+                            var marker = trailIndex[idToMarkerName[p.trail_id]];
+                            if (marker) {
+                                // Just open the popup at the click point
+                                L.popup()
+                                    .setLatLng(layer.getBounds().getCenter())
+                                    .setContent(
+                                        '<h3>' + marker.name + '</h3>' +
+                                        '<p>' + marker.info + '</p>' +
+                                        '<p class="popup-stats">' + (marker.stats || '') + '</p>'
+                                    )
+                                    .openOn(map);
+                            }
+                        });
+                    }
+                }).addTo(map);
+                // Bring markers to front
+                Object.values(map._layers).forEach(function(l) {
+                    if (l instanceof L.Marker) l.setZIndexOffset(1000);
+                });
+            })
+            .catch(function(e) {
+                console.warn('Could not load trail tracks:', e);
+            });
     </script>
 </body>
 </html>
