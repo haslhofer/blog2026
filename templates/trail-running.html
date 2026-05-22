@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trail Running Near Olivenhain, Encinitas</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <style>
+        #map {
+            height: 560px;
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .leaflet-popup-content-wrapper {
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+        }
+        .leaflet-popup-content h3 {
+            font-family: 'Newsreader', serif;
+            margin: 0 0 0.5rem 0;
+            font-size: 1.1rem;
+            color: #2c2721;
+        }
+        .leaflet-popup-content p {
+            margin: 0.25rem 0;
+            font-size: 0.9rem;
+            color: #4a4540;
+        }
+        .leaflet-popup-content .popup-stats {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.78rem;
+            color: #5a8054;
+            margin-top: 0.4rem;
+            letter-spacing: 0.02em;
+        }
+        .trail-card {
+            background: white;
+            border: 1px solid var(--rule);
+            border-radius: var(--radius-md);
+            padding: 1.75rem;
+            margin-bottom: 1.25rem;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .trail-card:hover {
+            border-color: #5a8054;
+            box-shadow: 0 2px 10px rgba(90, 128, 84, 0.08);
+        }
+        .trail-card h3 {
+            font-family: var(--font-serif);
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--ink);
+            margin-bottom: 0.5rem;
+        }
+        .trail-card .trail-number {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #5a8054;
+            letter-spacing: 0.05em;
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+        .trail-card p {
+            font-family: var(--font-sans);
+            font-size: 0.95rem;
+            color: var(--ink-muted);
+            line-height: 1.65;
+            margin-bottom: 0.5rem;
+        }
+        .trail-card .stats-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.85rem;
+        }
+        .stat-pill {
+            display: inline-block;
+            font-family: var(--font-sans);
+            font-size: 0.75rem;
+            font-weight: 500;
+            background: #f0ebe3;
+            color: var(--ink-muted);
+            padding: 0.25rem 0.7rem;
+            border-radius: 999px;
+        }
+        .stat-pill.distance { background: #e6efe5; color: #3d5e3a; }
+        .stat-pill.gain { background: #f5e8d9; color: #8b5e2b; }
+        .stat-pill.surface { background: #e3ecf2; color: #2d5a87; }
+        .stat-pill.warning { background: #fbe6e1; color: #9d3a26; }
+
+        .section-cluster {
+            margin-bottom: 3rem;
+        }
+        .cluster-header {
+            border-left: 3px solid #5a8054;
+            padding-left: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .cluster-header.short-drive { border-left-color: #4a8b9d; }
+        .cluster-header.destination { border-left-color: #b07744; }
+        .cluster-header h2 {
+            font-family: var(--font-serif);
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: var(--ink);
+            margin-bottom: 0.25rem;
+        }
+        .cluster-header .cluster-sub {
+            font-family: var(--font-sans);
+            font-size: 0.85rem;
+            color: var(--ink-light);
+            font-style: italic;
+        }
+
+        .notes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .note-card {
+            background: #fafaf8;
+            border: 1px solid var(--rule);
+            border-radius: var(--radius-md);
+            padding: 1.25rem;
+        }
+        .note-card h4 {
+            font-family: var(--font-sans);
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--ink-light);
+            margin-bottom: 0.5rem;
+        }
+        .note-card p {
+            font-family: var(--font-sans);
+            font-size: 0.92rem;
+            color: var(--ink-muted);
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .sources-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            columns: 2;
+            column-gap: 2rem;
+        }
+        .sources-list li {
+            font-family: var(--font-sans);
+            font-size: 0.85rem;
+            color: var(--ink-muted);
+            padding: 0.3rem 0;
+            break-inside: avoid;
+        }
+        @media (max-width: 600px) {
+            .sources-list { columns: 1; }
+        }
+
+        .map-legend {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: #fff;
+            border-radius: 8px;
+            border: 1px solid #e5e3dc;
+        }
+        .map-legend-inner {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+        }
+        .legend-dot {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .legend-dot span.dot {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 2px solid #fff;
+        }
+        .legend-dot span.label {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            color: #4a4540;
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <a href="/" class="nav-back">← Home</a>
+    </nav>
+
+    <main class="container">
+        <header class="hero">
+            <h1 class="hero-title">Trail Running Near Olivenhain</h1>
+            <p class="hero-tagline">
+                Ten trails from the front door to the worth-the-drive · Encinitas, North County San Diego
+            </p>
+        </header>
+
+        <section class="intro">
+            <p class="lead drop-cap">
+                3376 Calle Tres Vista sits in Olivenhain — one of the best-positioned addresses in coastal
+                North County for trail running. A dense local network is on the doorstep, with several iconic
+                San Diego trail systems a short drive away. What follows: ten trails grouped by how far you
+                have to travel, plus practical notes on heat, water, and shared use.
+            </p>
+            <p class="note">
+                Compiled from AllTrails, the City of Encinitas Open Space directory, Modern Hiker, and local
+                trail maps · Coordinates approximate · Always check current conditions before heading out
+            </p>
+        </section>
+
+        <!-- Interactive Map -->
+        <section class="section">
+            <h2 class="section-title">The Map</h2>
+            <div style="max-width: 1000px; margin: 0 auto 2rem; background: #fafaf8; padding: 2rem; border-radius: 12px; border: 1px solid #e5e3dc;">
+                <div id="map"></div>
+                <div class="map-legend">
+                    <div class="map-legend-inner">
+                        <div class="legend-dot">
+                            <span class="dot" style="background:#c25a3b; box-shadow: 0 0 0 1px #c25a3b;"></span>
+                            <span class="label">Home base</span>
+                        </div>
+                        <div class="legend-dot">
+                            <span class="dot" style="background:#5a8054; box-shadow: 0 0 0 1px #5a8054;"></span>
+                            <span class="label">Right out the door (≤ 2 mi)</span>
+                        </div>
+                        <div class="legend-dot">
+                            <span class="dot" style="background:#4a8b9d; box-shadow: 0 0 0 1px #4a8b9d;"></span>
+                            <span class="label">Short drive (5–15 min)</span>
+                        </div>
+                        <div class="legend-dot">
+                            <span class="dot" style="background:#b07744; box-shadow: 0 0 0 1px #b07744;"></span>
+                            <span class="label">Worth-the-drive (15–25 min)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Right out the door -->
+        <section class="section-cluster">
+            <div class="cluster-header">
+                <h2>Right out the door</h2>
+                <p class="cluster-sub">≤ 2 miles from Calle Tres Vista — lace up and go</p>
+            </div>
+
+            <div class="trail-card">
+                <span class="trail-number">01 · OLIVENHAIN</span>
+                <h3>Olivenhain Loop (Brookside → Wildflower → Country Rose)</h3>
+                <p>
+                    The de facto everyday Olivenhain run. Multi-use city trails through ranches and chaparral
+                    on an even surface — you can string the loop together right from your block, no driving,
+                    no parking, no fuss.
+                </p>
+                <div class="stats-row">
+                    <span class="stat-pill distance">~3.7 mi loop</span>
+                    <span class="stat-pill gain">~350 ft gain</span>
+                    <span class="stat-pill surface">Mixed surface</span>
+                    <span class="stat-pill">Shared with bikes</span>
+                </div>
+            </div>
+
+            <div class="trail-card">
+                <span class="trail-number">02 · OLIVENHAIN</span>
+                <h3>Lone Hill Horse Trail / Trail 141</h3>
+                <p>
+                    Quick-access singletrack with a steady, steep first quarter-mile that warms the legs up fast.
+                    The trail then bends and opens to canyon views. Best used as a short, sharp hill workout
+                    when you don't have an hour.
+                </p>
+                <div class="stats-row">
+                    <span class="stat-pill distance">Short</span>
+                    <span class="stat-pill gain">Steep opener</span>
+                    <span class="stat-pill surface">Singletrack</span>
+                </div>
+            </div>
+
+            <div class="trail-card">
+                <span class="trail-number">03 · OLIVENHAIN</span>
+                <h3>Wildflower Valley & Summit</h3>
+                <p>
+                    Connects directly off the Olivenhain Loop. A marked horse trail with a long rolling
+                    straightaway past Fortuna Ranch — a clean, uninterrupted stretch that's ideal for
+                    tempo efforts and pickups.
+                </p>
+                <div class="stats-row">
+                    <span class="stat-pill distance">Extendable</span>
+                    <span class="stat-pill gain">Rolling</span>
+                    <span class="stat-pill surface">Horse trail</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Short drive -->
+        <section class="section-cluster">
+            <div class="cluster-header short-drive">
+                <h2>Short drive</h2>
+                <p class="cluster-sub">5–15 minutes — quick variety, different terrain</p>
+            </div>
+
+            <div class="trail-card">
+                <span class="trail-number">04 · CARDIFF</span>
+                <h3>Manchester Preserve</h3>
+                <p>
+                    123 acres, ~4 miles of trails. The main loop is around 2 miles but easily extendable.
+                    Rugged and steep in spots, and crucially <em>pedestrian-only</em> — no bikes or horses, so
+                    it runs quiet. Pair it with adjacent Oakcrest Park for the area's biggest local climb
+                    (~950 ft total gain) when you want a real workout.
+                </p>
+                <div class="stats-row">
+                    <span class="stat-pill distance">~2–4 mi</span>
+                    <span class="stat-pill gain">Up to ~950 ft</span>
+                    <span class="stat-pill surface">Rugged</span>
+                    <span class="stat-pill">Pedestrian-only</span>
+                </div>
+            </div>
+
+            <div class="trail-card">
+                <span class="trail-number">05 · ENCINITAS</span>
+                <h3>Indian Head Canyon (Quail Gardens Dr)</h3>
+                <p>
+                    A 56-acre canyon that packs in everything from smooth wide paths to steep technical
+                    singletrack. Well-marked and loops back to the staging area, which makes it a great
+                    venue for variable-pace sessions — easy on the wide stuff, hammer the climbs.
+                </p>
+                <div class="stats-row">
+                    <span class="stat-pill distance">Variable</span>
+                    <span class="stat-pill gain">Mixed</span>
+                    <span class="stat-pill surface">Smooth + technical</span>
+                    <span class="stat-pill">Loops back</span>
+                </div>
+            </div>
+
+            <div class="trail-card">
+                <span class="trail-number">06 · CARDIFF</span>
+                <h3>San Elijo Lagoon Ecological Reserve</h3>
+                <p>
+                    Flat, fast, scenic lagoon-perimeter routes. The best summer option when the inland trails
+                    get hot — sea breeze, low elevation, and consistent footing. Multiple route options
+                    with strong AllTrails ratings across the board.
+                </p>
+                <div class="stats-row">
+                    <span class="stat-pill distance">Flexible</span>
+                    <span class="stat-pill gain">Flat</span>
+                    <span class="stat-pill surface">Wide path</span>
+                    <span class="stat-pill">Summer pick</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Worth the drive -->
+        <section class="section-cluster">
+            <div class="cluster-header destination">
+                <h2>Worth-the-drive destination runs</h2>
+                <p class="cluster-sub">15–25 minutes — the iconic ones</p>
+            </div>
+
+            <div class="trail-card">
+                <span class="trail-number">07 · HARMONY GROVE</span>
+                <h3>Elfin Forest Recreational Reserve</h3>
+                <p>
+                    The big one nearby. The <em>Way Up Trail</em> climbs to the Lake Hodges Overlook
+                    (4.7★ over 3,700+ reviews — the highest-rated trail in the area). The full Elfin
+                    Forest Loop is ~4.5 mi / ~816 ft. Watch for heat April–November and rattlesnakes;
+                    early starts mandatory.
+                </p>
+                <div class="stats-row">
+                    <span class="stat-pill distance">~4.5 mi loop</span>
+                    <span class="stat-pill gain">~816 ft</span>
+                    <span class="stat-pill surface">Singletrack</span>
+                    <span class="stat-pill warning">Heat & snakes</span>
+                </div>
+            </div>
+
+            <div class="trail-card">
+                <span class="trail-number">08 · SAN MARCOS</span>
+                <h3>Double Peak</h3>
+                <p>
+                    Moderately challenging ~4.1 mile loop with the iconic final push to a 360° summit.
+                    The best skyline payoff in all of North County. There's no shade on the climb — go
+                    at sunrise or take the hit.
+                </p>
+                <div class="stats-row">
+                    <span class="stat-pill distance">~4.1 mi loop</span>
+                    <span class="stat-pill gain">Climbing</span>
+                    <span class="stat-pill surface">Exposed</span>
+                    <span class="stat-pill warning">No shade</span>
+                </div>
+            </div>
+
+            <div class="trail-card">
+                <span class="trail-number">09 · SAN MARCOS</span>
+                <h3>San Elijo Hills Loop (Lakeview Park)</h3>
+                <p>
+                    The longest steady climb route in the immediate region — ~6.4 mi with ~1,300 ft of gain.
+                    The closest thing to a real long mountain run without driving all the way out to
+                    Mission Trails.
+                </p>
+                <div class="stats-row">
+                    <span class="stat-pill distance">~6.4 mi</span>
+                    <span class="stat-pill gain">~1,300 ft</span>
+                    <span class="stat-pill surface">Sustained climb</span>
+                </div>
+            </div>
+
+            <div class="trail-card">
+                <span class="trail-number">10 · LAKE HODGES</span>
+                <h3>Piedras Pintadas / Lake Hodges</h3>
+                <p>
+                    An easy ~3.7 mile loop with interpretive signage, a creek crossing, and lake views.
+                    Perfect easy/recovery day or a shoulder-season option when the harder routes are too
+                    hot or too crowded.
+                </p>
+                <div class="stats-row">
+                    <span class="stat-pill distance">~3.7 mi loop</span>
+                    <span class="stat-pill gain">Easy</span>
+                    <span class="stat-pill surface">Wide path</span>
+                    <span class="stat-pill">Recovery day</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Practical Notes -->
+        <section class="section">
+            <h2 class="section-title">Practical Notes</h2>
+            <div class="notes-grid">
+                <div class="note-card">
+                    <h4>Water</h4>
+                    <p>
+                        Almost none of these trails have water on-trail. Carry your own — Olivenhain
+                        especially, where the shade is good but water sources are absent.
+                    </p>
+                </div>
+                <div class="note-card">
+                    <h4>Heat & snakes</h4>
+                    <p>
+                        Inland routes (Elfin Forest, Double Peak, San Elijo Hills) get serious heat and
+                        rattlesnakes from late April through early November. Early morning starts only.
+                    </p>
+                </div>
+                <div class="note-card">
+                    <h4>Bikes</h4>
+                    <p>
+                        Olivenhain and Elfin Forest are heavily shared with mountain bikers. Manchester
+                        Preserve is the quiet, pedestrian-only option when you don't want to dodge bars.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sources -->
+        <section class="section">
+            <h2 class="section-title">Sources</h2>
+            <ul class="sources-list">
+                <li>10 Best trail running trails in Encinitas — AllTrails</li>
+                <li>Recommended Walks/Hikes — City of Encinitas</li>
+                <li>Trails & Open Space — City of Encinitas</li>
+                <li>Manchester Preserve — Hiking San Diego County</li>
+                <li>Manchester Preserve — California Trail Map</li>
+                <li>Indian Head Canyon Trails — OuterSpatial</li>
+                <li>Elfin Forest Loop — AllTrails</li>
+                <li>Elfin Forest Recreational Reserve — Modern Hiker</li>
+                <li>The Way Up Trail — San Diego Natural History Museum</li>
+                <li>San Elijo Hills Loop — AllTrails</li>
+                <li>San Elijo Lagoon Ecological Reserve trail running — AllTrails</li>
+                <li>Double Peak Trail from Discovery Lake — AllTrails</li>
+                <li>Double Peak — Modern Hiker</li>
+                <li>Piedras Pintadas Interpretive Trail — AllTrails</li>
+                <li>Running Trails near Encinitas — Trail Run Project</li>
+            </ul>
+        </section>
+    </main>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script>
+        var map = L.map('map').setView([33.07, -117.20], 11);
+
+        L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+            attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)',
+            maxZoom: 17
+        }).addTo(map);
+
+        function makeIcon(color, size) {
+            size = size || 14;
+            return L.divIcon({
+                className: 'custom-marker',
+                html: '<div style="background-color: ' + color + '; width: ' + size + 'px; height: ' + size + 'px; border-radius: 50%; border: 2px solid white; box-shadow: 0 0 0 1px ' + color + ';"></div>',
+                iconSize: [size, size],
+                iconAnchor: [size/2, size/2]
+            });
+        }
+
+        var homeIcon = makeIcon('#c25a3b', 18);
+        var localIcon = makeIcon('#5a8054');
+        var shortDriveIcon = makeIcon('#4a8b9d');
+        var destinationIcon = makeIcon('#b07744');
+
+        var places = [
+            // Home
+            { name: "Home — 3376 Calle Tres Vista", coords: [33.0570, -117.2480], icon: homeIcon,
+              info: "Olivenhain, Encinitas. Starting point for everything below.", stats: "Base camp" },
+
+            // Right out the door (green)
+            { name: "Olivenhain Loop", coords: [33.0590, -117.2410], icon: localIcon,
+              info: "Brookside → Wildflower → Country Rose. The everyday run — mixed-use city trails through ranches and chaparral, even surface.",
+              stats: "~3.7 mi loop · ~350 ft gain" },
+            { name: "Lone Hill Horse Trail (141)", coords: [33.0625, -117.2455], icon: localIcon,
+              info: "Singletrack with a steady steep first quarter-mile, then opens to canyon views. Short, sharp hill workout.",
+              stats: "Short · Steep opener" },
+            { name: "Wildflower Valley & Summit", coords: [33.0495, -117.2440], icon: localIcon,
+              info: "Connects off the Olivenhain Loop. Long rolling straightaway past Fortuna Ranch — perfect for tempo efforts.",
+              stats: "Rolling · Tempo-friendly" },
+
+            // Short drive (blue/teal)
+            { name: "Manchester Preserve", coords: [33.0275, -117.2545], icon: shortDriveIcon,
+              info: "123 acres, ~4 mi of trails. Rugged and steep, pedestrian-only — quiet. Pair with Oakcrest Park for ~950 ft of gain.",
+              stats: "~2–4 mi · up to ~950 ft" },
+            { name: "Indian Head Canyon", coords: [33.0700, -117.2730], icon: shortDriveIcon,
+              info: "56-acre canyon with smooth wide paths through to steep technical singletrack. Well-marked, loops back to staging.",
+              stats: "Variable · Loops back" },
+            { name: "San Elijo Lagoon", coords: [33.0090, -117.2530], icon: shortDriveIcon,
+              info: "Flat, fast, scenic lagoon-perimeter routes. Best summer option when inland trails get hot.",
+              stats: "Flat · Summer pick" },
+
+            // Worth the drive (brown/amber)
+            { name: "Elfin Forest Reserve", coords: [33.0830, -117.1670], icon: destinationIcon,
+              info: "Way Up Trail to Lake Hodges Overlook (4.7★, 3,700+ reviews — highest-rated in the area). Watch for heat & rattlesnakes.",
+              stats: "~4.5 mi loop · ~816 ft" },
+            { name: "Double Peak", coords: [33.1180, -117.1850], icon: destinationIcon,
+              info: "Moderately challenging loop with the iconic final climb to a 360° summit. Best skyline payoff in North County. No shade.",
+              stats: "~4.1 mi loop · summit views" },
+            { name: "San Elijo Hills Loop", coords: [33.1120, -117.1880], icon: destinationIcon,
+              info: "The longest steady climb route nearby. Closest thing to a long mountain run without driving to Mission Trails.",
+              stats: "~6.4 mi · ~1,300 ft" },
+            { name: "Piedras Pintadas / Lake Hodges", coords: [33.0680, -117.0840], icon: destinationIcon,
+              info: "Easy loop with interpretive signage, creek crossing, lake views. Recovery day or shoulder-season option.",
+              stats: "~3.7 mi · easy" }
+        ];
+
+        places.forEach(function(place) {
+            var marker = L.marker(place.coords, { icon: place.icon }).addTo(map);
+            marker.bindPopup(
+                '<h3>' + place.name + '</h3>' +
+                '<p>' + place.info + '</p>' +
+                (place.stats ? '<p class="popup-stats">' + place.stats + '</p>' : '')
+            );
+        });
+
+        var group = new L.featureGroup(places.map(function(place) {
+            return L.marker(place.coords);
+        }));
+        map.fitBounds(group.getBounds().pad(0.15));
+    </script>
+</body>
+</html>

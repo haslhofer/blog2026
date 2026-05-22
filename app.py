@@ -170,5 +170,10 @@ def challenges_slide():
     return render_template('challenges-slide.html')
 
 
+@app.route('/trail-running')
+def trail_running():
+    return render_template('trail-running.html')
+
+
 if __name__ == '__main__':
     app.run(debug=True)
