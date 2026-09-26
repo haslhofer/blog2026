@@ -160,6 +160,11 @@ def italy_itinerary():
     return render_template('italy-itinerary.html')
 
 
+@app.route('/idea-visualizer')
+def idea_visualizer():
+    return render_template('idea-visualizer.html')
+
+
 @app.route('/apps-contact')
 def apps_contact():
     return render_template('apps-contact.html')

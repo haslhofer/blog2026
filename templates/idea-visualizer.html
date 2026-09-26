@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Gerald Idea Visualizer: A Private Garden for Growing Ideas</title>
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
+
+    <style>
+        .demo-frame {
+            background: var(--paper);
+            border: 1px solid var(--rule);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            margin: 1.5rem 0;
+        }
+
+        .demo-frame iframe {
+            width: 100%;
+            height: 480px;
+            border: 0;
+            display: block;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+        }
+
+        .launch-cta {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .launch-cta a {
+            display: inline-block;
+            background: var(--orbital-accent);
+            color: white;
+            text-decoration: none;
+            padding: 0.75rem 2rem;
+            border-radius: var(--radius-md);
+            font-family: var(--font-sans);
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .launch-cta a:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <a href="/" class="nav-back">← Home</a>
+    </nav>
+
+    <main class="container">
+        <!-- Header Section -->
+        <header class="hero">
+            <h1 class="hero-title">The Gerald Idea Visualizer</h1>
+            <p class="hero-tagline">
+                A Private Garden for Growing Ideas
+            </p>
+        </header>
+
+        <!-- Introduction Section -->
+        <section class="intro">
+            <p class="lead drop-cap">
+                Ideas are fragile things. They begin as half-formed thoughts, vague stirrings in the margin of
+                attention, and most of them die there—trampled by the next notification, the next meeting,
+                the next day. The <a href="https://gerald-idea-visualizer.azurewebsites.net" target="_blank" rel="noopener">Gerald Idea Visualizer</a>
+                is an attempt to give them soil.
+            </p>
+            <p class="note">
+                A personal, privacy-first workspace for capturing ideas and discovering the connections
+                between them—using AI that never leaves your garden.
+            </p>
+        </section>
+
+        <!-- The Problem Section -->
+        <section class="section">
+            <h2 class="section-title">The Problem</h2>
+
+            <p class="body-text">
+                We accumulate ideas the way a desk accumulates paper—into a growing, unmanageable pile. A
+                note-taking app holds the fragments, but the relationships between them remain invisible. You
+                can tag and file, but the act of connecting ideas is left to manual labor and fading memory.
+                The result is a collection of notes that never becomes a system of thought.
+            </p>
+
+            <p class="body-text">
+                Existing tools either demand too much structure upfront—force you into a rigid ontology before
+                you even know what you're thinking—or they offload your ideas to cloud services whose incentives
+                are fundamentally misaligned with your own. Your insights become training data, your patterns
+                become product features, your private mental model becomes a marketing opportunity.
+            </p>
+        </section>
+
+        <!-- Key Concepts Section -->
+        <section class="section">
+            <h2 class="section-title">Key Concepts</h2>
+
+            <div class="assumptions-grid">
+                <div class="assumptions-card">
+                    <h4>Local AI Analysis</h4>
+                    <p class="body-text">All analysis runs on the user's own server. Extractive summaries,
+                        embedding comparisons, and relationship scoring stay entirely local. Nothing leaves your garden.</p>
+                </div>
+
+                <div class="assumptions-card">
+                    <h4>GitHub as Source of Truth</h4>
+                    <p class="body-text">Ideas live in a GitHub repository as plain markdown files. The
+                        visualizer reads and syncs with the repo, so your ideas are version-controlled and portable.</p>
+                </div>
+
+                <div class="assumptions-card">
+                    <h4>Visual Mapping</h4>
+                    <p class="body-text">Ideas that share more meaning sit closer together on the map.
+                        The layout emerges from semantic similarity, not manual positioning.</p>
+                </div>
+
+                <div class="assumptions-card">
+                    <h4>Private by Default</h4>
+                    <p class="body-text">Microsoft (Azure AD) authentication restricts access to the
+                        configured owner. No browser storage. No anonymous usage. No data leaving the garden.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Workflow Section -->
+        <section class="section">
+            <h2 class="section-title">How It Works</h2>
+
+            <div class="data-panels">
+                <div class="data-panel">
+                    <h4>The Workflow</h4>
+                    <div class="data-row">
+                        <span class="data-label">1. Capture</span>
+                        <span class="data-value">Add an idea with a title and brief description</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">2. Store</span>
+                        <span class="data-value">Saved as markdown in your GitHub repo</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">3. Connect</span>
+                        <span class="data-value">AI analyzes relationships between ideas</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">4. Discover</span>
+                        <span class="data-value">Map view reveals unexpected connections</span>
+                    </div>
+                </div>
+
+                <div class="data-panel">
+                    <h4>The Views</h4>
+                    <div class="data-row">
+                        <span class="data-label">Map</span>
+                        <span class="data-value">Spatial layout of semantic proximity</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">List</span>
+                        <span class="data-value">Chronological, grouped, or filtered</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Active</span>
+                        <span class="data-value">Recently captured, not yet developed</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Archive</span>
+                        <span class="data-value">Mature ideas ready for reference</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Design Philosophy Section -->
+        <section class="section">
+            <h2 class="section-title">A Contemplative Interface</h2>
+
+            <p class="body-text">
+                The interface is deliberately minimal—nothing competes with the work of thinking. There are no
+                gamification loops, no streaks, no social feeds. The map view is the central surface: a field of
+                ideas where proximity encodes meaning and distance encodes difference. Click an idea and you
+                read it in full; hover and a summary surfaces the threads that tie it to the rest of your
+                garden.
+            </p>
+
+            <p class="body-text">
+                This is not a note-taking app in the traditional sense. It does not ask you to choose folders or
+                notebooks. It does not demand that you decide upfront how ideas relate. Instead, it watches
+                as you add thoughts and, over time, surfaces the connections you did not know you were making.
+            </p>
+
+            <div class="launch-cta">
+                <a href="https://gerald-idea-visualizer.azurewebsites.net" target="_blank" rel="noopener">
+                    Open the Idea Visualizer →
+                </a>
+            </div>
+        </section>
+
+        <!-- Why It Matters Section -->
+        <section class="section">
+            <h2 class="section-title">Why a Private Garden?</h2>
+
+            <div class="assumptions-grid">
+                <div class="assumptions-card">
+                    <h4>Privacy as a Feature</h4>
+                    <p class="body-text">Your ideas are yours. No model training, no data brokerage, no
+                        attention economy. Local AI keeps the analysis in your hands.</p>
+                </div>
+
+                <div class="assumptions-card">
+                    <h4>Portability</h4>
+                    <p class="body-text">Markdown on GitHub means you are never locked in. Leave at any
+                        time with your full history intact.</p>
+                </div>
+
+                <div class="assumptions-card">
+                    <h4>Ownership</h4>
+                    <p class="body-text">You control the domain, the server, and the keys. The tool serves
+                        you, not a platform's agenda.</p>
+                </div>
+
+                <div class="assumptions-card">
+                    <h4>Emergent Structure</h4>
+                    <p class="body-text">Structure emerges from content, not from upfront taxonomies.
+                        Let the AI find the seams in your thinking.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Conclusion Section -->
+        <section class="section prose">
+            <h3>Try It</h3>
+            <p>
+                The <a href="https://gerald-idea-visualizer.azurewebsites.net" target="_blank" rel="noopener">Gerald Idea Visualizer</a>
+                is live. Bring your half-formed thoughts, your marginalia, your fragments. Plant them in the
+                garden and see what grows.
+            </p>
+        </section>
+
+        <footer class="footer">
+            <p class="footer-text">Gerald Haslhofer · September 2026</p>
+        </footer>
+    </main>
+</body>
+</html>
