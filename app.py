@@ -1,4 +1,3 @@
-from functools import wraps
 import os
 from urllib.parse import urlsplit
 
@@ -60,15 +59,23 @@ def _safe_next_url(target):
     return url_for("index")
 
 
-def login_required(view):
-    @wraps(view)
-    def wrapped_view(*args, **kwargs):
-        if session.get("authenticated_email") != ALLOWED_LOGIN_EMAIL:
-            next_url = request.full_path if request.query_string else request.path
-            return redirect(url_for("auth_login", next=_safe_next_url(next_url)))
-        return view(*args, **kwargs)
-
-    return wrapped_view
+@app.before_request
+def require_login_for_pages():
+    public_endpoints = {
+        "index",
+        "auth_login",
+        "auth_callback",
+        "city_comparison_login",
+        "logout",
+        "static",
+    }
+    if (
+        request.endpoint not in public_endpoints
+        and request.endpoint is not None
+        and session.get("authenticated_email") != ALLOWED_LOGIN_EMAIL
+    ):
+        next_url = request.full_path if request.query_string else request.path
+        return redirect(url_for("auth_login", next=_safe_next_url(next_url)))
 
 
 @app.route('/')
@@ -110,7 +117,6 @@ def steppr_arch():
 
 
 @app.route('/city-comparison-styled')
-@login_required
 def city_comparison_styled():
     return render_template('city-comparison-styled.html')
 
@@ -248,13 +254,11 @@ def city_calella():
 
 
 @app.route('/us-options')
-@login_required
 def us_options():
     return render_template('us-options.html')
 
 
 @app.route('/cities-comparison-all')
-@login_required
 def cities_comparison_all():
     return render_template('cities-comparison-all.html')
 

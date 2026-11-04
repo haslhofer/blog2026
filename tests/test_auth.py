@@ -43,6 +43,30 @@ class AuthenticationTests(unittest.TestCase):
         self.assertEqual(location.path, "/login")
         self.assertEqual(parse_qs(location.query)["next"], ["/us-options"])
 
+    def test_every_nonpublic_page_requires_login_by_default(self):
+        public_endpoints = {
+            "index",
+            "auth_login",
+            "auth_callback",
+            "city_comparison_login",
+            "logout",
+            "static",
+        }
+        protected_paths = {
+            rule.rule
+            for rule in app.url_map.iter_rules()
+            if "GET" in rule.methods
+            and rule.endpoint not in public_endpoints
+            and "<" not in rule.rule
+        }
+
+        self.assertGreater(len(protected_paths), 0)
+        for path in protected_paths:
+            with self.subTest(path=path):
+                response = self.client.get(path)
+                self.assertEqual(response.status_code, 302)
+                self.assertEqual(urlsplit(response.location).path, "/login")
+
     def test_homepage_hides_protected_page_links_until_signed_in(self):
         response = self.client.get("/")
 
