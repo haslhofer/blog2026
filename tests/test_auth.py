@@ -71,6 +71,9 @@ class AuthenticationTests(unittest.TestCase):
         response = self.client.get("/")
 
         self.assertIn(b"Sign in", response.data)
+        self.assertIn(b"Sign in to browse the blog pages.", response.data)
+        self.assertNotIn(b"class=\"page-card\"", response.data)
+        self.assertNotIn(b"Pages", response.data)
         self.assertNotIn(b"US Options to Move To", response.data)
         self.assertNotIn(b"Where Should We Live?", response.data)
 
@@ -80,6 +83,8 @@ class AuthenticationTests(unittest.TestCase):
         response = self.client.get("/")
 
         self.assertIn(b"Sign out", response.data)
+        self.assertIn(b"class=\"page-card\"", response.data)
+        self.assertIn(b"Steppr Architecture", response.data)
         self.assertIn(b"US Options to Move To", response.data)
         self.assertIn(b"Where Should We Live?", response.data)
 
