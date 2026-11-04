@@ -278,6 +278,11 @@ def apps_contact():
     return render_template('apps-contact.html')
 
 
+@app.route('/websites')
+def websites():
+    return render_template('websites.html')
+
+
 @app.route('/challenges-slide')
 def challenges_slide():
     return render_template('challenges-slide.html')

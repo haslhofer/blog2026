@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Websites I Built</title>
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&display=swap"
+        rel="stylesheet">
+    <style>
+        .link-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: var(--spacing-xl);
+        }
+
+        .link-card {
+            background: white;
+            border: 1px solid var(--rule);
+            border-radius: var(--radius-md);
+            padding: 1.75rem;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.2s ease;
+            display: block;
+        }
+
+        .link-card:hover {
+            border-color: var(--orbital-accent);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .link-card-title {
+            font-family: var(--font-serif);
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--ink);
+            margin-bottom: 0.5rem;
+        }
+
+        .link-card-desc {
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            color: var(--ink-muted);
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+
+        .link-card-url {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--orbital-accent);
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="nav">
+        <a href="/" class="nav-back">&larr; Home</a>
+    </nav>
+
+    <main class="container">
+        <header class="hero">
+            <h1 class="hero-title">Websites I Built</h1>
+            <p class="hero-tagline">A reference point for my live projects</p>
+        </header>
+
+        <section class="intro">
+            <p class="lead drop-cap">
+                This page is the reference point for the web applications I have built and deployed. Each entry
+                links directly to the live site, so the projects can be reached from one place.
+            </p>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">Live Sites</h2>
+
+            <div class="link-grid">
+                <a href="https://llm-router-prod.azurewebsites.net/admin/" class="link-card">
+                    <h3 class="link-card-title">LLM Router</h3>
+                    <p class="link-card-desc">Production administrative console for the LLM Router deployment.</p>
+                    <span class="link-card-url">llm-router-prod.azurewebsites.net/admin/</span>
+                </a>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">Reference Point</h2>
+            <p class="body-text">
+                This page is intentionally kept as a single index of my deployed websites. New projects can be
+                added as cards in the Live Sites section.
+            </p>
+        </section>
+    </main>
+</body>
+</html>
