@@ -110,12 +110,11 @@ password. To enable sign-in:
 5. Save the settings and restart the Web App.
 
 The login uses Microsoft's `consumers` authority and the shared
-`@login_required` decorator in `app.py`. It currently protects
-`/city-comparison-styled`, `/us-options`, and `/cities-comparison-all`.
-Apply `@login_required` to any future Flask route that should require the same
-account. The client ID, client secret, redirect URI, and `SECRET_KEY` are
-required before the `/login` route will start sign-in; `/logout` clears the
-site session. For local sign-in testing,
+request gate in `app.py`. All routes require the allowed account by default,
+except the homepage, sign-in/callback/logout endpoints, and static assets.
+New pages are protected automatically. The client ID, client secret, redirect
+URI, and `SECRET_KEY` are required before the `/login` route will start
+sign-in; `/logout` clears the site session. For local sign-in testing,
 register `http://localhost:5000/auth/callback` as an additional Web redirect
 URI and set the same app settings in your development environment, using that
 callback URL for `MICROSOFT_REDIRECT_URI`.
