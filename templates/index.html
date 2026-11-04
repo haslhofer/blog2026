@@ -43,6 +43,21 @@
             font-weight: 400;
         }
 
+        .account-link {
+            margin-top: 1rem;
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+        }
+
+        .account-link a {
+            color: var(--orbital-accent);
+            text-decoration: none;
+        }
+
+        .account-link a:hover {
+            text-decoration: underline;
+        }
+
         .pages-section {
             margin-bottom: 3rem;
         }
@@ -136,6 +151,13 @@
                 class="header-image">
             <h1 class="home-title">Gerald Haslhofer</h1>
             <p class="home-subtitle">Thoughts, experiments, and explorations</p>
+            <p class="account-link">
+                {% if is_authenticated %}
+                <a href="{{ url_for('logout') }}">Sign out</a>
+                {% else %}
+                <a href="{{ url_for('auth_login') }}">Sign in</a>
+                {% endif %}
+            </p>
         </header>
 
         <section class="pages-section">
@@ -177,11 +199,13 @@
                     <span class="page-card-arrow">Explore →</span>
                 </a>
 
-                <a href="/us-options" class="page-card">
-                    <h3 class="page-card-title">US Options to Move To</h3>
-                    <p class="page-card-desc">Exploring American cities and towns for a potential family relocation — from mountain towns to tech hubs.</p>
-                    <span class="page-card-arrow">Explore →</span>
-                </a>
+                {% if is_authenticated %}
+                    <a href="/us-options" class="page-card">
+                        <h3 class="page-card-title">US Options to Move To</h3>
+                        <p class="page-card-desc">Exploring American cities and towns for a potential family relocation — from mountain towns to tech hubs.</p>
+                        <span class="page-card-arrow">Explore →</span>
+                    </a>
+                {% endif %}
 
                 <a href="/trail-running" class="page-card">
                     <h3 class="page-card-title">Trail Running Near Olivenhain</h3>
@@ -201,11 +225,13 @@
                     <span class="page-card-arrow">View →</span>
                 </a>
 
-                <a href="/city-comparison-styled" class="page-card">
-                    <h3 class="page-card-title">Where Should We Live?</h3>
-                    <p class="page-card-desc">European family relocation: 17 towns compared across climate, skiing, schools, and lifestyle.</p>
-                    <span class="page-card-arrow">View →</span>
-                </a>
+                {% if is_authenticated %}
+                    <a href="/city-comparison-styled" class="page-card">
+                        <h3 class="page-card-title">Where Should We Live?</h3>
+                        <p class="page-card-desc">European family relocation: 17 towns compared across climate, skiing, schools, and lifestyle.</p>
+                        <span class="page-card-arrow">View →</span>
+                    </a>
+                {% endif %}
             </div>
         </section>
 

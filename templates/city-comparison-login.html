@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Protected Content - Enter PIN</title>
+    <title>Protected Content - Sign in</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -32,27 +32,10 @@
             text-align: center;
             margin-bottom: 2rem;
         }
-        .pin-form {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-        .pin-input {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 1.5rem;
-            padding: 1rem;
-            border: 2px solid var(--color-border);
-            border-radius: 8px;
-            text-align: center;
-            letter-spacing: 0.5rem;
-            background: #fff;
-            transition: border-color 0.2s;
-        }
-        .pin-input:focus {
-            outline: none;
-            border-color: var(--color-orbital);
-        }
-        .pin-submit {
+        .login-submit {
+            display: block;
+            width: 100%;
+            box-sizing: border-box;
             font-family: 'Inter', sans-serif;
             font-size: 1rem;
             font-weight: 600;
@@ -62,9 +45,11 @@
             border: none;
             border-radius: 8px;
             cursor: pointer;
+            text-align: center;
+            text-decoration: none;
             transition: background-color 0.2s;
         }
-        .pin-submit:hover {
+        .login-submit:hover {
             background: #3a5f8a;
         }
         .error-message {
@@ -93,48 +78,23 @@
     </style>
 </head>
 <body>
-    <div class="login-container">
-        <h1 class="login-title">🔒 Protected Content</h1>
+    <main class="login-container">
+        <h1 class="login-title">Protected Content</h1>
         <p class="login-description">
-            This page requires a PIN to access. Please enter the 4-digit PIN.
+            Sign in with your Microsoft account to access private pages.
         </p>
 
         {% if error %}
-        <div class="error-message">
-            {{ error }}
-        </div>
+        <div class="error-message" role="alert">{{ error }}</div>
         {% endif %}
 
-        <form method="POST" class="pin-form">
-            <input
-                type="password"
-                name="pin"
-                class="pin-input"
-                maxlength="4"
-                pattern="[0-9]{4}"
-                placeholder="••••"
-                required
-                autofocus
-                inputmode="numeric"
-            >
-            <button type="submit" class="pin-submit">
-                Enter
-            </button>
-        </form>
+        {% if login_url %}
+        <a class="login-submit" href="{{ login_url }}">Continue with Microsoft</a>
+        {% endif %}
 
         <div class="back-link">
-            <a href="{{ url_for('index') }}">← Back to Home</a>
+            <a href="{{ url_for('index') }}">Back to Home</a>
         </div>
-    </div>
-
-    <script>
-        // Auto-submit when 4 digits are entered
-        const pinInput = document.querySelector('.pin-input');
-        pinInput.addEventListener('input', function(e) {
-            if (this.value.length === 4) {
-                this.form.submit();
-            }
-        });
-    </script>
+    </main>
 </body>
 </html>
