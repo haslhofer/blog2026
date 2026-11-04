@@ -88,6 +88,38 @@ After deployment, your site will be available at:
 https://<APP_NAME>.azurewebsites.net
 ```
 
+## Microsoft Sign-in for Protected Pages
+
+The city comparison pages use Microsoft OpenID Connect sign-in and only allow
+`haslhofer@outlook.com`. The site does not collect or store the Microsoft
+password. To enable sign-in:
+
+1. In the [Microsoft Entra admin center](https://entra.microsoft.com/), create
+   an app registration that supports personal Microsoft accounts.
+2. Add a **Web** redirect URI matching the deployed site:
+   `https://<APP_NAME>.azurewebsites.net/auth/callback`
+3. Create a client secret for the app registration.
+4. In Azure Portal, open the Web App's **Settings → Environment variables**
+   (or **Configuration → Application settings** on the older portal layout)
+   and add:
+   - `MICROSOFT_CLIENT_ID` — the app registration's Application (client) ID
+   - `MICROSOFT_CLIENT_SECRET` — the app registration client secret value
+   - `MICROSOFT_REDIRECT_URI` — the exact HTTPS callback URI registered above
+   - `SECRET_KEY` — a long, random value used to sign login sessions
+   - `SESSION_COOKIE_SECURE` — `true`
+5. Save the settings and restart the Web App.
+
+The login uses Microsoft's `consumers` authority and the shared
+`@login_required` decorator in `app.py`. It currently protects
+`/city-comparison-styled`, `/us-options`, and `/cities-comparison-all`.
+Apply `@login_required` to any future Flask route that should require the same
+account. The client ID, client secret, redirect URI, and `SECRET_KEY` are
+required before the `/login` route will start sign-in; `/logout` clears the
+site session. For local sign-in testing,
+register `http://localhost:5000/auth/callback` as an additional Web redirect
+URI and set the same app settings in your development environment, using that
+callback URL for `MICROSOFT_REDIRECT_URI`.
+
 ## Local Testing with Docker
 
 Test the Docker image locally before deploying:

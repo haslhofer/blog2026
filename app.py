@@ -1,16 +1,82 @@
-from flask import Flask, render_template, request, session, redirect, url_for
+from functools import wraps
 import os
+from urllib.parse import urlsplit
+
+from authlib.integrations.base_client.errors import OAuthError
+from authlib.integrations.flask_client import OAuth
+from flask import Flask, abort, render_template, request, session, redirect, url_for
 
 app = Flask(__name__)
-app.secret_key = os.environ.get('SECRET_KEY', 'dev-secret-key-change-in-production')
+app.config.update(
+    SECRET_KEY=os.environ.get("SECRET_KEY") or os.urandom(32),
+    AUTH_SECRET_KEY_CONFIGURED=bool(os.environ.get("SECRET_KEY")),
+    SESSION_COOKIE_HTTPONLY=True,
+    SESSION_COOKIE_SAMESITE="Lax",
+    SESSION_COOKIE_SECURE=(
+        os.environ.get("SESSION_COOKIE_SECURE", "false").lower() == "true"
+    ),
+    MICROSOFT_CLIENT_ID=os.environ.get("MICROSOFT_CLIENT_ID"),
+    MICROSOFT_CLIENT_SECRET=os.environ.get("MICROSOFT_CLIENT_SECRET"),
+    MICROSOFT_REDIRECT_URI=os.environ.get("MICROSOFT_REDIRECT_URI"),
+)
 
-# PIN code for city comparison page
-CITY_COMPARISON_PIN = '2026'
+ALLOWED_LOGIN_EMAIL = "haslhofer@outlook.com"
+MICROSOFT_METADATA_URL = (
+    "https://login.microsoftonline.com/consumers/v2.0/.well-known/openid-configuration"
+)
+
+oauth = OAuth(app)
+microsoft = oauth.register(
+    name="microsoft",
+    client_id=app.config["MICROSOFT_CLIENT_ID"],
+    client_secret=app.config["MICROSOFT_CLIENT_SECRET"],
+    server_metadata_url=MICROSOFT_METADATA_URL,
+    client_kwargs={"scope": "openid email profile"},
+)
+
+
+def _microsoft_login_configured():
+    return all(
+        (
+            app.config["MICROSOFT_CLIENT_ID"],
+            app.config["MICROSOFT_CLIENT_SECRET"],
+            app.config["MICROSOFT_REDIRECT_URI"],
+            app.config["AUTH_SECRET_KEY_CONFIGURED"],
+        )
+    )
+
+
+def _safe_next_url(target):
+    if not target:
+        return url_for("index")
+    parsed = urlsplit(target)
+    if (
+        target.startswith("/")
+        and not target.startswith("//")
+        and "\\" not in target
+        and not parsed.netloc
+    ):
+        return target
+    return url_for("index")
+
+
+def login_required(view):
+    @wraps(view)
+    def wrapped_view(*args, **kwargs):
+        if session.get("authenticated_email") != ALLOWED_LOGIN_EMAIL:
+            next_url = request.full_path if request.query_string else request.path
+            return redirect(url_for("auth_login", next=_safe_next_url(next_url)))
+        return view(*args, **kwargs)
+
+    return wrapped_view
 
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template(
+        "index.html",
+        is_authenticated=session.get("authenticated_email") == ALLOWED_LOGIN_EMAIL,
+    )
 
 
 @app.route('/test')
@@ -44,30 +110,71 @@ def steppr_arch():
 
 
 @app.route('/city-comparison-styled')
+@login_required
 def city_comparison_styled():
-    # Check if user is authenticated
-    if not session.get('city_comparison_authenticated'):
-        return redirect(url_for('city_comparison_login'))
     return render_template('city-comparison-styled.html')
 
 
-@app.route('/city-comparison-login', methods=['GET', 'POST'])
+@app.route("/login")
+def auth_login():
+    if session.get("authenticated_email") == ALLOWED_LOGIN_EMAIL:
+        return redirect(url_for("index"))
+    if not _microsoft_login_configured():
+        return render_template(
+            "city-comparison-login.html",
+            error="Microsoft sign-in is not configured for this site yet.",
+            login_url=None,
+        ), 503
+
+    next_url = _safe_next_url(request.args.get("next"))
+    session["post_login_redirect"] = next_url
+    return microsoft.authorize_redirect(
+        app.config["MICROSOFT_REDIRECT_URI"], prompt="select_account"
+    )
+
+
+@app.route("/auth/callback")
+def auth_callback():
+    if not _microsoft_login_configured():
+        abort(503)
+    try:
+        token = microsoft.authorize_access_token()
+    except OAuthError:
+        return render_template(
+            "city-comparison-login.html",
+            error="Microsoft sign-in could not be completed. Please try again.",
+            login_url=url_for("auth_login"),
+        ), 400
+
+    userinfo = token.get("userinfo") or {}
+    email = (
+        userinfo.get("email") or userinfo.get("preferred_username") or ""
+    ).casefold()
+    if email != ALLOWED_LOGIN_EMAIL:
+        next_url = _safe_next_url(session.get("post_login_redirect"))
+        session.clear()
+        return render_template(
+            "city-comparison-login.html",
+            error=f"Sign in with {ALLOWED_LOGIN_EMAIL} to access protected pages.",
+            login_url=url_for("auth_login", next=next_url),
+        ), 403
+
+    next_url = _safe_next_url(session.get("post_login_redirect"))
+    session.clear()
+    session["authenticated_email"] = email
+    return redirect(next_url)
+
+
+@app.route("/city-comparison-login")
 def city_comparison_login():
-    error = None
-    if request.method == 'POST':
-        pin = request.form.get('pin', '')
-        if pin == CITY_COMPARISON_PIN:
-            session['city_comparison_authenticated'] = True
-            return redirect(url_for('city_comparison_styled'))
-        else:
-            error = 'Incorrect PIN. Please try again.'
-    return render_template('city-comparison-login.html', error=error)
+    return redirect(url_for("auth_login"))
 
 
-@app.route('/city-comparison-logout')
-def city_comparison_logout():
-    session.pop('city_comparison_authenticated', None)
-    return redirect(url_for('index'))
+@app.route("/logout")
+@app.route("/city-comparison-logout")
+def logout():
+    session.clear()
+    return redirect(url_for("index"))
 
 
 @app.route('/cities-hub')
@@ -141,17 +248,14 @@ def city_calella():
 
 
 @app.route('/us-options')
+@login_required
 def us_options():
-    if not session.get('city_comparison_authenticated'):
-        return redirect(url_for('city_comparison_login'))
     return render_template('us-options.html')
 
 
 @app.route('/cities-comparison-all')
+@login_required
 def cities_comparison_all():
-    # Check if user is authenticated
-    if not session.get('city_comparison_authenticated'):
-        return redirect(url_for('city_comparison_login'))
     return render_template('cities-comparison-all.html')
 
 
