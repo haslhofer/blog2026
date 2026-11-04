@@ -62,6 +62,12 @@
             margin-bottom: 3rem;
         }
 
+        .signin-prompt {
+            font-family: var(--font-sans);
+            color: var(--ink-muted);
+            text-align: center;
+        }
+
         .pages-title {
             font-family: var(--font-sans);
             font-size: 0.75rem;
@@ -160,9 +166,10 @@
             </p>
         </header>
 
-        <section class="pages-section">
-            <h2 class="pages-title">Pages</h2>
-            <div class="pages-grid">
+        {% if is_authenticated %}
+            <section class="pages-section">
+                <h2 class="pages-title">Pages</h2>
+                <div class="pages-grid">
                 <a href="/steppr-arch" class="page-card">
                     <h3 class="page-card-title">Steppr Architecture</h3>
                     <p class="page-card-desc">Technical architecture of the WhatsApp-based coaching assistant.</p>
@@ -199,13 +206,11 @@
                     <span class="page-card-arrow">Explore →</span>
                 </a>
 
-                {% if is_authenticated %}
-                    <a href="/us-options" class="page-card">
-                        <h3 class="page-card-title">US Options to Move To</h3>
-                        <p class="page-card-desc">Exploring American cities and towns for a potential family relocation — from mountain towns to tech hubs.</p>
-                        <span class="page-card-arrow">Explore →</span>
-                    </a>
-                {% endif %}
+                <a href="/us-options" class="page-card">
+                    <h3 class="page-card-title">US Options to Move To</h3>
+                    <p class="page-card-desc">Exploring American cities and towns for a potential family relocation — from mountain towns to tech hubs.</p>
+                    <span class="page-card-arrow">Explore →</span>
+                </a>
 
                 <a href="/trail-running" class="page-card">
                     <h3 class="page-card-title">Trail Running Near Olivenhain</h3>
@@ -225,15 +230,16 @@
                     <span class="page-card-arrow">View →</span>
                 </a>
 
-                {% if is_authenticated %}
-                    <a href="/city-comparison-styled" class="page-card">
-                        <h3 class="page-card-title">Where Should We Live?</h3>
-                        <p class="page-card-desc">European family relocation: 17 towns compared across climate, skiing, schools, and lifestyle.</p>
-                        <span class="page-card-arrow">View →</span>
-                    </a>
-                {% endif %}
-            </div>
-        </section>
+                <a href="/city-comparison-styled" class="page-card">
+                    <h3 class="page-card-title">Where Should We Live?</h3>
+                    <p class="page-card-desc">European family relocation: 17 towns compared across climate, skiing, schools, and lifestyle.</p>
+                    <span class="page-card-arrow">View →</span>
+                </a>
+                </div>
+            </section>
+        {% else %}
+            <p class="signin-prompt">Sign in to browse the blog pages.</p>
+        {% endif %}
 
         <footer class="home-footer">
             <p>© 2025 Gerald Haslhofer</p>
