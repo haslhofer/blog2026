@@ -293,5 +293,10 @@ def trail_running():
     return render_template('trail-running.html')
 
 
+@app.route('/best-value-models')
+def best_value_models():
+    return render_template('best-value-models.html')
+
+
 if __name__ == '__main__':
     app.run(debug=True)
