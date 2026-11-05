@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Best-Value LLMs for a Polished Windows App</title>
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
+    <style>
+        .compare-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: var(--spacing-lg) 0;
+            background: white;
+            border-radius: var(--radius-sm);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+            overflow: hidden;
+        }
+
+        .compare-table th {
+            font-family: var(--font-sans);
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--ink-light);
+            text-align: left;
+            padding: var(--spacing-md) var(--spacing-lg);
+            border-bottom: 2px solid var(--ink);
+            background: var(--paper-dark);
+        }
+
+        .compare-table td {
+            font-family: var(--font-sans);
+            font-size: 0.85rem;
+            color: var(--ink-muted);
+            padding: var(--spacing-md) var(--spacing-lg);
+            border-bottom: 1px solid var(--rule-light);
+            vertical-align: top;
+            line-height: 1.55;
+        }
+
+        .compare-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .compare-table td strong {
+            color: var(--ink);
+            font-weight: 600;
+        }
+
+        .compare-table td .model-id {
+            display: block;
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            color: var(--ink-light);
+            margin-top: 0.35rem;
+        }
+
+        .compare-table td.num {
+            font-family: var(--font-mono);
+            color: var(--ink);
+            white-space: nowrap;
+        }
+
+        .compare-table td.score {
+            font-family: var(--font-mono);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--orbital);
+        }
+
+        .compare-table td.cost {
+            font-family: var(--font-mono);
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--ngcc);
+            white-space: nowrap;
+        }
+
+        .table-note {
+            font-family: var(--font-sans);
+            font-size: 0.75rem;
+            color: var(--ink-light);
+            line-height: 1.5;
+            margin-top: var(--spacing-sm);
+        }
+
+        .table-note a {
+            color: var(--orbital);
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <a href="/" class="nav-back">← Home</a>
+    </nav>
+
+    <main class="container">
+        <!-- Header Section -->
+        <header class="hero">
+            <h1 class="hero-title">Best-Value LLMs for a Polished Windows App</h1>
+            <p class="hero-tagline">
+                DeepSeek V4.1 Flash 1017 as the default, MiniMax M3.1 Flash as the cheaper challenger,
+                and Claude Sonnet 5.5 as the quality reference.
+            </p>
+        </header>
+
+        <!-- Introduction Section -->
+        <section class="intro">
+            <p class="lead drop-cap">
+                My best-value pick is <strong>DeepSeek V4.1 Flash 1017</strong>. For a Windows C# app with a
+                polished UI, I would try <strong>MiniMax M3.1 Flash as the cheaper challenger</strong> and
+                <strong>Claude Sonnet 5.5 as the quality reference</strong>. The shortlist comes from current
+                OpenRouter prices and coding/UI evidence, checked on November 4, 2026. I'm interpreting the
+                goal as a native <strong>WPF or WinUI 3</strong> app, rather than a web app hosted in a
+                Windows shell.
+            </p>
+            <p class="note">
+                Prices below are specific first-party provider rates available through OpenRouter, not
+                guaranteed prices for every route. Other providers charge differently, and automatic routing
+                and fallbacks can change your bill.
+            </p>
+        </section>
+
+        <!-- Top 3 Section -->
+        <section class="section">
+            <h2 class="section-title">Top 3 to Try</h2>
+
+            <table class="compare-table">
+                <thead>
+                    <tr>
+                        <th>Model and OpenRouter ID</th>
+                        <th>Input / output per 1M tokens</th>
+                        <th>Quality–cost assessment</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <strong>1. DeepSeek V4.1 Flash 1017</strong>
+                            <span class="model-id">deepseek/deepseek-v4.1-flash-1017</span>
+                        </td>
+                        <td class="num">$0.15 / $0.60<br>→ $0.30 / $1.20 at peak</td>
+                        <td><strong>Best starting balance.</strong> Strong coding evidence and substantially
+                            better web-UI preference results than the cheapest tier, while remaining
+                            inexpensive. My likely choice for most implementation and UI iteration.</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>2. MiniMax M3.1 Flash</strong>
+                            <span class="model-id">minimax/minimax-m3.1-flash</span>
+                        </td>
+                        <td class="num">$0.075 / $0.30 off-peak<br>→ $0.15 / $0.60 otherwise</td>
+                        <td><strong>Lowest-cost serious candidate on this shortlist.</strong> Worth trying
+                            first if minimizing spend matters most. Suitable for scaffolding, view models,
+                            tests, and an initial UI; whether it needs more repair or design guidance is the
+                            key question.</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>3. Claude Sonnet 5.5</strong>
+                            <span class="model-id">anthropic/claude-sonnet-5.5</span>
+                        </td>
+                        <td class="num">$2 / $10</td>
+                        <td><strong>Quality/polish reference.</strong> Stronger evidence for complex coding
+                            and polished interface generation, but much higher token cost. Best reserved for
+                            difficult integration, architecture, and UI refinement if the cheaper models fall
+                            short.</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p class="table-note">
+                Sources: <a href="https://openrouter.ai/deepseek/deepseek-v4.1-flash-1017" target="_blank">DeepSeek pricing</a> ·
+                <a href="https://openrouter.ai/minimax/minimax-m3.1-flash" target="_blank">MiniMax pricing</a> ·
+                <a href="https://openrouter.ai/anthropic/claude-sonnet-5.5" target="_blank">Sonnet pricing</a>
+            </p>
+        </section>
+
+        <!-- Why These Three -->
+        <section class="section">
+            <h2 class="section-title">Why These Three?</h2>
+
+            <p class="body-text">
+                UI evidence favors DeepSeek as the inexpensive middle ground. The current
+                <a href="https://www.designarena.ai/leaderboard/code" target="_blank">Design Arena website-generation leaderboard</a>
+                shows the following preference scores:
+            </p>
+
+            <table class="compare-table">
+                <thead>
+                    <tr>
+                        <th>Model</th>
+                        <th>Displayed UI preference score</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Claude Sonnet 5.5</td>
+                        <td class="score">1,330</td>
+                    </tr>
+                    <tr>
+                        <td>DeepSeek V4.1 Flash 1017</td>
+                        <td class="score">1,305</td>
+                    </tr>
+                    <tr>
+                        <td>MiniMax M3.1 Flash</td>
+                        <td class="score">1,272</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p class="body-text">
+                These scores are <strong>not percentages</strong>, and small differences should not be treated
+                as definitive without confidence intervals. More importantly, this evaluates
+                <strong>websites — not native XAML, Windows accessibility, or C# correctness</strong>. It
+                supports the shortlist, but does not prove which model produces the best Windows app.
+            </p>
+
+            <p class="body-text">
+                Coding evidence points in the same general direction: DeepSeek reports
+                <strong>42.3 on Terminal-Bench 4.0</strong>, while Anthropic reports
+                <strong>70.6 for Sonnet 5.5</strong>. Those are vendor evaluations with potentially different
+                execution settings, not a controlled head-to-head. MiniMax's official material documents
+                coding, tool-driven debugging, and visual-reference workflows, but I found less directly
+                comparable evidence.
+            </p>
+
+            <p class="body-text">
+                All three support <strong>image inputs and tool calling</strong>, which matters here: the
+                agent can inspect screenshots, edit C#/XAML, build the app, and refine the actual result.
+            </p>
+        </section>
+
+        <!-- Price Difference -->
+        <section class="section">
+            <h2 class="section-title">What the Price Difference Means</h2>
+
+            <p class="body-text">
+                For an illustrative workload totaling <strong>1 million uncached input tokens plus 200,000
+                output tokens</strong>, including reasoning:
+            </p>
+
+            <table class="compare-table">
+                <thead>
+                    <tr>
+                        <th>Model</th>
+                        <th>Inference cost</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>MiniMax M3.1 Flash</td>
+                        <td class="cost">$0.135–$0.27</td>
+                    </tr>
+                    <tr>
+                        <td>DeepSeek V4.1 Flash 1017</td>
+                        <td class="cost">$0.27–$0.54</td>
+                    </tr>
+                    <tr>
+                        <td>Claude Sonnet 5.5</td>
+                        <td class="cost">$4.00</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p class="body-text">
+                This is a fixed-token comparison, <strong>not an estimate for completing your app</strong>.
+                Retries, reasoning length, repeated repository context, cache hits, and paid tools change the
+                total. OpenRouter bills <a href="https://openrouter.ai/docs/guides/best-practices/reasoning-tokens" target="_blank">reasoning tokens as output tokens</a>.
+            </p>
+
+            <p class="body-text">
+                At these rates, <strong>DeepSeek can use roughly 7–15 times as much of this illustrative
+                workload before matching Sonnet's cost</strong>. That gives it considerable room for extra
+                iterations, although your own time spent correcting mistakes may outweigh the API savings.
+            </p>
+        </section>
+
+        <!-- Recommendation -->
+        <section class="section">
+            <h2 class="section-title">Recommendation for Your App</h2>
+
+            <p class="body-text">
+                <strong>Start with DeepSeek 1017; use MiniMax to test whether you can go cheaper without
+                losing quality; use Sonnet only where it earns its premium.</strong> Compare them on the same
+                representative screen — not three entire apps — with the same framework version, design
+                reference, and acceptance criteria.
+            </p>
+
+            <div class="assumptions-grid">
+                <div class="assumptions-card">
+                    <h4>Judge the Real App</h4>
+                    <p class="body-text">For Windows, judge successful compilation, correct bindings and commands, resizing/DPI behavior, keyboard navigation, accessibility, and screenshot fidelity.</p>
+                </div>
+
+                <div class="assumptions-card">
+                    <h4>More Useful Than a Score</h4>
+                    <p class="body-text">Those checks are more useful than a generic coding score for deciding the cheapest model that actually meets your quality bar.</p>
+                </div>
+
+                <div class="assumptions-card">
+                    <h4>Skip the Free Tier Here</h4>
+                    <p class="body-text">I would not default to the earlier free models for this UI-focused task: free inference is cheaper, but there is weaker evidence for visual polish.</p>
+                </div>
+
+                <div class="assumptions-card">
+                    <h4>Vision Matters</h4>
+                    <p class="body-text">The text-only models cannot directly inspect your app's screenshots, which removes the feedback loop that makes UI iteration work.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- References Section -->
+        <section class="section">
+            <h2 class="section-title">References</h2>
+
+            <div class="references-list">
+                <div class="reference">
+                    <span class="ref-number">1.</span>
+                    <span class="ref-title"><a href="https://openrouter.ai/deepseek/deepseek-v4.1-flash-1017" target="_blank">DeepSeek V4.1 Flash 1017</a> — OpenRouter pricing page</span>
+                    <span class="ref-year">2026</span>
+                </div>
+                <div class="reference">
+                    <span class="ref-number">2.</span>
+                    <span class="ref-title"><a href="https://openrouter.ai/minimax/minimax-m3.1-flash" target="_blank">MiniMax M3.1 Flash</a> — OpenRouter pricing page</span>
+                    <span class="ref-year">2026</span>
+                </div>
+                <div class="reference">
+                    <span class="ref-number">3.</span>
+                    <span class="ref-title"><a href="https://openrouter.ai/anthropic/claude-sonnet-5.5" target="_blank">Claude Sonnet 5.5</a> — OpenRouter pricing page</span>
+                    <span class="ref-year">2026</span>
+                </div>
+                <div class="reference">
+                    <span class="ref-number">4.</span>
+                    <span class="ref-title"><a href="https://www.designarena.ai/leaderboard/code" target="_blank">Design Arena website-generation leaderboard</a> — UI preference scores</span>
+                    <span class="ref-year">2026</span>
+                </div>
+                <div class="reference">
+                    <span class="ref-number">5.</span>
+                    <span class="ref-title"><a href="https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash-1017" target="_blank">DeepSeek V4.1 Flash 1017 model card</a> — Terminal-Bench 4.0 results</span>
+                    <span class="ref-year">2026</span>
+                </div>
+                <div class="reference">
+                    <span class="ref-number">6.</span>
+                    <span class="ref-title"><a href="https://www.anthropic.com/claude-sonnet-5-5" target="_blank">Claude Sonnet 5.5 announcement</a> — Anthropic</span>
+                    <span class="ref-year">2026</span>
+                </div>
+                <div class="reference">
+                    <span class="ref-number">7.</span>
+                    <span class="ref-title"><a href="https://code.minimax.io/tools/m3.1-flash" target="_blank">MiniMax M3.1 Flash engineering examples</a></span>
+                    <span class="ref-year">2026</span>
+                </div>
+                <div class="reference">
+                    <span class="ref-number">8.</span>
+                    <span class="ref-title"><a href="https://openrouter.ai/docs/guides/best-practices/reasoning-tokens" target="_blank">Reasoning tokens</a> — OpenRouter docs</span>
+                    <span class="ref-year">2026</span>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <p class="footer-text">Gerald Haslhofer · November 2026</p>
+        </footer>
+    </main>
+</body>
+</html>
