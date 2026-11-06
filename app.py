@@ -285,11 +285,6 @@ def websites():
     return render_template('websites.html')
 
 
-@app.route('/challenges-slide')
-def challenges_slide():
-    return render_template('challenges-slide.html')
-
-
 @app.route('/trail-running')
 def trail_running():
     return render_template('trail-running.html')
