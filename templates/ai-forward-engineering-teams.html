@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Building a Small AI-Forward Engineering Team</title>
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
+    <style>
+        .article-meta {
+            font-family: var(--font-sans);
+            font-size: 0.85rem;
+            color: var(--ink-light);
+            text-align: center;
+            margin: -1.5rem 0 var(--section-gap);
+        }
+
+        .article {
+            max-width: var(--content-width);
+            margin: 0 auto;
+        }
+
+        .article h2 {
+            font-family: var(--font-serif);
+            font-size: 1.7rem;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            line-height: 1.25;
+            color: var(--ink);
+            margin: 3rem 0 1.25rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--rule);
+            scroll-margin-top: 2rem;
+        }
+
+        .article h3 {
+            font-family: var(--font-serif);
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--ink);
+            margin: 2.25rem 0 1rem;
+            scroll-margin-top: 2rem;
+        }
+
+        .article h4 {
+            font-family: var(--font-sans);
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--ink-muted);
+            margin: 1.75rem 0 0.75rem;
+        }
+
+        .article p {
+            font-family: var(--font-serif);
+            font-size: 1.05rem;
+            color: var(--ink-muted);
+            line-height: 1.8;
+            margin-bottom: 1.25rem;
+        }
+
+        .article strong {
+            color: var(--ink);
+            font-weight: 600;
+        }
+
+        .article em {
+            color: var(--ink-muted);
+        }
+
+        .article a {
+            color: var(--orbital-accent);
+            text-decoration: none;
+            border-bottom: 1px solid rgba(74, 144, 217, 0.35);
+            transition: color 0.15s ease, border-color 0.15s ease;
+        }
+
+        .article a:hover {
+            color: var(--orbital);
+            border-bottom-color: var(--orbital);
+        }
+
+        .article ul,
+        .article ol {
+            margin: 0 0 1.25rem 1.5rem;
+            padding-left: 0.5rem;
+        }
+
+        .article li {
+            font-family: var(--font-serif);
+            font-size: 1.02rem;
+            color: var(--ink-muted);
+            line-height: 1.75;
+            margin-bottom: 0.5rem;
+        }
+
+        .article li::marker {
+            color: var(--ink-light);
+        }
+
+        .article blockquote {
+            margin: 1.75rem 0;
+            padding: 1.25rem 1.5rem;
+            background: var(--paper-dark);
+            border-left: 3px solid var(--orbital);
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+        }
+
+        .article blockquote p {
+            margin-bottom: 0;
+            font-style: italic;
+            color: var(--ink);
+        }
+
+        .article code {
+            font-family: var(--font-mono);
+            font-size: 0.85em;
+            background: var(--paper-dark);
+            color: var(--ngcc);
+            padding: 0.15em 0.4em;
+            border-radius: var(--radius-sm);
+        }
+
+        .article pre {
+            background: #1e2530;
+            color: #e8e4db;
+            padding: 1.25rem 1.5rem;
+            border-radius: var(--radius-md);
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            line-height: 1.55;
+        }
+
+        .article pre code {
+            background: transparent;
+            color: inherit;
+            padding: 0;
+            font-size: 0.85rem;
+        }
+
+        .article hr {
+            border: none;
+            border-top: 1px solid var(--rule);
+            margin: 2.5rem 0;
+        }
+
+        .article table {
+            display: block;
+            width: 100%;
+            overflow-x: auto;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .article table th {
+            background: var(--orbital);
+            color: white;
+            font-weight: 600;
+            text-align: left;
+            padding: 0.75rem 1rem;
+            white-space: nowrap;
+        }
+
+        .article table td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--rule);
+            vertical-align: top;
+            color: var(--ink-muted);
+        }
+
+        .article table tbody tr:nth-child(even) {
+            background: var(--paper-dark);
+        }
+
+        .article table tbody tr:hover {
+            background: var(--rule-light);
+        }
+
+        .article table a {
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <a href="/" class="nav-back">← Home</a>
+    </nav>
+
+    <main class="container">
+        <header class="hero">
+            <h1 class="hero-title">Building a Small AI-Forward Engineering Team</h1>
+            <p class="hero-tagline">
+                Lighthouse teams, evidence, and an engineering operating system
+            </p>
+        </header>
+
+        <p class="article-meta">Research date: November 6, 2026 · For founders, CTOs, and engineering leads of 3–8 engineer teams</p>
+
+        <article class="article">
+            {{ article_html | safe }}
+        </article>
+
+        <footer class="footer">
+            <a href="/" class="footer-link">← Back to all pages</a>
+        </footer>
+    </main>
+</body>
+</html>

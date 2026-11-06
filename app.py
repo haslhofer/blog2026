@@ -1,6 +1,8 @@
 import os
+import re
 from urllib.parse import urlsplit
 
+import markdown
 from authlib.integrations.base_client.errors import OAuthError
 from authlib.integrations.flask_client import OAuth
 from flask import Flask, abort, render_template, request, session, redirect, url_for
@@ -296,6 +298,46 @@ def trail_running():
 @app.route('/best-value-models')
 def best_value_models():
     return render_template('best-value-models.html')
+
+
+_ARTICLE_HTML_CACHE = None
+
+
+def _render_ai_forward_article():
+    """Render the AI-Forward Engineering Teams markdown once and cache it."""
+    global _ARTICLE_HTML_CACHE
+    if _ARTICLE_HTML_CACHE is None:
+        path = os.path.join(
+            os.path.dirname(os.path.abspath(__file__)),
+            "content",
+            "ai-forward-engineering-teams.md",
+        )
+        with open(path, encoding="utf-8") as f:
+            text = f.read()
+        # Turn custom <keyidea> callouts into styled blockquotes.
+        text = re.sub(
+            r"<keyidea>\s*(.*?)\s*</keyidea>",
+            lambda m: "\n\n> **Key idea.** " + m.group(1).strip() + "\n\n",
+            text,
+            flags=re.DOTALL,
+        )
+        # The leading H1 is shown in the hero, so drop it from the body.
+        first, _, rest = text.partition("\n")
+        body = rest if first.strip().startswith("# ") else text
+        _ARTICLE_HTML_CACHE = markdown.markdown(
+            body,
+            extensions=["tables", "fenced_code", "toc", "sane_lists"],
+            extension_configs={"toc": {"permalink": False}},
+        )
+    return _ARTICLE_HTML_CACHE
+
+
+@app.route('/ai-forward-engineering-teams')
+def ai_forward_engineering_teams():
+    return render_template(
+        'ai-forward-engineering-teams.html',
+        article_html=_render_ai_forward_article(),
+    )
 
 
 if __name__ == '__main__':
