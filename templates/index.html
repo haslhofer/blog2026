@@ -14,9 +14,9 @@
         rel="stylesheet">
     <style>
         .home-container {
-            max-width: 800px;
+            max-width: 1000px;
             margin: 0 auto;
-            padding: 6rem 2rem;
+            padding: 3.5rem 2rem 2rem;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -24,29 +24,39 @@
 
         .home-header {
             text-align: center;
-            margin-bottom: 4rem;
+            margin-bottom: 2.75rem;
+        }
+
+        .header-image {
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+            border-radius: var(--radius-lg);
+            box-shadow: 0 6px 22px rgba(0, 0, 0, 0.10);
+            margin: 0 auto 1.25rem;
+            display: block;
         }
 
         .home-title {
             font-family: var(--font-serif);
-            font-size: 3rem;
+            font-size: 2rem;
             font-weight: 600;
             color: var(--ink);
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.35rem;
             letter-spacing: -0.02em;
         }
 
         .home-subtitle {
             font-family: var(--font-sans);
-            font-size: 1.1rem;
+            font-size: 1rem;
             color: var(--ink-muted);
             font-weight: 400;
         }
 
         .account-link {
-            margin-top: 1rem;
+            margin-top: 0.85rem;
             font-family: var(--font-sans);
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
 
         .account-link a {
@@ -58,94 +68,141 @@
             text-decoration: underline;
         }
 
-        .pages-section {
-            margin-bottom: 3rem;
-        }
-
         .signin-prompt {
             font-family: var(--font-sans);
             color: var(--ink-muted);
             text-align: center;
+            padding: 2rem 0;
         }
 
-        .pages-title {
+        .groups {
+            display: flex;
+            flex-direction: column;
+            gap: 2.25rem;
+        }
+
+        .group-label {
             font-family: var(--font-sans);
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.12em;
             color: var(--ink-light);
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.5rem;
+            margin-bottom: 0.65rem;
+            padding-bottom: 0.4rem;
             border-bottom: 1px solid var(--rule);
         }
 
-        .pages-grid {
+        .entries {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 0.1rem 1.25rem;
         }
 
-        .page-card {
-            background: white;
-            border: 1px solid var(--rule);
-            border-radius: var(--radius-md);
-            padding: 1.75rem;
+        .entry {
+            display: flex;
+            align-items: baseline;
+            gap: 0.5rem;
+            padding: 0.5rem 0.6rem;
+            border-radius: var(--radius-sm);
             text-decoration: none;
             color: inherit;
-            transition: all 0.2s ease;
+            transition: background 0.15s ease;
+        }
+
+        .entry:hover {
+            background: var(--paper-dark);
+        }
+
+        .entry-main {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .entry-title {
             display: block;
-        }
-
-        .page-card:hover {
-            border-color: var(--orbital-accent);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            transform: translateY(-2px);
-        }
-
-        .page-card-title {
             font-family: var(--font-serif);
-            font-size: 1.25rem;
+            font-size: 1.02rem;
             font-weight: 600;
             color: var(--ink);
-            margin-bottom: 0.5rem;
+            line-height: 1.3;
+            transition: color 0.15s ease;
         }
 
-        .page-card-desc {
+        .entry:hover .entry-title {
+            color: var(--orbital);
+        }
+
+        .entry-desc {
+            display: block;
+            font-family: var(--font-sans);
+            font-size: 0.82rem;
+            color: var(--ink-muted);
+            line-height: 1.4;
+            margin-top: 0.15rem;
+        }
+
+        .entry-arrow {
+            flex: none;
             font-family: var(--font-sans);
             font-size: 0.9rem;
-            color: var(--ink-muted);
-            line-height: 1.5;
+            color: var(--ink-light);
+            opacity: 0;
+            transform: translateX(-4px);
+            transition: opacity 0.15s ease, transform 0.15s ease, color 0.15s ease;
         }
 
-        .page-card-arrow {
-            display: inline-block;
-            margin-top: 1rem;
-            font-family: var(--font-sans);
-            font-size: 0.85rem;
+        .entry:hover .entry-arrow {
+            opacity: 1;
+            transform: translateX(0);
             color: var(--orbital-accent);
-            font-weight: 500;
+        }
+
+        .directory {
+            margin-top: 2.25rem;
+            padding-top: 1.25rem;
+            border-top: 1px solid var(--rule);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.35rem 1.75rem;
+        }
+
+        .directory a {
+            font-family: var(--font-sans);
+            font-size: 0.88rem;
+            color: var(--orbital);
+            text-decoration: none;
+        }
+
+        .directory a:hover {
+            color: var(--orbital-accent);
+            text-decoration: underline;
         }
 
         .home-footer {
             margin-top: auto;
-            padding-top: 3rem;
+            padding-top: 2.5rem;
             text-align: center;
-            border-top: 1px solid var(--rule);
         }
 
         .home-footer p {
             font-family: var(--font-sans);
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: var(--ink-light);
         }
 
-        .header-image {
-            width: 100%;
-            max-width: 800px;
-            height: auto;
-            border-radius: var(--radius-md);
-            margin-bottom: 2rem;
+        @media (max-width: 640px) {
+            .home-container {
+                padding: 2.5rem 1.25rem 1.5rem;
+            }
+
+            .home-title {
+                font-size: 1.6rem;
+            }
+
+            .entries {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -167,100 +224,139 @@
         </header>
 
         {% if is_authenticated %}
-            <section class="pages-section">
-                <h2 class="pages-title">Pages</h2>
-                <div class="pages-grid">
-                <a href="/steppr-arch" class="page-card">
-                    <h3 class="page-card-title">Steppr Architecture</h3>
-                    <p class="page-card-desc">Technical architecture of the WhatsApp-based coaching assistant.</p>
-                    <span class="page-card-arrow">View →</span>
-                </a>
+            <div class="groups">
+                <section class="group">
+                    <h2 class="group-label">AI &amp; Engineering</h2>
+                    <div class="entries">
+                        <a href="/continuous-ai" class="entry">
+                            <span class="entry-main">
+                                <span class="entry-title">Continuous AI</span>
+                                <span class="entry-desc">The anti-lock brakes of productivity.</span>
+                            </span>
+                            <span class="entry-arrow">→</span>
+                        </a>
+                        <a href="/ai-forward-engineering-teams" class="entry">
+                            <span class="entry-main">
+                                <span class="entry-title">Building a Small AI-Forward Engineering Team</span>
+                                <span class="entry-desc">Lighthouse teams, evidence, and an engineering operating system.</span>
+                            </span>
+                            <span class="entry-arrow">→</span>
+                        </a>
+                        <a href="/best-value-models" class="entry">
+                            <span class="entry-main">
+                                <span class="entry-title">Best-Value LLMs for a Windows App</span>
+                                <span class="entry-desc">DeepSeek, MiniMax, and Claude — priced and ranked.</span>
+                            </span>
+                            <span class="entry-arrow">→</span>
+                        </a>
+                    </div>
+                </section>
 
-                <a href="/continuous-ai" class="page-card">
-                    <h3 class="page-card-title">Continuous AI</h3>
-                    <p class="page-card-desc">Exploring continuous integration and delivery for AI systems.</p>
-                    <span class="page-card-arrow">View →</span>
-                </a>
+                <section class="group">
+                    <h2 class="group-label">Things I've Built</h2>
+                    <div class="entries">
+                        <a href="/steppr-arch" class="entry">
+                            <span class="entry-main">
+                                <span class="entry-title">Steppr</span>
+                                <span class="entry-desc">Architecture of a WhatsApp-based coaching assistant.</span>
+                            </span>
+                            <span class="entry-arrow">→</span>
+                        </a>
+                        <a href="/flowbook" class="entry">
+                            <span class="entry-main">
+                                <span class="entry-title">FlowBook</span>
+                                <span class="entry-desc">A reactive notebook for personal productivity.</span>
+                            </span>
+                            <span class="entry-arrow">→</span>
+                        </a>
+                        <a href="/idea-visualizer" class="entry">
+                            <span class="entry-main">
+                                <span class="entry-title">The Idea Visualizer</span>
+                                <span class="entry-desc">A private, AI-powered workspace for growing ideas.</span>
+                            </span>
+                            <span class="entry-arrow">→</span>
+                        </a>
+                    </div>
+                </section>
 
-                <a href="/ai-forward-engineering-teams" class="page-card">
-                    <h3 class="page-card-title">Building a Small AI-Forward Engineering Team</h3>
-                    <p class="page-card-desc">Lighthouse teams, evidence, and an engineering operating system for teams of 3–8 engineers.</p>
-                    <span class="page-card-arrow">View →</span>
-                </a>
+                <section class="group">
+                    <h2 class="group-label">Relocation &amp; Places</h2>
+                    <div class="entries">
+                        <a href="/city-comparison-styled" class="entry">
+                            <span class="entry-main">
+                                <span class="entry-title">Where Should We Live?</span>
+                                <span class="entry-desc">17 European towns compared on climate, schools, and lifestyle.</span>
+                            </span>
+                            <span class="entry-arrow">→</span>
+                        </a>
+                        <a href="/cities-hub" class="entry">
+                            <span class="entry-main">
+                                <span class="entry-title">European Cities Explorer</span>
+                                <span class="entry-desc">13 Mediterranean towns — profiles, schools, real estate, comparisons.</span>
+                            </span>
+                            <span class="entry-arrow">→</span>
+                        </a>
+                        <a href="/us-options" class="entry">
+                            <span class="entry-main">
+                                <span class="entry-title">US Options to Move To</span>
+                                <span class="entry-desc">American cities and towns for a potential family move.</span>
+                            </span>
+                            <span class="entry-arrow">→</span>
+                        </a>
+                    </div>
+                </section>
 
-                <a href="/best-value-models" class="page-card">
-                    <h3 class="page-card-title">Best-Value LLMs for a Windows App</h3>
-                    <p class="page-card-desc">DeepSeek V4.1 Flash 1017, MiniMax M3.1 Flash, and Claude Sonnet 5.5 — priced and ranked for native WPF/WinUI 3 work.</p>
-                    <span class="page-card-arrow">View →</span>
-                </a>
+                <section class="group">
+                    <h2 class="group-label">Travel &amp; Itineraries</h2>
+                    <div class="entries">
+                        <a href="/italian-lakes" class="entry">
+                            <span class="entry-main">
+                                <span class="entry-title">Italian Lakes with Teenagers</span>
+                                <span class="entry-desc">A family itinerary for Lake Maggiore &amp; Lake Como.</span>
+                            </span>
+                            <span class="entry-arrow">→</span>
+                        </a>
+                        <a href="/italy-itinerary" class="entry">
+                            <span class="entry-main">
+                                <span class="entry-title">Italy: Como to Cinque Terre</span>
+                                <span class="entry-desc">A 6-day Liguria hiking route with three options.</span>
+                            </span>
+                            <span class="entry-arrow">→</span>
+                        </a>
+                        <a href="/trail-running" class="entry">
+                            <span class="entry-main">
+                                <span class="entry-title">Trail Running Near Olivenhain</span>
+                                <span class="entry-desc">Ten trails around Encinitas, from the front-door loop to Double Peak.</span>
+                            </span>
+                            <span class="entry-arrow">→</span>
+                        </a>
+                    </div>
+                </section>
 
-                <a href="/italian-lakes" class="page-card">
-                    <h3 class="page-card-title">Italian Lakes</h3>
-                    <p class="page-card-desc">A family itinerary for Lake Maggiore & Lake Como with teenagers.</p>
-                    <span class="page-card-arrow">View →</span>
-                </a>
+                <section class="group">
+                    <h2 class="group-label">Personal</h2>
+                    <div class="entries">
+                        <a href="/perseverance" class="entry">
+                            <span class="entry-main">
+                                <span class="entry-title">Perseverance</span>
+                                <span class="entry-desc">On core values and the outer perimeter of what's possible.</span>
+                            </span>
+                            <span class="entry-arrow">→</span>
+                        </a>
+                    </div>
+                </section>
+            </div>
 
-                <a href="/italy-itinerary" class="page-card">
-                    <h3 class="page-card-title">Italy: Como to Cinque Terre</h3>
-                    <p class="page-card-desc">A 6-day family hiking itinerary through Liguria — Cinque Terre, Portovenere, Portofino, and three route options.</p>
-                    <span class="page-card-arrow">View →</span>
-                </a>
-
-                <a href="/perseverance" class="page-card">
-                    <h3 class="page-card-title">Perseverance</h3>
-                    <p class="page-card-desc">On core values and the outer perimeter of what's possible.</p>
-                    <span class="page-card-arrow">View →</span>
-                </a>
-
-                <a href="/cities-hub" class="page-card">
-                    <h3 class="page-card-title">European Cities Explorer</h3>
-                    <p class="page-card-desc">Interactive guide to 13 Mediterranean towns with detailed profiles, schools, real estate, and comprehensive comparisons.</p>
-                    <span class="page-card-arrow">Explore →</span>
-                </a>
-
-                <a href="/us-options" class="page-card">
-                    <h3 class="page-card-title">US Options to Move To</h3>
-                    <p class="page-card-desc">Exploring American cities and towns for a potential family relocation — from mountain towns to tech hubs.</p>
-                    <span class="page-card-arrow">Explore →</span>
-                </a>
-
-                <a href="/trail-running" class="page-card">
-                    <h3 class="page-card-title">Trail Running Near Olivenhain</h3>
-                    <p class="page-card-desc">Ten trails near 3376 Calle Tres Vistas, Encinitas — from the front-door Olivenhain Loop to Elfin Forest and Double Peak.</p>
-                    <span class="page-card-arrow">Explore →</span>
-                </a>
-
-                <a href="/apps-contact" class="page-card">
-                    <h3 class="page-card-title">Gerald Haslhofer's Apps</h3>
-                    <p class="page-card-desc">Contact information and details for Gerald Haslhofer's applications.</p>
-                    <span class="page-card-arrow">View →</span>
-                </a>
-
-                <a href="/websites" class="page-card">
-                    <h3 class="page-card-title">Websites I Built</h3>
-                    <p class="page-card-desc">A reference point linking to my live web applications, including the LLM Router admin console.</p>
-                    <span class="page-card-arrow">Explore →</span>
-                </a>
-
-                <a href="/idea-visualizer" class="page-card">
-                    <h3 class="page-card-title">The Idea Visualizer</h3>
-                    <p class="page-card-desc">A private, AI-powered workspace for capturing ideas and discovering the connections between them.</p>
-                    <span class="page-card-arrow">View →</span>
-                </a>
-
-                <a href="/city-comparison-styled" class="page-card">
-                    <h3 class="page-card-title">Where Should We Live?</h3>
-                    <p class="page-card-desc">European family relocation: 17 towns compared across climate, skiing, schools, and lifestyle.</p>
-                    <span class="page-card-arrow">View →</span>
-                </a>
-                </div>
-            </section>
+            <nav class="directory">
+                <a href="/websites">Websites I Built</a>
+                <a href="/apps-contact">Gerald Haslhofer's Apps</a>
+            </nav>
         {% else %}
             <p class="signin-prompt">Sign in to browse the blog pages.</p>
         {% endif %}
 
         <footer class="home-footer">
-            <p>© 2025 Gerald Haslhofer</p>
+            <p>© 2026 Gerald Haslhofer</p>
         </footer>
     </main>
 </body>
